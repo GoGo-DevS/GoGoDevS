@@ -1,6 +1,6 @@
 # 👋 Hola, soy Diego Dinamarca
 
-Desarrollador Web Freelance especializado en sistemas construidos con Django y Python.
+Desarrollador Web Freelance especializado en sistemas de captación y automatización para negocios de servicios.
 
 Ayudo a negocios y emprendimientos a digitalizar procesos mediante:
 - Sistemas de cotización online

@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Fuerza una sola versión indexable del dominio:
+# 1) cualquier petición http -> https
+# 2) cualquier petición non-www -> www
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} !^www\.gogodevs\.cl$ [NC]
+RewriteRule ^ https://www.gogodevs.cl%{REQUEST_URI} [R=301,L]
+
+Redirect 301 /servicios/sistemas-web/ /servicios/sistemas-a-medida/
+Redirect 301 /servicios/automatizacion-procesos/ /servicios/automatizacion-de-procesos/

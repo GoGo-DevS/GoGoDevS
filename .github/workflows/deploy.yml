@@ -11,17 +11,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Instalar lftp
+        run: sudo apt-get install -y lftp
+
       - name: Deploy por FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          port: 21
-          server-dir: /domains/gogodevs.cl/public_html/
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/.vscode/**
-            **/node_modules/**
+        run: |
+          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_HOST }}" << 'EOF'
+          set ftp:ssl-allow no
+          set ftp:passive-mode on
+          set net:max-retries 3
+          set net:timeout 30
+          mirror -R --delete --only-newer --exclude-glob .git* --exclude-glob .vscode/ --verbose . /domains/gogodevs.cl/public_html/
+          bye
+          EOF

@@ -255,7 +255,7 @@ const updateMotionEffects = () => {
   motionFrame = 0;
 
   if (siteHeader) {
-    siteHeader.classList.toggle("is-scrolled", window.scrollY > 12);
+    siteHeader.classList.toggle("is-scrolled", window.scrollY > 50);
   }
 
   if (

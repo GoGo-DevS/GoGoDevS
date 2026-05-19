@@ -416,6 +416,7 @@ h3 { font-weight: 700; }
   align-items: center; justify-content: flex-start;
   margin-top: 2rem;
 }
+.hero__actions .button { flex: 1; min-width: 160px; }
 .hero__support {
   margin-top: 1.25rem;
   color: var(--color-text-soft);
@@ -872,6 +873,7 @@ h3 { font-weight: 700; }
   display: flex; flex-wrap: wrap; gap: 0.75rem;
   align-items: flex-start; justify-self: start;
 }
+.contact__actions .button { flex: 1; min-width: 160px; }
 
 /* Contact page */
 .contact-page { display: grid; gap: 3rem; }

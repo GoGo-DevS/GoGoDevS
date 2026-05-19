@@ -224,15 +224,15 @@ if (themeToggle) {
   const themeStorageKey = "gogodevs-theme";
 
   const applyTheme = (theme) => {
-    const isLight = theme === "light";
-    if (isLight) {
-      document.body.dataset.theme = "light";
+    const isDark = theme === "dark";
+    if (isDark) {
+      document.body.dataset.theme = "dark";
     } else {
       document.body.removeAttribute("data-theme");
     }
 
-    themeToggle.setAttribute("aria-pressed", String(isLight));
-    themeToggle.setAttribute("aria-label", isLight ? "Cambiar a modo oscuro" : "Cambiar a modo claro");
+    themeToggle.setAttribute("aria-pressed", String(isDark));
+    themeToggle.setAttribute("aria-label", isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro");
 
     const label = themeToggle.querySelector(".theme-toggle__label");
     if (label) {
@@ -245,7 +245,7 @@ if (themeToggle) {
   applyTheme(initialTheme);
 
   themeToggle.addEventListener("click", () => {
-    const nextTheme = document.body.dataset.theme === "light" ? "dark" : "light";
+    const nextTheme = document.body.dataset.theme === "dark" ? "light" : "dark";
     applyTheme(nextTheme);
     window.localStorage.setItem(themeStorageKey, nextTheme);
   });

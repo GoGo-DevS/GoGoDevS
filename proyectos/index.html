@@ -32,7 +32,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="/assets/img/logo-gogodevs.png" fetchpriority="high">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/style.css?v=20260406-portfolio">
+  <link rel="stylesheet" href="/assets/css/style.css?v=20260608-form">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -82,19 +82,12 @@
         <div class="nav-menu" id="nav-menu">
           <ul class="nav-list">
             <li class="nav-item"><a href="/">Inicio</a></li>
-            <li class="nav-item nav-item--has-submenu">
-              <a href="/servicios/">Servicios</a>
-              <ul class="nav-submenu" aria-label="Submenu de servicios">
-                <li><a href="/servicios/desarrollo-web/">Desarrollo web</a></li>
-                <li><a href="/servicios/sistemas-a-medida/">Sistemas a medida</a></li>
-                <li><a href="/servicios/automatizacion-de-procesos/">Automatización de procesos</a></li>
-              </ul>
-            </li>
+            <li class="nav-item"><a href="/servicios/">Servicios</a></li>
             <li class="nav-item"><a href="/proyectos/" aria-current="page">Proyectos</a></li>
-            <li class="nav-item"><a href="/sobre-gogodevs/">Sobre GoGoDevS</a></li>
+            <li class="nav-item"><a href="/sobre-gogodevs/">Nosotros</a></li>
             <li class="nav-item"><a href="/contacto/">Contacto</a></li>
           </ul>
-          <a class="button button--small button--primary" href="/contacto/">Cotizar</a>
+          <a class="button button--small button--blue" href="/contacto/">Hablemos</a>
         </div>
       </nav>
     </div>
@@ -139,13 +132,37 @@
       <div class="container">
         <div class="section-heading">
           <span class="eyebrow">Casos</span>
-          <h2 id="portfolio-title">Cinco ejemplos de cómo trabajamos desarrollo web con criterio comercial y visual</h2>
+          <h2 id="portfolio-title">Siete ejemplos de cómo trabajamos desarrollo web con criterio comercial y visual</h2>
           <p>
             Cada proyecto tiene una identidad distinta, pero todos comparten la misma lógica: comunicar mejor, generar confianza y dejar una experiencia clara para el usuario.
           </p>
         </div>
 
         <div class="cases-grid">
+          <article class="case-card">
+            <div class="case-card__media" aria-hidden="true">
+              <img src="/assets/img/proyectos/sindicatoaza/sindicatoaza-hero.png" alt="Captura del sitio web del Sindicato AZA mostrando portada y accesos" width="1433" height="909" loading="lazy" decoding="async">
+            </div>
+            <div class="case-card__content">
+              <p class="case-card__tag">Servicio relacionado: desarrollo web</p>
+              <h3>Sindicato AZA</h3>
+              <p>Portal institucional para mejorar la comunicación con los socios, centralizar la información y proyectar una imagen seria y confiable.</p>
+              <p><a class="button button--secondary button--small" href="/proyectos/sindicato-aza/">Portal institucional para sindicato</a></p>
+            </div>
+          </article>
+
+          <article class="case-card">
+            <div class="case-card__media" aria-hidden="true">
+              <img src="/assets/img/proyectos/salonamanda/salonamanda-hero.jpg" alt="Captura del sitio web de Salón Amanda mostrando portada premium y reservas online" width="1200" height="900" loading="lazy" decoding="async">
+            </div>
+            <div class="case-card__content">
+              <p class="case-card__tag">Servicio relacionado: desarrollo web</p>
+              <h3>Salón Amanda</h3>
+              <p>Web premium para un salón de belleza en Ciudad de los Valles: reservas online vía AgendaPro, catálogo de productos y contacto directo por WhatsApp.</p>
+              <p><a class="button button--secondary button--small" href="/proyectos/salon-amanda/">Sitio web para salón de belleza</a></p>
+            </div>
+          </article>
+
           <article class="case-card">
             <div class="case-card__media case-card__media--travesia" aria-hidden="true">
               <img src="/assets/img/fco-climatizacion-caso-real.jpg" alt="Captura del sitio web de FCO Climatización mostrando servicios y contacto" width="1200" height="900" loading="lazy" decoding="async">
@@ -270,7 +287,7 @@
         <div class="site-footer__links">
           <a href="/">Inicio</a>
           <a href="/servicios/">Servicios</a>
-          <a href="/sobre-gogodevs/">Sobre GoGoDevS</a>
+          <a href="/sobre-gogodevs/">Nosotros</a>
           <a href="/contacto/">Contacto</a>
         </div>
       </nav>
@@ -285,6 +302,6 @@
     </div>
   </footer>
 
-  <script src="/assets/js/main.js" defer></script>
+  <script src="/assets/js/main.js?v=20260608-form" defer></script>
 </body>
 </html>

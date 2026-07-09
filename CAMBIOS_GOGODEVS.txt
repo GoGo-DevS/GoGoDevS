@@ -1,0 +1,185 @@
+================================================================
+CAMBIOS GOGODEVS — Trust bar + Testimonios (home)
+Fecha: 2026-06-23
+================================================================
+
+PASO 0 — ¿index.html o index-v2.html?
+----------------------------------------------------------------
+El sitio REAL/desplegado es index.html. Evidencia:
+  - .github/workflows/deploy.yml hace mirror de TODA la raíz por FTP a
+    /domains/gogodevs.cl/public_html/ → el servidor sirve /index.html.
+  - README.md documenta index.html como entrada del sitio.
+  - index-v2.html no está referenciado por nadie (es una alternativa
+    "dark premium v2" abandonada, último toque 8-jun).
+Conclusión: TODO el trabajo se hizo sobre index.html. index-v2.html
+no se tocó (se puede borrar cuando quieras; lo dejé intacto).
+
+
+QUÉ SE AGREGÓ (2 secciones nuevas pedidas)
+================================================================
+
+1) TRUST BAR — "Negocios reales que ya confían en nosotros"
+----------------------------------------------------------------
+Ubicación: justo DEBAJO del hero, antes del feature strip
+(lugar clásico de prueba social = lo primero que ve quien baja).
+
+Formato: marquee/carrusel INFINITO horizontal.
+  - Decisión de diseño: carrusel infinito (no grid estático) porque
+    da sensación premium/"agencia con cartera" y se mueve solo sin
+    ocupar mucho alto. Se pausa al pasar el mouse o al hacer foco con
+    teclado (accesible). En prefers-reduced-motion el carrusel se
+    detiene y los negocios se muestran en grilla centrada.
+  - Técnica: una sola pista con el set duplicado (7 + 7 = 14 tiles).
+    El set duplicado va con aria-hidden + tabindex=-1 para no repetir
+    contenido a lectores de pantalla ni al tabular. La animación
+    desplaza translateX(-50%) y el "gap" se hace con margin-right en
+    cada item (NO con flex gap) para que el loop calce exacto y no dé
+    un salto cada vuelta.
+
+Negocios incluidos (7), TODOS enlazan a su sitio EN VIVO (dominios
+confirmados por ti el 23-jun; los 7 abren en pestaña nueva):
+  - Sindicato AZA      -> https://sindicatoaza.cl      (NUEVO: faltaba)
+  - Salón Amanda       -> https://salonamanda.cl
+  - Max Services SPA   -> https://maxservicesspa.cl
+  - Dulcecita          -> https://dulcecita.cl
+  - Travesía Logística -> https://travesialogistica.cl
+  - La Dolce Mammina   -> https://ladolcemammina.cl
+  - FCO Climatización  -> https://fcoclimatizacion.cl
+
+LOGOS — REALES Y EN VIVO (ACTUALIZADO 23-jun, 2da pasada):
+  - Me confirmaste que los logos estaban en assets/img/proyectos/<carpeta>.
+    Los encontré, pero los nombres de archivo eran sucios (hashes, espacios,
+    paréntesis, mezcla png/svg). Para tener URLs limpias y estables, COPIÉ
+    cada logo a un nombre canónico "logo.(png|svg)" en su misma carpeta
+    (no borré los originales). Quedó así:
+        sindicatoaza/logo.png      (de header-logo-aza_xv7gei.png)
+        salonamanda/logo.png       (de isotipo-amanda.a27a5bad55a1.png)
+        maxservices/logo.png       (de max-services-symbol-real-v2.png)
+        dulcecita/logo.svg         (de logo-dulcecita.svg)
+        travesia/logo.svg          (de logo-travesia.svg)
+        ladolcemammina/logo.png    (de logo.d84d742ccf34.png)
+        fcoclimatizacion/logo.png  (de "logo-fco-variant...(1).png")
+    OJO: las carpetas NO usan guiones (sindicatoaza, salonamanda, etc.),
+    distinto del slug de la página en /proyectos/ (sindicato-aza, ...).
+  - La trust bar ya muestra los 7 LOGOS REALES. El wordmark queda solo
+    como respaldo automático: regla CSS
+        .trust-logo__img + .trust-logo__name { display:none }
+    y onerror="this.remove()" en la <img>. Si algún día falta un logo,
+    reaparece su wordmark; no se rompe nada.
+  - NO inventé ni generé ningún logo.
+  - Para reemplazar un logo: deja el archivo nuevo como logo.png/logo.svg
+    en la carpeta correspondiente (mismo nombre) y listo.
+
+
+2) TESTIMONIOS — "Lo que dicen nuestros clientes"
+----------------------------------------------------------------
+Ubicación: después de la sección de Casos reales, antes del CTA final
+(agrupa toda la prueba social junta).
+
+Estado: SECCIÓN LISTA PERO VACÍA (decisión tuya, modo libre).
+  - Diseño completo de las tarjetas de testimonio ya en CSS
+    (.testi-card: comilla de acento, cita en cursiva, avatar con
+    inicial, nombre + cargo/empresa, hover elevado con glow azul).
+  - NO se publicó ninguna cita. El único feedback que tenía era el de
+    Ruperto (AZA) y me lo diste como paráfrasis ("algo como: simple,
+    al grano, efectivo, bonito"), no textual → por tu regla de no
+    poner palabras que no se dijeron, NO lo publiqué.
+  - Por ahora se muestra un estado vacío honesto: "Estamos recopilando
+    los testimonios de nuestros clientes..." + botón a /proyectos/.
+    (No es un testimonio inventado ni copy genérico atribuido a nadie.)
+  - Dejé en el HTML, como COMENTARIO, la plantilla exacta de una
+    tarjeta de testimonio lista para rellenar con citas reales.
+
+
+3) SINDICATO AZA — página propia en /proyectos/ (NUEVO, 23-jun)
+----------------------------------------------------------------
+  - Creé /proyectos/sindicato-aza/index.html clonando la estructura de
+    Travesía / MaxServices (hero, resumen, problema, solución,
+    resultado, galería, conexión SEO, footer), con SEO completo
+    (title, description, canonical, OG/Twitter, JSON-LD).
+  - Copy verídico y genérico: "portal institucional para el Sindicato
+    AZA", comunicación con socios, información centralizada. SIN métricas
+    inventadas, SIN testimonios, SIN cifras falsas.
+  - Dominio: sindicatoaza.cl está CONFIRMADO por ti, así que la página
+    enlaza al sitio en vivo ("Ver sitio en vivo").
+  - Visual: como no hay capturas del proyecto, NO puse screenshots falsos.
+    Usé un placeholder de marca (.project-placeholder: gradiente azul +
+    logo + "Capturas próximamente"). Si existe logo.png de AZA lo muestra;
+    si no, cae al logo de GoGoDevS. Cero imágenes rotas.
+  - Registrado además en:
+      * /proyectos/ (nueva tarjeta + título "Seis"→"Siete ejemplos")
+      * home index.html (nuevo tile en "Clientes que confían en nosotros")
+      * sitemap.xml (nueva <url>, lastmod 2026-06-23)
+  - PENDIENTE de AZA: capturas reales del portal + logo.png (mismas rutas
+    de la sección LOGOS). Al subir capturas se puede activar la galería
+    igual que en las otras páginas.
+
+
+DECISIONES DE DISEÑO (modo libre)
+================================================================
+  - Respeté 100% la identidad de marca (paleta #0A1428/#2563eb/#FFB627,
+    Montserrat+Inter, mayúsculas, glow azul, fondo oscuro).
+  - Reutilicé el sistema existente (variables CSS, .button, .eyebrow,
+    .section, .reveal) en vez de inventar estilos sueltos.
+  - Animación de entrada: las nuevas secciones usan el mismo observer
+    .reveal del resto del home (fade + subida al hacer scroll).
+  - Agregué variante .section-heading--center para centrar el encabezado
+    de Testimonios.
+
+
+ARCHIVOS MODIFICADOS
+================================================================
+  - index.html
+      * Trust bar nueva (debajo del hero).
+      * Testimonios nueva (antes del CTA final) + plantilla comentada.
+      * Cache-bust de CSS y JS: ?v=20260623-trust
+  - assets/css/style.css
+      * Bloque "TRUST BAR — marquee infinito" (keyframe trust-scroll,
+        .trust-logo, máscara de degradado en los bordes).
+      * Bloque "TESTIMONIOS" (.testi-grid, .testi-card, .testi-empty,
+        .section-heading--center).
+      * Reglas responsive (<=900px) y prefers-reduced-motion.
+      * Estilos .project-placeholder (visual de proyecto sin capturas).
+      * Estilos .trust-logo__img + regla para ocultar wordmark cuando
+        el logo real cargó.
+  - assets/js/main.js
+      * Añadí .trust-bar__title, .testi-grid > * y el heading de
+        testimonios a la lista del IntersectionObserver de .reveal
+        (sin esto quedaban invisibles, porque el JS es quien aplica la
+        clase .reveal).
+  - proyectos/sindicato-aza/index.html  (NUEVO — página de caso AZA)
+  - proyectos/index.html  (nueva tarjeta AZA + "Seis"→"Siete ejemplos")
+  - sitemap.xml  (nueva URL de /proyectos/sindicato-aza/)
+
+Nota: index-v2.html NO se modificó.
+
+
+PENDIENTE (lo que necesito de ti — no lo inventé)
+================================================================
+  [1] LOGOS: LISTO. 7 logos reales en vivo en la trust bar.
+  [2-dom] DOMINIOS: LISTO. Los 7 enlazan a su sitio en vivo.
+
+  [3] TESTIMONIOS:
+      - PUBLICADO (23-jun): 2 citas reales y autorizadas:
+          * Dulcecita (marca). PENDIENTE: nombre + cargo de la persona.
+          * Michael Pérez · Travesía Logística (nombre + empresa OK;
+            sin cargo). Typo del original "exelente" → "excelente"
+            (corrección de ortografía, no de contenido).
+      - Ruperto (Sindicato AZA): aún necesito la frase TAL CUAL la dijo.
+        Nombre/cargo ya confirmados: Ruperto Donoso Labra · Presidente.
+      - Otros clientes (Salón Amanda, Max Services, Travesía, La Dolce
+        Mammina, FCO): si tienes su feedback real, pásamelo y lo cargo.
+      Cada cita nueva = duplicar la <figure class="testi-card"> en la
+      grilla de testimonios del home (cita EXACTA + nombre + cargo).
+
+  [4] AZA en /proyectos/: LISTO COMPLETO + GALERÍA RICA. Página + logo
+      real + 5 capturas reales (hero, comunicados, directiva, documentos
+      y mobile), galería estilo Travesía con lightbox y carrusel en
+      mobile. Captura de portada también en tile del home y tarjeta de
+      /proyectos/. Sin placeholders.
+      (Nota: la clase CSS .project-placeholder quedó sin uso en HTML;
+      la dejé en el CSS por si sirve para un futuro caso sin captura.)
+      DATO ÚTIL: la captura de "Directiva" muestra que Ruperto =
+      "Ruperto Donoso Labra · Presidente" → nombre/cargo listo para
+      cuando me pases su cita textual.
+================================================================

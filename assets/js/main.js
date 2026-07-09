@@ -14,7 +14,7 @@ const floatingInstagram = document.querySelector(".floating-instagram");
 const contactSuccessMessage = document.querySelector("#contacto-enviado");
 const contactForm = document.querySelector('.contact-form[action^="https://formsubmit.co/"]');
 const revealItems = document.querySelectorAll(
-  ".hero__content, .hero__panel, #valor .section-heading, #valor .tech-card, .cta-band .contact, #servicios .service-card, #planes .section-heading, #planes .pricing-card, #proyectos .project-card, #resultados .section-heading, #resultados .project-card, #diferencial .section-heading, #diferencial .about__panel, #contacto .contact, .contact-trust .section-heading, .contact-trust .about__panel, .contact-page .section-heading, .contact-page .contact-card, .contact-page .trust-card, .contact-page .contact-form-card, .contact-cta-final .contact, .project-gallery .project-gallery__item"
+  ".hero__content, .hero__panel, #valor .section-heading, #valor .tech-card, .cta-band .contact, #servicios .service-card, #planes .section-heading, #planes .pricing-card, #proyectos .project-card, #resultados .section-heading, #resultados .project-card, #diferencial .section-heading, #diferencial .about__panel, #contacto .contact, .contact-trust .section-heading, .contact-trust .about__panel, .contact-page .section-heading, .contact-page .contact-card, .contact-page .trust-card, .contact-page .contact-form-card, .contact-cta-final .contact, .project-gallery .project-gallery__item, .hero-home__inner > *, .feat, .svc-card, .home-split__visual, .home-split__content, .case-tile, .cta-final__inner > *, .trust-bar__title, .testi-grid > *, [aria-labelledby=\"home-testi-title\"] .section-heading, .contact-layout .contact-form-card, .contact-layout .contact-info"
 );
 const desktopBreakpoint = window.matchMedia("(min-width: 961px)");
 const mobileGalleryBreakpoint = window.matchMedia("(max-width: 640px)");
@@ -217,8 +217,72 @@ if (contactSuccessMessage) {
   }
 }
 
-// Lógica de submit del formulario de contacto desactivada temporalmente
-// para la prueba mínima de FormSubmit.
+// ── Envío AJAX del formulario de contacto + fallback a WhatsApp ──
+// Si el procesador (FormSubmit) está caído o falla, el usuario NO ve una
+// pantalla de error: le mostramos un mensaje para escribir por WhatsApp.
+if (contactForm) {
+  const WSP_FALLBACK =
+    "https://wa.me/56956392509?text=Hola%2C%20intent%C3%A9%20enviar%20el%20formulario%20de%20la%20web%20pero%20no%20pude.%20Quiero%20cotizar%20un%20proyecto%20digital";
+  const formAction = contactForm.getAttribute("action") || "";
+  const ajaxAction = formAction.replace("formsubmit.co/", "formsubmit.co/ajax/");
+
+  const showFormResult = (type, html) => {
+    let box = contactForm.querySelector(".contact-form__result");
+    if (!box) {
+      box = document.createElement("div");
+      box.className = "contact-form__result";
+      contactForm.appendChild(box);
+    }
+    box.dataset.type = type;
+    box.innerHTML = html;
+    box.scrollIntoView({
+      behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+      block: "nearest",
+    });
+  };
+
+  contactForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const originalLabel = submitBtn ? submitBtn.innerHTML : "";
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = "Enviando...";
+    }
+
+    try {
+      const response = await fetch(ajaxAction, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: new FormData(contactForm),
+      });
+      if (!response.ok) throw new Error("bad_status");
+      const data = await response.json().catch(() => ({}));
+      if (String(data.success) === "true") {
+        contactForm.reset();
+        showFormResult(
+          "ok",
+          "<strong>¡Mensaje enviado!</strong> Gracias por escribir, te responderemos a la brevedad."
+        );
+      } else {
+        throw new Error("no_success");
+      }
+    } catch (err) {
+      showFormResult(
+        "error",
+        'No pudimos enviar el formulario en este momento. Escríbenos directo por ' +
+          '<a href="' +
+          WSP_FALLBACK +
+          '" target="_blank" rel="noopener noreferrer">WhatsApp</a> y te respondemos al toque.'
+      );
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalLabel;
+      }
+    }
+  });
+}
 
 if (themeToggle) {
   const themeStorageKey = "gogodevs-theme";

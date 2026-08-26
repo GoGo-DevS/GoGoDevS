@@ -1712,8 +1712,8 @@ body.lightbox-open { overflow: hidden; }
   to   { transform: translateX(-50%); }
 }
 .trust-logo {
-  display: flex; flex-direction: column; justify-content: center; gap: 0.3rem;
-  min-width: 230px; padding: 1.1rem 1.7rem;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-width: 210px; min-height: 110px; padding: 1.4rem 1.8rem;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-md);
   background: var(--color-card);
@@ -1727,12 +1727,14 @@ body.lightbox-open { overflow: hidden; }
   box-shadow: 0 0 26px rgba(37,99,235,0.12);
 }
 .trust-logo__img {
-  height: 2.4rem; width: auto; max-width: 175px;
-  object-fit: contain; object-position: left center;
+  height: 4.2rem; width: auto; max-width: 220px;
+  object-fit: contain; object-position: center;
 }
-/* Si el logo real cargó, ocultar el wordmark de respaldo.
-   Si onerror elimina la <img>, el wordmark queda como primer hijo y se muestra. */
-.trust-logo__img + .trust-logo__name { display: none; }
+/* Solo logos: si el logo real cargó, ocultar nombre y tipo debajo.
+   Si onerror elimina la <img>, el wordmark queda como primer hijo y se muestra
+   junto con el tipo, para no dejar la tarjeta vacía. */
+.trust-logo__img + .trust-logo__name,
+.trust-logo__img ~ .trust-logo__type { display: none; }
 .trust-logo__name {
   font-family: 'Montserrat', sans-serif; font-weight: 900;
   font-size: 1.05rem; line-height: 1.1; letter-spacing: 0.01em;

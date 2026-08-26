@@ -1547,7 +1547,8 @@ body.lightbox-open { overflow: hidden; }
   background: rgba(37,99,235,0.1);
 }
 .svc-card__icon svg { width: 1.7rem; height: 1.7rem; }
-.svc-card h3 { font-family: 'Montserrat', sans-serif; font-size: 1.2rem; color: var(--color-text); margin-bottom: 0.7rem; }
+.svc-card h3 { font-family: 'Montserrat', sans-serif; font-size: 1.2rem; color: var(--color-text); margin-bottom: 0.3rem; }
+.svc-card__price { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.82rem; color: var(--color-gold); margin-bottom: 0.7rem; display: block; }
 .svc-card p { color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.3rem; }
 .svc-card__link {
   margin-top: auto;

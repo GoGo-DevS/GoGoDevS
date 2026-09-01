@@ -520,3 +520,51 @@ if (finePointer.matches && !prefersReducedMotion.matches) {
     glow.classList.remove("is-active");
   });
 }
+
+// Grano sutil (siempre, incluso en touch/reduced-motion: es estatico,
+// no una animacion) y barra de progreso de scroll (se salta con
+// reduced-motion junto con el resto del movimiento del sitio).
+const grain = document.createElement("div");
+grain.className = "gg-grain";
+grain.setAttribute("aria-hidden", "true");
+document.body.appendChild(grain);
+
+if (!prefersReducedMotion.matches) {
+  const progress = document.createElement("div");
+  progress.className = "gg-progress";
+  progress.setAttribute("aria-hidden", "true");
+  document.body.appendChild(progress);
+
+  let progressRaf = 0;
+  const updateProgress = () => {
+    progressRaf = 0;
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    const pct = max > 0 ? Math.min(doc.scrollTop / max, 1) : 0;
+    progress.style.transform = `scaleX(${pct})`;
+  };
+  window.addEventListener("scroll", () => {
+    if (!progressRaf) progressRaf = requestAnimationFrame(updateProgress);
+  }, { passive: true });
+  updateProgress();
+}
+
+// Botones magneticos: solo los CTA grandes (no los --small, que son
+// links secundarios dentro de cards y quedarian raros moviendose).
+if (finePointer.matches && !prefersReducedMotion.matches) {
+  document.querySelectorAll(".button:not(.button--small):not(.btn-small)").forEach((btn) => {
+    btn.classList.add("gg-magnetic");
+    const strength = 14; // px maximo de desplazamiento
+    btn.addEventListener("pointermove", (event) => {
+      const rect = btn.getBoundingClientRect();
+      const relX = (event.clientX - rect.left) / rect.width - 0.5;
+      const relY = (event.clientY - rect.top) / rect.height - 0.5;
+      btn.style.setProperty("--mgx", `${relX * strength}px`);
+      btn.style.setProperty("--mgy", `${relY * strength}px`);
+    });
+    btn.addEventListener("pointerleave", () => {
+      btn.style.setProperty("--mgx", "0px");
+      btn.style.setProperty("--mgy", "0px");
+    });
+  });
+}

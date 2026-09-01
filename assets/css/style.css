@@ -1612,6 +1612,33 @@ body.lightbox-open { overflow: hidden; }
   .gg-cursor, .gg-glow { display: none !important; }
 }
 
+/* Barra de progreso de scroll */
+.gg-progress {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 998;
+  height: 3px; transform-origin: left; transform: scaleX(0);
+  background: linear-gradient(90deg, var(--gg-blue), #7db2ff);
+  box-shadow: 0 0 12px rgba(37,99,235,0.6);
+}
+
+/* Textura de grano, muy sutil, sobre todo el sitio */
+.gg-grain {
+  position: fixed; inset: -100px; z-index: 2; pointer-events: none;
+  opacity: 0.035; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Boton magnetico: el CTA principal se corre un poco hacia el cursor
+   dentro de su propia area (lo mueve --mgx/--mgy desde main.js).
+   Incluye el lift+scale del hover normal de .button EN LA MISMA regla
+   -- si fueran dos reglas de transform separadas, la que cargue despues
+   pisaria a la otra entera en vez de sumarse. */
+:is(.button, .btn-primary, .btn-secondary, .btn-outline).gg-magnetic:hover {
+  transform: translate(var(--mgx, 0px), calc(var(--mgy, 0px) - 2px)) scale(1.015);
+}
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  :is(.button, .btn-primary, .btn-secondary, .btn-outline).gg-magnetic:hover { transform: none; }
+}
+
 /* ===== FEATURE STRIP ===== */
 .feat-strip {
   background: var(--color-surface);

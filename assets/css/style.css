@@ -1728,12 +1728,19 @@ body.lightbox-open { overflow: hidden; }
 .home-split__list li { position: relative; padding-left: 1.7rem; color: var(--color-text-muted); font-size: 0.95rem; }
 .home-split__list li::before { content: "\2713"; position: absolute; left: 0; top: 0; color: var(--gg-blue); font-weight: 700; }
 
-/* ===== CASOS ===== */
-.cases-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+/* ===== CASOS =====
+   flex-wrap + justify-content:center, no grid de columnas fijas: con
+   grid, una cantidad de casos que no es multiplo exacto de 3 dejaba la
+   ultima fila con 1-2 huecos vacios pegados a la izquierda. Con flex,
+   la ultima fila incompleta queda centrada sola, sin huecos, sin
+   importar cuantos casos haya (no hay que acordarse de ajustar nada
+   cuando se agrega un caso nuevo). */
+.cases-strip { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; }
 .case-tile {
   display: block; border-radius: var(--radius-lg); overflow: hidden;
   border: 1px solid var(--color-line); background: var(--color-card);
   transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  flex: 1 1 360px; max-width: 384px;
 }
 .case-tile:hover { transform: translateY(-4px); border-color: rgba(37,99,235,0.4); box-shadow: var(--shadow-md); }
 .case-tile__media { aspect-ratio: 16 / 10; overflow: hidden; }
@@ -1809,13 +1816,13 @@ body.lightbox-open { overflow: hidden; }
 @media (max-width: 900px) {
   .contact-layout { grid-template-columns: 1fr; }
   .svc-grid { grid-template-columns: 1fr; }
-  .cases-strip { grid-template-columns: repeat(2, 1fr); }
+  .case-tile { flex-basis: calc(50% - 0.75rem); max-width: calc(50% - 0.75rem); }
   .home-split { grid-template-columns: 1fr; gap: 2rem; }
   .home-split__visual { aspect-ratio: 16 / 9; }
   .feat-strip__grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
 }
 @media (max-width: 560px) {
-  .cases-strip { grid-template-columns: 1fr; }
+  .case-tile { flex-basis: 100%; max-width: 100%; }
   .cta-final__inner { flex-direction: column; align-items: flex-start; }
   .cta-final__actions, .cta-final__actions .button { width: 100%; }
   .hero-home__actions { flex-direction: column; }

@@ -1567,6 +1567,51 @@ body.lightbox-open { overflow: hidden; }
   .hero-home__glass span:nth-child(3) { display: none; }
 }
 
+/* ===== Glow ambiental de fondo + cursor propio =====
+   Los dos elementos los crea main.js (injectCursorAndGlow) para no
+   tener que agregar el markup en las 23 paginas -- estan detras/encima
+   de todo por z-index, nunca bloquean clicks (pointer-events: none). */
+.gg-glow {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(600px circle at var(--gx, 50%) var(--gy, 30%),
+              rgba(70,110,255,0.16), transparent 70%);
+  mix-blend-mode: screen; /* suma luz, nunca oscurece el texto de abajo */
+  transition: opacity 300ms ease; opacity: 0;
+}
+.gg-glow.is-active { opacity: 1; }
+
+.gg-cursor {
+  position: fixed; top: 0; left: 0; z-index: 999; pointer-events: none;
+  width: 28px; height: 28px; margin: -14px 0 0 -14px;
+  border: 1.5px solid rgba(120,160,255,0.85);
+  border-radius: 50%;
+  transform: translate3d(var(--cx, -100px), var(--cy, -100px), 0) scale(1);
+  transition: transform 90ms linear, width 200ms ease, height 200ms ease,
+              margin 200ms ease, border-color 200ms ease, background 200ms ease;
+  opacity: 0;
+}
+.gg-cursor::after {
+  content: ""; position: absolute; top: 50%; left: 50%;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--gg-blue);
+  transform: translate(-50%, -50%);
+}
+.gg-cursor.is-ready { opacity: 1; }
+.gg-cursor.is-hover {
+  width: 46px; height: 46px; margin: -23px 0 0 -23px;
+  border-color: var(--gg-blue);
+  background: rgba(37,99,235,0.08);
+}
+@media (pointer: fine) {
+  body.gg-has-cursor, body.gg-has-cursor a, body.gg-has-cursor button,
+  body.gg-has-cursor input, body.gg-has-cursor textarea, body.gg-has-cursor select {
+    cursor: none;
+  }
+}
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .gg-cursor, .gg-glow { display: none !important; }
+}
+
 /* ===== FEATURE STRIP ===== */
 .feat-strip {
   background: var(--color-surface);

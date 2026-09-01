@@ -478,3 +478,45 @@ if (!prefersReducedMotion.matches) {
     });
   });
 }
+
+// Cursor propio (anillo + punto) + glow ambiental de fondo que sigue al
+// mouse por TODA la pagina. Se inyecta desde JS (no vive en el HTML de
+// las 23 paginas) asi que aparece en todo el sitio con un solo archivo.
+// Se salta entero en touch (media query pointer:coarse ya lo esconde por
+// CSS, pero tampoco corremos el listener) y con reduced-motion.
+const finePointer = window.matchMedia("(pointer: fine)");
+if (finePointer.matches && !prefersReducedMotion.matches) {
+  const cursor = document.createElement("div");
+  cursor.className = "gg-cursor";
+  cursor.setAttribute("aria-hidden", "true");
+  const glow = document.createElement("div");
+  glow.className = "gg-glow";
+  glow.setAttribute("aria-hidden", "true");
+  document.body.append(glow, cursor);
+  document.body.classList.add("gg-has-cursor");
+
+  const hoverSelector = 'a, button, input, textarea, select, [role="button"], .service-card, .svc-card, .project-card';
+  let rafId = 0;
+
+  document.addEventListener("pointermove", (event) => {
+    if (event.pointerType !== "mouse" && event.pointerType !== "pen") return;
+    if (!rafId) {
+      rafId = requestAnimationFrame(() => {
+        cursor.style.setProperty("--cx", `${event.clientX}px`);
+        cursor.style.setProperty("--cy", `${event.clientY}px`);
+        glow.style.setProperty("--gx", `${event.clientX}px`);
+        glow.style.setProperty("--gy", `${event.clientY}px`);
+        cursor.classList.add("is-ready");
+        glow.classList.add("is-active");
+        rafId = 0;
+      });
+    }
+    const hovering = event.target.closest && event.target.closest(hoverSelector);
+    cursor.classList.toggle("is-hover", Boolean(hovering));
+  });
+
+  document.addEventListener("pointerleave", () => {
+    cursor.classList.remove("is-ready");
+    glow.classList.remove("is-active");
+  });
+}

@@ -612,6 +612,23 @@ h3 { font-weight: 700; }
   transform: translateY(-4px);
   box-shadow: 0 8px 32px rgba(37,99,235,0.1), 0 20px 60px rgba(0,0,0,0.35);
 }
+
+/* Borde spotlight: un halo que sigue al cursor, en vez de un borde
+   parejo. --mx/--my los pone assets/js/main.js en cada mousemove. */
+.service-card::before, .svc-card::before {
+  content: ""; position: absolute; inset: 0; z-index: 0;
+  border-radius: inherit; padding: 1px;
+  background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 0%),
+              rgba(120,160,255,0.55), transparent 65%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0; transition: opacity 260ms ease; pointer-events: none;
+}
+.service-card:hover::before, .svc-card:hover::before { opacity: 1; }
+.service-card > *, .svc-card > * { position: relative; z-index: 1; }
+@media (hover: none) {
+  .service-card::before, .svc-card::before { display: none; }
+}
 .service-card h3 {
   font-size: 0.95rem; color: var(--color-text);
 }

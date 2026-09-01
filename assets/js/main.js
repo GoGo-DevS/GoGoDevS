@@ -464,3 +464,17 @@ carouselGalleries.forEach((gallery) => {
     startCarousel();
   });
 });
+
+// Borde spotlight de las tarjetas de servicio: sigue al cursor con
+// variables CSS (--mx/--my), sin animar nada por JS -- la transicion
+// la hace el CSS. Se salta en touch (sin cursor) y con reduced-motion.
+if (!prefersReducedMotion.matches) {
+  document.querySelectorAll(".service-card, .svc-card").forEach((card) => {
+    card.addEventListener("pointermove", (event) => {
+      if (event.pointerType === "touch") return;
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--mx", `${event.clientX - rect.left}px`);
+      card.style.setProperty("--my", `${event.clientY - rect.top}px`);
+    });
+  });
+}

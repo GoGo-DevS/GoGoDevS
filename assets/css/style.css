@@ -85,10 +85,10 @@ ul { list-style: none; padding: 0; }
 /* === Typography helpers === */
 h1, h2, h3 {
   font-family: 'Montserrat', system-ui, sans-serif;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-weight: 800;
+  letter-spacing: -0.01em;
   line-height: 1.1;
+  text-wrap: balance;
 }
 
 h3 { font-weight: 700; }
@@ -289,21 +289,26 @@ h3 { font-weight: 700; }
   display: inline-flex; align-items: center; justify-content: center;
   gap: 0.5rem;
   min-height: 3.1rem;
-  padding: 0.85rem 1.8rem;
-  border-radius: var(--radius-sm);
+  padding: 0.85rem 1.9rem;
+  border-radius: 999px;
   border: 1px solid transparent;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 700; font-size: 0.8rem;
-  text-transform: uppercase; letter-spacing: 0.08em;
+  font-weight: 700; font-size: 0.92rem;
+  letter-spacing: -0.01em;
   line-height: 1; white-space: nowrap;
   cursor: pointer; text-align: center;
-  transition: transform var(--transition), box-shadow var(--transition),
+  transition: transform 220ms cubic-bezier(.34,1.56,.64,1), box-shadow var(--transition),
               background var(--transition), border-color var(--transition),
               color var(--transition);
   -webkit-font-smoothing: antialiased;
 }
-:is(.button, .btn-primary, .btn-secondary, .btn-outline):hover { transform: translateY(-2px); }
-:is(.button, .btn-primary, .btn-secondary, .btn-outline):active { transform: translateY(0); }
+:is(.button, .btn-primary, .btn-secondary, .btn-outline):hover { transform: translateY(-2px) scale(1.015); }
+:is(.button, .btn-primary, .btn-secondary, .btn-outline):active { transform: translateY(0) scale(0.98); }
+@media (prefers-reduced-motion: reduce) {
+  :is(.button, .btn-primary, .btn-secondary, .btn-outline) { transition: background var(--transition), border-color var(--transition), color var(--transition); }
+  :is(.button, .btn-primary, .btn-secondary, .btn-outline):hover,
+  :is(.button, .btn-primary, .btn-secondary, .btn-outline):active { transform: none; }
+}
 
 /* Primario — azul de marca (estilo mockup) */
 .button--primary, .btn-primary, .button--blue {
@@ -1492,6 +1497,58 @@ body.lightbox-open { overflow: hidden; }
   line-height: 1.7;
 }
 .hero-home__actions { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+
+/* Badge de estado (pill con punto), reemplaza el eyebrow solo en el hero */
+.hero-home__badge {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  margin-bottom: 1.4rem; padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: rgba(37,99,235,0.08);
+  border: 1px solid rgba(37,99,235,0.28);
+  backdrop-filter: blur(8px);
+  color: var(--color-text-muted);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.02em;
+}
+.hero-home__badge-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gg-blue); flex: none;
+  box-shadow: 0 0 0 0 rgba(37,99,235,0.6);
+  animation: badgePulse 2.2s ease-out infinite;
+}
+@keyframes badgePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(37,99,235,0.55); }
+  70%  { box-shadow: 0 0 0 8px rgba(37,99,235,0); }
+  100% { box-shadow: 0 0 0 0 rgba(37,99,235,0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-home__badge-dot { animation: none; }
+}
+
+/* Formas de vidrio flotantes, ambiente sutil detrás del contenido */
+.hero-home__glass { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.hero-home__glass span {
+  position: absolute; border-radius: 999px;
+  background: linear-gradient(135deg, rgba(37,99,235,0.16), rgba(37,99,235,0.02));
+  border: 1px solid rgba(120,150,220,0.14);
+  filter: blur(0.5px);
+  animation: glassFloat 9s ease-in-out infinite;
+}
+.hero-home__glass span:nth-child(1) { width: 260px; height: 70px; top: 8%; left: 4%; transform: rotate(-18deg); animation-delay: 0s; }
+.hero-home__glass span:nth-child(2) { width: 220px; height: 60px; top: 14%; right: 6%; transform: rotate(22deg); animation-delay: 1.4s; }
+.hero-home__glass span:nth-child(3) { width: 180px; height: 50px; bottom: 10%; right: 10%; transform: rotate(-12deg); animation-delay: 2.6s; }
+@keyframes glassFloat {
+  0%, 100% { transform: translateY(0) rotate(var(--r, -18deg)); opacity: 0.55; }
+  50%      { transform: translateY(-14px) rotate(var(--r, -18deg)); opacity: 0.85; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-home__glass span { animation: none; opacity: 0.6; }
+}
+@media (max-width: 720px) {
+  .hero-home__glass span:nth-child(1) { width: 160px; height: 44px; }
+  .hero-home__glass span:nth-child(2) { width: 140px; height: 38px; }
+  .hero-home__glass span:nth-child(3) { display: none; }
+}
 
 /* ===== FEATURE STRIP ===== */
 .feat-strip {

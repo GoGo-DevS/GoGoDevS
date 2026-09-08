@@ -19,9 +19,9 @@
     'font-size:.78rem;font-weight:700;letter-spacing:.04em;transition:transform .2s,box-shadow .2s;}',
     '.gg-chat-fab:hover{transform:translateY(-3px);box-shadow:0 24px 52px rgba(37,99,235,.42);}',
     '.gg-chat-fab svg{width:1.3rem;height:1.3rem;flex-shrink:0;}',
-    '.gg-chat-panel{position:fixed;right:1.2rem;bottom:16.2rem;z-index:32;width:min(360px,calc(100vw - 2.4rem));',
-    'height:min(520px,calc(100vh - 19rem));background:#0d1a30;border:1px solid rgba(37,99,235,.25);',
-    'border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.5);display:none;flex-direction:column;overflow:hidden;',
+    '.gg-chat-panel{position:fixed;right:1.2rem;bottom:16.2rem;z-index:32;width:min(400px,calc(100vw - 2rem));',
+    'height:min(600px,calc(100vh - 18rem));background:#0d1a30;border:1px solid rgba(37,99,235,.25);',
+    'border-radius:22px;box-shadow:0 24px 60px rgba(0,0,0,.5);display:none;flex-direction:column;overflow:hidden;',
     'font-family:"Inter",system-ui,sans-serif;}',
     '.gg-chat-panel.gg-open{display:flex;}',
     '.gg-chat-head{background:linear-gradient(135deg,#0A1428,#0f1f38);padding:.9rem 1.1rem;',
@@ -31,11 +31,18 @@
     '.gg-chat-close{background:none;border:none;color:#A8B3CF;font-size:1.3rem;cursor:pointer;line-height:1;padding:.2rem;}',
     '.gg-chat-close:hover{color:#fff;}',
     '.gg-chat-body{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.65rem;}',
-    '.gg-msg{max-width:85%;padding:.6rem .85rem;border-radius:12px;font-size:.85rem;line-height:1.45;white-space:pre-wrap;}',
-    '.gg-msg-agente{align-self:flex-start;background:rgba(37,99,235,.14);color:#fff;border-bottom-left-radius:4px;}',
-    '.gg-msg-usuario{align-self:flex-end;background:#FFB627;color:#0A1428;border-bottom-right-radius:4px;font-weight:500;}',
+    '.gg-msg{max-width:85%;padding:.65rem .95rem;border-radius:18px;font-size:.85rem;line-height:1.5;}',
+    '.gg-msg-agente{align-self:flex-start;background:rgba(37,99,235,.14);color:#fff;border-bottom-left-radius:6px;}',
+    '.gg-msg-usuario{align-self:flex-end;background:#FFB627;color:#0A1428;border-bottom-right-radius:6px;font-weight:500;white-space:pre-wrap;}',
     '.gg-msg-error{align-self:flex-start;background:rgba(37,99,235,.14);color:#fff;',
-    'border-left:3px solid #FFB627;border-bottom-left-radius:4px;}',
+    'border-left:3px solid #FFB627;border-bottom-left-radius:6px;}',
+    '.gg-msg p{margin:0 0 .55rem;}',
+    '.gg-msg p:last-child{margin-bottom:0;}',
+    '.gg-msg ul{list-style:disc;margin:.2rem 0 .55rem;padding-left:1.15rem;}',
+    '.gg-msg ul:last-child{margin-bottom:0;}',
+    '.gg-msg li{margin-bottom:.3rem;}',
+    '.gg-msg li::marker{color:#FFB627;}',
+    '.gg-msg strong{font-weight:700;}',
     '.gg-chat-foot{padding:.75rem;border-top:1px solid rgba(37,99,235,.2);display:flex;gap:.5rem;}',
     '.gg-chat-input{flex:1;background:#0A1428;border:1px solid rgba(37,99,235,.25);border-radius:999px;',
     'padding:.6rem 1rem;color:#fff;font-size:.85rem;outline:none;}',
@@ -43,7 +50,13 @@
     '.gg-chat-send{background:#2563eb;border:none;border-radius:999px;width:2.4rem;height:2.4rem;flex-shrink:0;',
     'display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;}',
     '.gg-chat-send:disabled{opacity:.5;cursor:default;}',
-    '.gg-typing{align-self:flex-start;color:#A8B3CF;font-size:.78rem;font-style:italic;}',
+    '.gg-typing{align-self:flex-start;background:rgba(37,99,235,.14);border-radius:18px;',
+    'border-bottom-left-radius:6px;padding:.75rem 1rem;display:flex;gap:.3rem;}',
+    '.gg-typing i{width:.4rem;height:.4rem;border-radius:50%;background:#A8B3CF;',
+    'animation:ggBounce 1.2s infinite;}',
+    '.gg-typing i:nth-child(2){animation-delay:.15s;}',
+    '.gg-typing i:nth-child(3){animation-delay:.3s;}',
+    '@keyframes ggBounce{0%,60%,100%{transform:translateY(0);opacity:.5;}30%{transform:translateY(-4px);opacity:1;}}',
     '@media(max-width:480px){.gg-chat-fab span{display:none;}.gg-chat-fab{padding:.85rem;min-width:3.2rem;justify-content:center;}}',
     /* 07-09-2026: Diego pidio el boton al centro, pero solo en desktop -- en
        mobile se queda apilado con WhatsApp/Instagram (poco ancho, el centro
@@ -52,8 +65,10 @@
     '@media(min-width:769px){',
     '.gg-chat-fab{right:auto;left:50%;transform:translateX(-50%);bottom:1.6rem;}',
     '.gg-chat-fab:hover{transform:translateX(-50%) translateY(-3px);}',
-    '.gg-chat-panel{right:auto;left:50%;transform:translateX(-50%);bottom:5.4rem;}',
+    '.gg-chat-panel{right:auto;left:50%;transform:translateX(-50%);bottom:5.4rem;',
+    'width:440px;height:min(680px,calc(100vh - 9rem));}',
     '}',
+    '@media(prefers-reduced-motion:reduce){.gg-typing i{animation:none;opacity:.8;}}',
   ].join('');
   document.head.appendChild(estilos);
 
@@ -85,10 +100,40 @@
   var enviarBtn = panel.querySelector('#ggChatSend');
   var cerrarBtn = panel.querySelector('.gg-chat-close');
 
+  function escaparHtml(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  // Gemini/Groq contestan en markdown liviano (**negrita**, listas con "- ").
+  // Sin esto salian los asteriscos literales en pantalla. Escapa TODO primero
+  // y solo despues abre las etiquetas propias -- nunca inyecta HTML ajeno.
+  function formatearMarkdown(texto) {
+    var html = escaparHtml(texto).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    var lineas = html.split('\n');
+    var salida = '';
+    var enLista = false;
+    lineas.forEach(function (linea) {
+      var t = linea.trim();
+      if (/^[-*]\s+/.test(t)) {
+        if (!enLista) { salida += '<ul>'; enLista = true; }
+        salida += '<li>' + t.replace(/^[-*]\s+/, '') + '</li>';
+      } else {
+        if (enLista) { salida += '</ul>'; enLista = false; }
+        if (t) salida += '<p>' + t + '</p>';
+      }
+    });
+    if (enLista) salida += '</ul>';
+    return salida;
+  }
+
   function agregarMensaje(texto, clase) {
     var div = document.createElement('div');
     div.className = 'gg-msg ' + clase;
-    div.textContent = texto;
+    if (clase === 'gg-msg-usuario') {
+      div.textContent = texto;
+    } else {
+      div.innerHTML = formatearMarkdown(texto);
+    }
     body.appendChild(div);
     body.scrollTop = body.scrollHeight;
     return div;
@@ -122,7 +167,8 @@
 
     var indicador = document.createElement('div');
     indicador.className = 'gg-typing';
-    indicador.textContent = 'Escribiendo...';
+    indicador.setAttribute('aria-label', 'Escribiendo...');
+    indicador.innerHTML = '<i></i><i></i><i></i>';
     body.appendChild(indicador);
     body.scrollTop = body.scrollHeight;
 

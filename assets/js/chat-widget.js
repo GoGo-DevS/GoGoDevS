@@ -44,6 +44,15 @@
     '.gg-chat-send:disabled{opacity:.5;cursor:default;}',
     '.gg-typing{align-self:flex-start;color:#A8B3CF;font-size:.78rem;font-style:italic;}',
     '@media(max-width:480px){.gg-chat-fab span{display:none;}.gg-chat-fab{padding:.85rem;min-width:3.2rem;justify-content:center;}}',
+    /* 07-09-2026: Diego pidio el boton al centro, pero solo en desktop -- en
+       mobile se queda apilado con WhatsApp/Instagram (poco ancho, el centro
+       ahi tapa contenido). El panel se centra igual, para que abra justo
+       arriba del boton en vez de quedar descuadrado a la derecha. */
+    '@media(min-width:769px){',
+    '.gg-chat-fab{right:auto;left:50%;transform:translateX(-50%);bottom:1.6rem;}',
+    '.gg-chat-fab:hover{transform:translateX(-50%) translateY(-3px);}',
+    '.gg-chat-panel{right:auto;left:50%;transform:translateX(-50%);bottom:5.4rem;}',
+    '}',
   ].join('');
   document.head.appendChild(estilos);
 

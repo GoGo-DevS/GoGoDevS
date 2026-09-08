@@ -11,7 +11,7 @@
 
   var estilos = document.createElement('style');
   estilos.textContent = [
-    '.gg-chat-fab{position:fixed;right:1.2rem;bottom:9.4rem;z-index:31;',
+    '.gg-chat-fab{position:fixed;right:1.2rem;bottom:12.4rem;z-index:31;',
     'display:inline-flex;align-items:center;gap:.7rem;min-height:3.2rem;',
     'padding:.85rem 1.1rem;border-radius:999px;border:none;cursor:pointer;',
     'background:linear-gradient(135deg,#2563eb,#FFB627);color:#0A1428;',
@@ -19,8 +19,8 @@
     'font-size:.78rem;font-weight:700;letter-spacing:.04em;transition:transform .2s,box-shadow .2s;}',
     '.gg-chat-fab:hover{transform:translateY(-3px);box-shadow:0 24px 52px rgba(37,99,235,.42);}',
     '.gg-chat-fab svg{width:1.3rem;height:1.3rem;flex-shrink:0;}',
-    '.gg-chat-panel{position:fixed;right:1.2rem;bottom:13.2rem;z-index:32;width:min(360px,calc(100vw - 2.4rem));',
-    'height:min(520px,calc(100vh - 16rem));background:#0d1a30;border:1px solid rgba(37,99,235,.25);',
+    '.gg-chat-panel{position:fixed;right:1.2rem;bottom:16.2rem;z-index:32;width:min(360px,calc(100vw - 2.4rem));',
+    'height:min(520px,calc(100vh - 19rem));background:#0d1a30;border:1px solid rgba(37,99,235,.25);',
     'border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.5);display:none;flex-direction:column;overflow:hidden;',
     'font-family:"Inter",system-ui,sans-serif;}',
     '.gg-chat-panel.gg-open{display:flex;}',

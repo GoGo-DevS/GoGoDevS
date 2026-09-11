@@ -140,20 +140,60 @@
   }
 
   var saludado = false;
-  function abrir() {
+  function abrir(porElUsuario) {
     panel.classList.add('gg-open');
     if (!saludado) {
-      agregarMensaje('¡Hola! Soy el asistente de GoGoDevS. Preguntame por servicios, precios o algún proyecto parecido al tuyo.', 'gg-msg-agente');
+      agregarMensaje('¡Hola! 👋 Soy el asistente de GoGoDevS. Cuéntame qué necesitas: un sitio, una tienda online o un sistema a medida.', 'gg-msg-agente');
       saludado = true;
     }
-    input.focus();
+    // El foco solo se toma cuando el visitante abrio el chat el mismo. En la
+    // apertura automatica robarle el cursor mientras lee es agresivo.
+    if (porElUsuario !== false) input.focus();
   }
   function cerrar() { panel.classList.remove('gg-open'); }
 
   fab.addEventListener('click', function () {
     if (panel.classList.contains('gg-open')) cerrar(); else abrir();
   });
-  cerrarBtn.addEventListener('click', cerrar);
+  cerrarBtn.addEventListener('click', function () {
+    cerrar();
+    // Si lo cerro a mano, NO se vuelve a abrir solo en toda la sesion. Un chat
+    // que reaparece despues de que lo cerraste es el motivo por el que la gente
+    // termina odiando estos widgets.
+    try { sessionStorage.setItem('gg_chat_cerrado', '1'); } catch (e) {}
+  });
+
+  /* APERTURA AUTOMATICA — solo escritorio.
+   *
+   * En celular NO se abre nunca: el panel tapa la pantalla completa y lo
+   * primero que hace el visitante es buscar la X. En escritorio convive con el
+   * contenido, que es el caso que Diego vio y le gusto.
+   *
+   * Tres frenos, y cada uno evita una forma distinta de molestar:
+   *   1. una sola vez por sesion -- no en cada pagina que abra;
+   *   2. nunca si ya lo cerro a mano;
+   *   3. nunca si el visitante pidio menos movimiento.
+   */
+  (function autoApertura() {
+    var esEscritorio = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)').matches;
+    if (!esEscritorio) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    try {
+      if (sessionStorage.getItem('gg_chat_cerrado')) return;
+      if (sessionStorage.getItem('gg_chat_autoabierto')) return;
+    } catch (e) { return; }   // sin sessionStorage no hay memoria: mejor no abrir
+
+    setTimeout(function () {
+      if (panel.classList.contains('gg-open')) return;
+      try { sessionStorage.setItem('gg_chat_autoabierto', '1'); } catch (e) {}
+      abrir(false);
+      // El foco NO se roba al abrir solo: si el visitante esta leyendo o
+      // escribiendo en otro campo, saltarle el cursor al chat es agresivo.
+      // Al abrirlo con el boton si se enfoca, porque ahi lo pidio el.
+      if (document.activeElement === document.body) { /* nada */ }
+      else { input.blur(); }
+    }, 4000);
+  })();
 
   var enviando = false;
   function enviar() {

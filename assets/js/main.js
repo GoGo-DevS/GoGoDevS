@@ -568,3 +568,72 @@ if (finePointer.matches && !prefersReducedMotion.matches) {
     });
   });
 }
+
+/* =========================================================
+   CASCADA Y CONTADORES  (11-09-2026)
+   =========================================================
+   Se midio la referencia antes de escribir nada: NO usa libreria de animacion.
+   125 transiciones, 10 keyframes y un scroll-reveal propio. Este sitio ya tenia
+   112 transiciones y 31 `.reveal`; lo que faltaba era ESCALONADO -- los hijos de
+   una grilla entraban todos de golpe-- y variedad. Por eso esto no suma ni un
+   KB de dependencia. */
+
+/* El retraso de cada hijo va como variable CSS y no como clase por posicion:
+   asi la misma regla sirve para una grilla de 3 y para una de 13. */
+const cascadaBloques = document.querySelectorAll("[data-cascada]");
+if (cascadaBloques.length) {
+  cascadaBloques.forEach((bloque) => {
+    const paso = parseFloat(bloque.dataset.cascada) || 0.08;
+    Array.from(bloque.children).forEach((hijo, i) => {
+      // toFixed: sin esto sale 0.21000000000000002s en el atributo style
+      hijo.style.setProperty("--retraso", `${(i * paso).toFixed(3)}s`);
+    });
+  });
+
+  if (prefersReducedMotion.matches || !("IntersectionObserver" in window)) {
+    cascadaBloques.forEach((b) => b.classList.add("is-visible"));
+  } else {
+    const obsCascada = new IntersectionObserver(
+      (entradas) => {
+        entradas.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.classList.add("is-visible");
+          obsCascada.unobserve(e.target);
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+    );
+    cascadaBloques.forEach((b) => obsCascada.observe(b));
+  }
+}
+
+/* Contadores: el numero sube en vez de aparecer. Solo donde hay un numero REAL
+   -- un contador sobre un dato inventado es peor que no tenerlo. */
+const contadores = document.querySelectorAll("[data-contar]");
+if (contadores.length && !prefersReducedMotion.matches && "IntersectionObserver" in window) {
+  const obsNum = new IntersectionObserver(
+    (entradas) => {
+      entradas.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        obsNum.unobserve(el);
+        const fin = parseFloat(el.dataset.contar);
+        if (Number.isNaN(fin)) return;
+        const sufijo = el.dataset.sufijo || "";
+        const DUR = 1100;
+        let t0 = null;
+        el.classList.add("contador");
+        const paso = (t) => {
+          if (t0 === null) t0 = t;
+          const p = Math.min((t - t0) / DUR, 1);
+          // easing de salida: arranca rapido y frena. Lineal se lee como maquina.
+          el.textContent = Math.round(fin * (1 - Math.pow(1 - p, 3))) + sufijo;
+          if (p < 1) requestAnimationFrame(paso);
+        };
+        requestAnimationFrame(paso);
+      });
+    },
+    { threshold: 0.5 }
+  );
+  contadores.forEach((n) => obsNum.observe(n));
+}

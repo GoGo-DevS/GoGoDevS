@@ -21,16 +21,32 @@
     '.gg-chat-fab svg{width:1.3rem;height:1.3rem;flex-shrink:0;}',
     '.gg-chat-panel{position:fixed;right:1.2rem;bottom:16.2rem;z-index:32;width:min(400px,calc(100vw - 2rem));',
     'height:min(600px,calc(100vh - 18rem));background:#0d1a30;border:1px solid rgba(37,99,235,.25);',
-    'border-radius:22px;box-shadow:0 24px 60px rgba(0,0,0,.5);display:none;flex-direction:column;overflow:hidden;',
-    'font-family:"Inter",system-ui,sans-serif;}',
-    '.gg-chat-panel.gg-open{display:flex;}',
+    'border-radius:22px;box-shadow:0 24px 60px rgba(0,0,0,.5);display:flex;flex-direction:column;overflow:hidden;',
+    'font-family:"Montserrat",system-ui,sans-serif;',
+    /* 11-09: el panel se abria de golpe porque se alternaba `display`, que NO es
+       animable -- no hay estado intermedio entre none y flex. Ahora vive siempre
+       en flex y lo que cambia son opacidad, escala y visibilidad, que si se
+       pueden transicionar.
+       `visibility` va con retraso SOLO al cerrar: sin eso el panel desaparece en
+       el primer fotograma y la animacion de salida no se ve. Al abrir el retraso
+       es 0, porque tiene que ser visible desde el principio para animarse. */
+    'opacity:0;visibility:hidden;pointer-events:none;',
+    'transform:translateY(14px) scale(.96);transform-origin:100% 100%;',
+    'transition:opacity .28s cubic-bezier(.16,1,.3,1),transform .34s cubic-bezier(.16,1,.3,1),visibility 0s linear .34s;}',
+    '.gg-chat-panel.gg-open{opacity:1;visibility:visible;pointer-events:auto;',
+    'transform:translateY(0) scale(1);transition-delay:0s,0s,0s;}',
+    '@media (prefers-reduced-motion: reduce){.gg-chat-panel{transition:none;transform:none;}',
+    '.gg-chat-panel.gg-open{transform:none;}}',
     '.gg-chat-head{background:linear-gradient(135deg,#0A1428,#0f1f38);padding:.9rem 1.1rem;',
     'display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(37,99,235,.2);}',
     '.gg-chat-head strong{color:#fff;font-size:.88rem;font-family:"Montserrat",sans-serif;}',
     '.gg-chat-head span{display:block;color:#A8B3CF;font-size:.72rem;margin-top:.15rem;}',
     '.gg-chat-close{background:none;border:none;color:#A8B3CF;font-size:1.3rem;cursor:pointer;line-height:1;padding:.2rem;}',
     '.gg-chat-close:hover{color:#fff;}',
-    '.gg-chat-body{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.65rem;}',
+    /* overscroll-behavior: al llegar al tope de la lista, la rueda dejaba de
+   mover el chat y empezaba a mover la pagina de atras. `contain` corta esa
+   herencia sin bloquear el scroll del propio panel. */
+    '.gg-chat-body{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:1rem;display:flex;flex-direction:column;gap:.65rem;}',
     '.gg-msg{max-width:85%;padding:.65rem .95rem;border-radius:18px;font-size:.85rem;line-height:1.5;}',
     '.gg-msg-agente{align-self:flex-start;background:rgba(37,99,235,.14);color:#fff;border-bottom-left-radius:6px;}',
     '.gg-msg-usuario{align-self:flex-end;background:#FFB627;color:#0A1428;border-bottom-right-radius:6px;font-weight:500;white-space:pre-wrap;}',
@@ -65,8 +81,17 @@
     '@media(min-width:769px){',
     '.gg-chat-fab{right:auto;left:50%;transform:translateX(-50%);bottom:1.6rem;}',
     '.gg-chat-fab:hover{transform:translateX(-50%) translateY(-3px);}',
-    '.gg-chat-panel{right:auto;left:50%;transform:translateX(-50%);bottom:5.4rem;',
-    'width:440px;height:min(680px,calc(100vh - 9rem));}',
+    /* OJO: en escritorio el panel se CENTRA con translateX(-50%), y eso pisaba
+       entera la transformacion de entrada -- quedaba solo el fade, sin el
+       deslizamiento ni la escala. Las transformaciones no se heredan: la de
+       abajo reemplaza a la de arriba completa. Por eso aca se COMPONEN las dos
+       en la misma declaracion. */
+    '.gg-chat-panel{right:auto;left:50%;bottom:5.4rem;',
+    'width:440px;height:min(680px,calc(100vh - 9rem));',
+    'transform-origin:50% 100%;transform:translateX(-50%) translateY(14px) scale(.96);}',
+    '.gg-chat-panel.gg-open{transform:translateX(-50%) translateY(0) scale(1);}',
+    '@media(prefers-reduced-motion:reduce){',
+    '.gg-chat-panel,.gg-chat-panel.gg-open{transform:translateX(-50%);}}',
     '}',
     '@media(prefers-reduced-motion:reduce){.gg-typing i{animation:none;opacity:.8;}}',
   ].join('');

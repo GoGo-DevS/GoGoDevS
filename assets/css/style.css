@@ -59,7 +59,7 @@ html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 1rem)
 
 /* === Base === */
 body {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Montserrat', system-ui, sans-serif;
   color: var(--color-text);
   background: var(--color-bg);
   background-image:
@@ -151,14 +151,14 @@ h3 { font-weight: 700; }
   max-width: 60rem; margin-bottom: 3.5rem;
 }
 .section-heading h2 {
-  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
   color: var(--color-text);
   margin-bottom: 1rem;
 }
 .section-heading p {
   color: var(--color-text-muted);
   font-size: 1rem; line-height: 1.75;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   text-transform: none;
   letter-spacing: normal;
@@ -416,7 +416,9 @@ h3 { font-weight: 700; }
 .hero__panel { width: 100%; max-width: 30rem; justify-self: end; }
 
 .hero h1 {
-  font-size: clamp(2.25rem, 5.5vw, 4.5rem);
+  /* 11-09: era 4.5rem (72px) -> 5 lineas en /servicios. La referencia usa
+     41,6px y muestra el trabajo arriba del pliegue. */
+  font-size: clamp(2rem, 4vw, 2.75rem);
   color: var(--color-text);
   text-shadow: 0 0 40px rgba(37,99,235,0.2);
   margin-bottom: 1.5rem;
@@ -435,6 +437,32 @@ h3 { font-weight: 700; }
   margin-top: 2rem;
 }
 .hero__actions .button { flex: 1; min-width: 160px; }
+
+/* ============================================================
+   HERO COMPACTO — paginas sin tarjeta lateral (11-09-2026)
+   ============================================================
+   La referencia muestra TRES casos con captura arriba del pliegue; aca ninguna
+   pagina mostraba una sola tarjeta. La culpa no era el texto: el hero pedia
+   PANTALLA COMPLETA (min-height 100svh = 832 px) para ~370 px de contenido, y
+   el grid reservaba una segunda columna que en varias paginas queda vacia.
+   Se aplica con :has(), asi que cada hero se compacta solo segun tenga panel o
+   no. Donde :has() no exista, la pagina se ve como hasta hoy. */
+.hero:not(:has(.hero__panel)) {
+  min-height: 0;
+  padding-top: 3.25rem; padding-bottom: 3rem;
+}
+.hero:not(:has(.hero__panel)) .hero__grid { grid-template-columns: 1fr; }
+.hero:not(:has(.hero__panel)) .hero__content { max-width: 46rem; }
+
+/* Los botones del hero iban en columna y estirados a 768 px: dos barras azules
+   compitiendo con el titular. `.cta-buttons` los apila y gana por venir despues
+   en el archivo. En el hero van en fila y del ancho de su texto. */
+.hero__actions.cta-buttons { flex-direction: row; align-items: center; min-width: 0; }
+.hero__actions.cta-buttons .button { flex: 0 0 auto; width: auto; }
+@media (max-width: 560px) {
+  .hero__actions.cta-buttons { flex-direction: column; align-items: stretch; }
+  .hero__actions.cta-buttons .button { width: 100%; }
+}
 .hero__support {
   margin-top: 1.25rem;
   color: var(--color-text-soft);
@@ -560,7 +588,7 @@ h3 { font-weight: 700; }
 /* Hero — service pages */
 .hero--service { padding-top: 4.5rem; }
 .hero--service h1 {
-  font-size: clamp(1.8rem, 4vw, 3.5rem);
+  font-size: clamp(1.9rem, 3.6vw, 2.5rem);
 }
 
 /* =========================================================
@@ -790,10 +818,18 @@ h3 { font-weight: 700; }
   padding: 1.75rem;
 }
 .case-card__tag {
+  /* 11-09: pasa de texto suelto a PASTILLA. El texto NO se toca: dice el
+     escalon que se vende (commit ad3cfba) y eso es decision comercial. Lo que
+     cambia es que se lea como etiqueta y no como una linea mas de parrafo. */
+  align-self: flex-start;
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.65rem; font-weight: 700;
-  letter-spacing: 0.12em; text-transform: uppercase;
+  font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--gg-blue);
+  background: rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(37, 99, 235, 0.28);
+  border-radius: 999px;
+  padding: 0.32rem 0.7rem; line-height: 1;
 }
 .case-card h3 { font-size: 1rem; color: var(--color-text); }
 .case-card p { color: var(--color-text-muted); font-size: 0.875rem; line-height: 1.7; }
@@ -988,7 +1024,7 @@ h3 { font-weight: 700; }
   border: 1px solid rgba(37,99,235,0.2);
   border-radius: var(--radius-sm);
   color: var(--color-text);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   transition: border-color var(--transition), box-shadow var(--transition);
 }
 .form-field input::placeholder,
@@ -1516,7 +1552,9 @@ body.lightbox-open { overflow: hidden; }
 .hero-home__title {
   font-family: 'Montserrat', sans-serif;
   font-weight: 900;
-  font-size: clamp(2.2rem, 6vw, 4rem);
+  /* 11-09: era 4rem (64px). La portada pesa algo mas que las internas, pero
+     no el doble que la referencia. */
+  font-size: clamp(2rem, 4.2vw, 3rem);
   line-height: 1.06;
   letter-spacing: -0.02em;
   margin-bottom: 1.5rem;
@@ -2069,3 +2107,175 @@ body.lightbox-open { overflow: hidden; }
   .blog-featured { grid-template-columns: 1fr; }
   .blog-featured__media { min-height: 180px; }
 }
+
+
+/* =========================================================
+   COTIZADOR EN 4 PASOS  (/cotizar/)  — 11-09-2026
+   =========================================================
+   Existe porque el sitio mandaba TODO a WhatsApp: el prospecto llegaba sin
+   decir que quiere ni con cuanto cuenta, y eso se resolvia a mano en el chat.
+   Con los 4 pasos llega calificado y con presupuesto declarado.
+   Los rangos son la escalera real del sitio (9 / 14 / 18 / 25 UF), no numeros
+   inventados: si cambian en /cuanto-cuesta-una-pagina-web-chile/ tienen que
+   cambiar aca tambien. */
+.cot-seccion { padding-top: 0; }
+.cot-caja { max-width: 60rem; }
+
+/* --- barra de progreso --- */
+.cot-pasos {
+  list-style: none; margin: 0 0 2rem; padding: 0;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;
+}
+.cot-paso {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600;
+  color: var(--color-text-soft);
+  padding-top: 0.85rem; border-top: 2px solid var(--color-line);
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+.cot-paso__n {
+  display: inline-grid; place-items: center;
+  width: 1.6rem; height: 1.6rem; border-radius: 50%;
+  background: rgba(255,255,255,0.06); color: var(--color-text-soft);
+  font-size: 0.75rem; font-weight: 700; flex-shrink: 0;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.cot-paso.is-activo { color: var(--color-text); border-top-color: var(--gg-blue); }
+.cot-paso.is-activo .cot-paso__n { background: var(--gg-blue); color: #fff; }
+.cot-paso.is-hecho { border-top-color: var(--gg-blue); }
+.cot-paso.is-hecho .cot-paso__n { background: rgba(37,99,235,0.25); color: var(--gg-blue); }
+@media (max-width: 620px) {
+  .cot-paso span:not(.cot-paso__n) { display: none; }
+  .cot-pasos { gap: 0.35rem; }
+}
+
+/* --- panel de cada paso --- */
+.cot-form { border: 0; }
+/* Sin JS los cuatro pasos se ven de corrido y el formulario se envia igual:
+   una pagina de cotizacion que queda en blanco porque no cargo un script es
+   peor que no tenerla. Los oculta solo cuando el cotizador arranco. */
+.js-cot .cot-panel { display: none; border: 0; padding: 0; margin: 0; min-width: 0; }
+.cot-panel.is-activo { display: block; }
+.cot-kicker {
+  font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--gg-blue);
+  margin-bottom: 0.5rem;
+}
+.cot-titulo {
+  font-family: 'Montserrat', sans-serif; font-weight: 900;
+  font-size: clamp(1.35rem, 2.6vw, 1.8rem); line-height: 1.2;
+  color: var(--color-text); padding: 0; margin-bottom: 0.5rem;
+}
+.cot-bajada { color: var(--color-text-muted); font-size: 0.92rem; margin-bottom: 1.5rem; max-width: 46rem; }
+
+/* --- opciones --- */
+.cot-opciones { display: grid; gap: 0.75rem; }
+.cot-opciones--3 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.cot-opciones--2 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+
+.cot-opt {
+  position: relative; display: block; cursor: pointer;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(37,99,235,0.18);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.15rem;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+.cot-opt:hover { border-color: rgba(37,99,235,0.45); transform: translateY(-2px); }
+/* El input se esconde pero NO con display:none: asi sigue siendo enfocable con
+   el teclado y el lector de pantalla lo anuncia. */
+.cot-opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.cot-opt:has(input:checked) { border-color: var(--gg-blue); background: rgba(37,99,235,0.12); }
+.cot-opt:has(input:focus-visible) { outline: 2px solid var(--gg-blue); outline-offset: 3px; }
+.cot-opt__cuerpo { display: flex; flex-direction: column; gap: 0.3rem; }
+.cot-opt__cuerpo strong {
+  font-family: 'Montserrat', sans-serif; font-size: 0.95rem; color: var(--color-text);
+}
+.cot-opt__cuerpo small { color: var(--color-text-muted); font-size: 0.8rem; line-height: 1.5; }
+.cot-opt--chica { padding: 0.9rem 1rem; }
+
+/* --- campos --- */
+.cot-campos { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+.cot-campo { display: flex; flex-direction: column; gap: 0.4rem; min-width: 0; }
+.cot-campo--ancho { grid-column: 1 / -1; }
+.cot-campo--solo { margin-top: 1.25rem; max-width: 22rem; }
+.cot-campo > span {
+  font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight: 600;
+  color: var(--color-text-soft);
+}
+.cot-campo input, .cot-campo select, .cot-campo textarea {
+  width: 100%; padding: 0.75rem 0.9rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--color-line); border-radius: var(--radius-md);
+  color: var(--color-text); font-family: 'Montserrat', sans-serif; font-size: 0.92rem;
+}
+.cot-campo input:focus, .cot-campo select:focus, .cot-campo textarea:focus {
+  outline: none; border-color: var(--gg-blue); background: rgba(37,99,235,0.08);
+}
+.cot-legal { margin-top: 1.25rem; font-size: 0.8rem; color: var(--color-text-soft); }
+.cot-legal a { color: var(--gg-blue); }
+
+/* --- barra de botones --- */
+.cot-barra {
+  display: flex; gap: 0.75rem; align-items: center; justify-content: flex-end;
+  margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--color-line);
+}
+.cot-barra .button { flex: 0 0 auto; width: auto; }
+/* `.button` declara su propio display, y eso le gana al [hidden] del navegador:
+   el boton Siguiente seguia visible en el ultimo paso, al lado de Enviar.
+   Medido clickeando los 4 pasos, no leyendo el CSS. */
+.cot-barra .button[hidden] { display: none !important; }
+#cot-atras { margin-right: auto; }
+.cot-error {
+  margin-top: 1rem; color: #ffb4b4; font-size: 0.88rem;
+  background: rgba(255,80,80,0.08); border: 1px solid rgba(255,80,80,0.25);
+  border-radius: var(--radius-md); padding: 0.75rem 0.9rem;
+}
+/* El boton flotante del asistente vive abajo al centro y tapaba esta linea.
+   Se le deja aire suficiente para que no compita con el. */
+.cot-alterna { margin-top: 1.75rem; margin-bottom: 3.5rem; text-align: center; color: var(--color-text-soft); font-size: 0.9rem; }
+.cot-alterna a { color: var(--gg-blue); font-weight: 600; }
+
+@media (max-width: 560px) {
+  .cot-barra { flex-direction: column-reverse; align-items: stretch; }
+  .cot-barra .button { width: 100%; }
+  #cot-atras { margin-right: 0; }
+}
+
+
+/* =========================================================
+   PAGINAS LEGALES  (/legal/*)  — 11-09-2026
+   =========================================================
+   Los tres competidores del rubro las tienen en el pie, y dos de las tres son
+   obligacion en Chile: el sitio tiene formularios y un asistente que recogen
+   datos personales (Ley 19.628 y 21.719).
+   Estilo deliberadamente sobrio: son documentos para leer, no para vender. */
+.legal-doc { max-width: 46rem; }
+.legal-doc h2 {
+  font-family: 'Montserrat', sans-serif; font-weight: 800;
+  font-size: 1.15rem; color: var(--color-text);
+  margin: 2.25rem 0 0.75rem; padding-top: 1.5rem;
+  border-top: 1px solid var(--color-line);
+}
+.legal-doc h2:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+.legal-doc p, .legal-doc li { color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.75; }
+.legal-doc p { margin-bottom: 1rem; }
+.legal-doc ul { margin: 0 0 1rem 1.1rem; padding: 0; }
+.legal-doc li { margin-bottom: 0.5rem; }
+.legal-doc strong { color: var(--color-text); }
+.legal-doc a { color: var(--gg-blue); }
+.legal-doc__cierre {
+  margin-top: 2.5rem; padding: 1.1rem 1.25rem;
+  background: rgba(37,99,235,0.07); border: 1px solid rgba(37,99,235,0.2);
+  border-radius: var(--radius-lg);
+}
+
+.footer-legal {
+  display: flex; flex-wrap: wrap; gap: 1.25rem;
+  margin-top: 2rem; padding-top: 1.25rem;
+  border-top: 1px solid var(--color-line);
+}
+.footer-legal a {
+  color: var(--color-text-soft); font-size: 0.82rem; text-decoration: none;
+}
+.footer-legal a:hover { color: var(--gg-blue); text-decoration: underline; }

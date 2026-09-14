@@ -1971,11 +1971,13 @@ body.lightbox-open { overflow: hidden; }
 .section-heading--center .eyebrow { justify-content: center; }
 .section-heading--center .eyebrow::before { display: none; }
 
+/* Flex y no grid: con 5 tarjetas la fila incompleta queda CENTRADA en vez de
+   cargada a la izquierda con un hueco al lado. */
 .testi-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 360px));
+  display: flex; flex-wrap: wrap;
   gap: 1.5rem; justify-content: center;
 }
+.testi-grid > .testi-card { flex: 0 1 360px; }
 .testi-card {
   position: relative; margin: 0;
   display: flex; flex-direction: column; gap: 1.1rem;
@@ -2005,6 +2007,32 @@ body.lightbox-open { overflow: hidden; }
 }
 .testi-card__meta strong { display: block; font-family: 'Montserrat', sans-serif; color: var(--color-text); font-size: 0.9rem; }
 .testi-card__meta span { color: var(--color-text-muted); font-size: 0.8rem; }
+
+/* ===== Panel de valoraciones ===== */
+.valoracion-resumen {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem 2rem;
+  max-width: 1140px; margin: 0 auto 2rem; padding: 1.4rem 1.75rem;
+  background: var(--color-card); border: 1px solid var(--color-line); border-radius: var(--radius-lg);
+}
+.valoracion-resumen__nota { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem 1rem; }
+.valoracion-resumen__numero {
+  font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 2.6rem; line-height: 1;
+  color: var(--color-text); font-variant-numeric: tabular-nums;
+}
+.valoracion-resumen__nota .estrellas { font-size: 1.5rem; }
+.valoracion-resumen__total { color: var(--color-text-muted); font-size: 0.95rem; }
+.valoracion-resumen__acciones { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.estrellas { color: var(--color-gold); letter-spacing: 0.08em; line-height: 1; }
+.testi-card__top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.testi-card--google .estrellas { font-size: 1.05rem; }
+.sello-google {
+  font-size: 0.72rem; font-weight: 600; color: var(--color-text-muted);
+  border: 1px solid var(--color-line); border-radius: 999px; padding: 0.2rem 0.6rem; white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .valoracion-resumen { justify-content: center; text-align: center; padding: 1.25rem; }
+  .valoracion-resumen__nota, .valoracion-resumen__acciones { justify-content: center; }
+}
 
 .testi-empty {
   grid-column: 1 / -1;

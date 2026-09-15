@@ -2489,11 +2489,7 @@ html.js [data-cascada].is-visible > * { opacity: 1; transform: none; }
 .caso-logo img { height: 3.6rem; width: auto; display: block; }
 .caso-logo:hover img, .caso-logo:focus-visible img { opacity: .85; }
 
-/* 4 reseñas: 2 x 2 en escritorio en vez de 3 + 1 suelta */
-@media (min-width: 900px) {
-  .testi-grid:has(> .testi-card:nth-child(4):last-child) { max-width: 780px; margin-inline: auto; }
-  .testi-grid:has(> .testi-card:nth-child(4):last-child) > .testi-card { flex: 0 1 calc(50% - .75rem); }
-}
+
 
 /* La etiqueta es un <p>: ".case-card p" (mas especifico) le ponia 0.875rem y
    line-height 1.7, y la pastilla salia gigante y en dos lineas. */
@@ -2502,3 +2498,39 @@ html.js [data-cascada].is-visible > * { opacity: 1; transform: none; }
   padding: 0.35rem 0.7rem; margin: 0 0 0.6rem; white-space: nowrap;
   color: var(--gg-blue);
 }
+
+/* Carrusel de reseñas: 3 a la vista en escritorio, 1 y un poco de la siguiente en telefono */
+.testi-grid.testi-grid--carrusel {
+  display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 3rem) / 3);
+  gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  padding: .4rem .2rem 1rem; margin: 0; max-width: none; scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.testi-grid--carrusel::-webkit-scrollbar { display: none; }
+.testi-grid--carrusel > .testi-card { scroll-snap-align: start; flex: none; min-width: 0; }
+.testi-grid--carrusel:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 6px; border-radius: var(--radius-lg); }
+@media (max-width: 1024px) { .testi-grid.testi-grid--carrusel { grid-auto-columns: calc((100% - 1.5rem) / 2); } }
+@media (max-width: 640px)  { .testi-grid.testi-grid--carrusel { grid-auto-columns: 86%; gap: 1rem; } }
+/* Las reseñas largas no estiran el carrusel: se cortan a 7 lineas con fundido */
+.testi-grid--carrusel .testi-card__quote {
+  display: -webkit-box; -webkit-line-clamp: 7; -webkit-box-orient: vertical; overflow: hidden;
+}
+.testi-carrusel__controles { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 1rem; }
+.testi-carrusel__flecha {
+  width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--color-line);
+  background: var(--color-card); color: var(--color-text); font-size: 1.1rem; cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+}
+.testi-carrusel__flecha:hover { border-color: var(--color-primary); }
+.testi-carrusel__flecha:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+.testi-carrusel__puntos { display: flex; gap: .5rem; }
+.testi-carrusel__punto {
+  width: 10px; height: 10px; padding: 0; border-radius: 999px; border: 0; cursor: pointer;
+  background: rgba(168, 179, 207, .35); transition: width var(--transition), background var(--transition);
+}
+.testi-carrusel__punto[aria-current="true"] { width: 26px; background: var(--color-primary); }
+/* area tactil de 44px sin agrandar el punto */
+.testi-carrusel__punto { position: relative; }
+.testi-carrusel__punto::after { content: ""; position: absolute; inset: -17px -8px; }
+@media (prefers-reduced-motion: reduce) { .testi-grid.testi-grid--carrusel { scroll-behavior: auto; } }
+

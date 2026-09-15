@@ -34,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="assets/img/logo-gogodevs.png" fetchpriority="high">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=20260915-carrusel">
+  <link rel="stylesheet" href="assets/css/style.css?v=20260915-carrusel2">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -186,19 +186,19 @@
              Al llegar reseñas nuevas, actualizar la nota, el total y las tarjetas.
              SIN schema AggregateRating a proposito: Google considera "self-serving"
              marcar las reseñas del propio negocio en su propio sitio. -->
+        <div class="testi-layout">
         <div class="valoracion-resumen" data-cascada="0">
-          <div class="valoracion-resumen__nota">
-            <span class="valoracion-resumen__numero">5,0</span>
-            <span class="estrellas" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-            <span class="valoracion-resumen__total">5 reseñas en Google</span>
-          </div>
+          <span class="valoracion-resumen__titulo">Excelente</span>
+          <span class="estrellas" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+          <span class="valoracion-resumen__total"><strong>5,0</strong> · A base de 5 reseñas</span>
+          <span class="valoracion-resumen__google" aria-label="Google"><b style="color:#4285F4">G</b><b style="color:#EA4335">o</b><b style="color:#FBBC05">o</b><b style="color:#4285F4">g</b><b style="color:#34A853">l</b><b style="color:#EA4335">e</b></span>
           <div class="valoracion-resumen__acciones">
             <a class="button button--blue" href="https://g.page/r/CRH_9v1iEamGECE/review" target="_blank" rel="noopener">Deja tu reseña</a>
-            <a class="button button--secondary" href="https://www.google.com/maps/place/?q=place_id:ChIJz7iiJJpaC4sREf_2_WIRqYY" target="_blank" rel="noopener">Ver en Google</a>
+            <a class="valoracion-resumen__link" href="https://www.google.com/maps/place/?q=place_id:ChIJz7iiJJpaC4sREf_2_WIRqYY" target="_blank" rel="noopener">Ver en Google</a>
           </div>
         </div>
 
-        <!-- Carrusel: scroll-snap nativo (se desliza con el dedo), flechas y puntos. -->
+        <!-- Carrusel: se desliza solo y en bucle; se pausa al pasar el mouse o tocar, y se puede arrastrar con el dedo. -->
         <div class="testi-carrusel" data-testi-carrusel>
         <div class="testi-grid testi-grid--carrusel" data-cascada="0.08" tabindex="0" role="region" aria-label="Reseñas de clientes, desliza para ver más">
           <!-- Reseñas REALES de la ficha de Google, texto tal cual (14-09-2026). -->
@@ -278,10 +278,6 @@
           </figure>
 
         </div>
-        <div class="testi-carrusel__controles">
-          <button type="button" class="testi-carrusel__flecha" data-testi-prev aria-label="Reseña anterior">&#8592;</button>
-          <div class="testi-carrusel__puntos" data-testi-puntos></div>
-          <button type="button" class="testi-carrusel__flecha" data-testi-next aria-label="Reseña siguiente">&#8594;</button>
         </div>
         </div>
       </div>
@@ -793,47 +789,43 @@
   </footer>
 
   <script>
-    /* Carrusel de reseñas: el deslizamiento lo hace el navegador (scroll-snap);
-       esto solo mueve con flechas y puntos, y avanza solo cada 7 s salvo que la
-       persona este encima, haya tocado algo o pida menos movimiento. */
+    /* Carrusel de reseñas: avanza solo, continuo y en bucle (las tarjetas se
+       duplican y al llegar a la mitad se vuelve al inicio sin salto). Se pausa
+       con el mouse encima, con foco o al tocar; sigue 3 s despues de soltar.
+       Con "menos movimiento" no se mueve: queda como fila deslizable. */
     (function () {
       var raiz = document.querySelector('[data-testi-carrusel]');
       if (!raiz) return;
       var pista = raiz.querySelector('.testi-grid--carrusel');
-      var tarjetas = Array.prototype.slice.call(pista.children);
-      var puntos = raiz.querySelector('[data-testi-puntos]');
-      var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      tarjetas.forEach(function (t, i) {
-        var b = document.createElement('button');
-        b.type = 'button'; b.className = 'testi-carrusel__punto';
-        b.setAttribute('aria-label', 'Ir a la reseña ' + (i + 1));
-        b.addEventListener('click', function () { ir(i); pausar(); });
-        puntos.appendChild(b);
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      Array.prototype.slice.call(pista.children).forEach(function (t) {
+        if (t.nodeType !== 1) return;
+        var c = t.cloneNode(true);
+        c.setAttribute('aria-hidden', 'true');
+        c.querySelectorAll('a').forEach(function (l) { l.tabIndex = -1; });
+        pista.appendChild(c);
       });
-      function actual() {
-        var x = pista.scrollLeft, mejor = 0, dist = Infinity;
-        tarjetas.forEach(function (t, i) { var d = Math.abs(t.offsetLeft - pista.offsetLeft - x); if (d < dist) { dist = d; mejor = i; } });
-        return mejor;
+      var velocidad = 0.45, pos = pista.scrollLeft, quieto = false, reanudar = null;
+      function paso() {
+        if (!quieto) {
+          var mitad = pista.scrollWidth / 2;
+          pos += velocidad;
+          if (pos >= mitad) pos -= mitad;
+          pista.scrollLeft = pos;
+        } else {
+          pos = pista.scrollLeft;
+        }
+        window.requestAnimationFrame(paso);
       }
-      function ir(i) {
-        var n = tarjetas.length; i = (i + n) % n;
-        pista.scrollTo({ left: tarjetas[i].offsetLeft - pista.offsetLeft, behavior: quieto ? 'auto' : 'smooth' });
-      }
-      function marcar() {
-        var a = actual();
-        Array.prototype.forEach.call(puntos.children, function (p, i) { p.setAttribute('aria-current', i === a ? 'true' : 'false'); });
-      }
-      raiz.querySelector('[data-testi-prev]').addEventListener('click', function () { ir(actual() - 1); pausar(); });
-      raiz.querySelector('[data-testi-next]').addEventListener('click', function () { ir(actual() + 1); pausar(); });
-      pista.addEventListener('scroll', function () { window.requestAnimationFrame(marcar); }, { passive: true });
-      var timer = null, detenido = false;
-      function pausar() { detenido = true; clearInterval(timer); }
-      function arrancar() { if (quieto || detenido) return; clearInterval(timer); timer = setInterval(function () { ir(actual() + 1); }, 7000); }
-      raiz.addEventListener('mouseenter', function () { clearInterval(timer); });
-      raiz.addEventListener('mouseleave', arrancar);
-      raiz.addEventListener('focusin', function () { clearInterval(timer); });
+      function pausar() { quieto = true; clearTimeout(reanudar); }
+      function seguir(ms) { clearTimeout(reanudar); reanudar = setTimeout(function () { pos = pista.scrollLeft; quieto = false; }, ms || 0); }
+      raiz.addEventListener('mouseenter', pausar);
+      raiz.addEventListener('mouseleave', function () { seguir(300); });
+      raiz.addEventListener('focusin', pausar);
+      raiz.addEventListener('focusout', function () { seguir(1500); });
       pista.addEventListener('touchstart', pausar, { passive: true });
-      marcar(); arrancar();
+      pista.addEventListener('touchend', function () { seguir(3000); }, { passive: true });
+      window.requestAnimationFrame(paso);
     })();
   </script>
   <script src="assets/js/main.js?v=20260911-anim" defer></script>

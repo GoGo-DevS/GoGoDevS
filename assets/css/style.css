@@ -2499,38 +2499,45 @@ html.js [data-cascada].is-visible > * { opacity: 1; transform: none; }
   color: var(--gg-blue);
 }
 
-/* Carrusel de reseñas: 3 a la vista en escritorio, 1 y un poco de la siguiente en telefono */
+/* Carrusel de reseñas: resumen fijo a la izquierda y tarjetas deslizandose solas */
+.testi-layout { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 2rem; align-items: center; }
+.testi-layout .valoracion-resumen {
+  flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: .6rem;
+  margin: 0; padding: 1.5rem 1rem; background: none; border: 0;
+}
+.valoracion-resumen__titulo {
+  font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.55rem;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--color-text);
+}
+.testi-layout .valoracion-resumen .estrellas { font-size: 1.9rem; }
+.testi-layout .valoracion-resumen__total strong { color: var(--color-text); }
+.valoracion-resumen__google { font-family: 'Montserrat', sans-serif; font-size: 2rem; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
+.valoracion-resumen__google b { font-weight: 700; }
+.testi-layout .valoracion-resumen__acciones { flex-direction: column; align-items: center; gap: .5rem; margin-top: .4rem; }
+.valoracion-resumen__link { color: var(--color-text-muted); font-size: .9rem; text-decoration: underline; text-underline-offset: 3px; }
+.valoracion-resumen__link:hover { color: var(--color-text); }
+.testi-carrusel {
+  min-width: 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+}
 .testi-grid.testi-grid--carrusel {
-  display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 3rem) / 3);
-  gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
-  padding: .4rem .2rem 1rem; margin: 0; max-width: none; scrollbar-width: none;
-  overscroll-behavior-x: contain;
+  display: flex; flex-wrap: nowrap; justify-content: flex-start; gap: 1.5rem;
+  overflow-x: auto; padding: .5rem .2rem 1rem; margin: 0; max-width: none;
+  scrollbar-width: none; overscroll-behavior-x: contain;
 }
 .testi-grid--carrusel::-webkit-scrollbar { display: none; }
-.testi-grid--carrusel > .testi-card { scroll-snap-align: start; flex: none; min-width: 0; }
+.testi-grid--carrusel > .testi-card { flex: 0 0 340px; min-width: 0; }
+.testi-grid--carrusel > .testi-card:hover { transform: none; }
 .testi-grid--carrusel:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 6px; border-radius: var(--radius-lg); }
-@media (max-width: 1024px) { .testi-grid.testi-grid--carrusel { grid-auto-columns: calc((100% - 1.5rem) / 2); } }
-@media (max-width: 640px)  { .testi-grid.testi-grid--carrusel { grid-auto-columns: 86%; gap: 1rem; } }
-/* Las reseñas largas no estiran el carrusel: se cortan a 7 lineas con fundido */
 .testi-grid--carrusel .testi-card__quote {
   display: -webkit-box; -webkit-line-clamp: 7; -webkit-box-orient: vertical; overflow: hidden;
 }
-.testi-carrusel__controles { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 1rem; }
-.testi-carrusel__flecha {
-  width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--color-line);
-  background: var(--color-card); color: var(--color-text); font-size: 1.1rem; cursor: pointer;
-  transition: border-color var(--transition), background var(--transition);
+@media (max-width: 900px) {
+  .testi-layout { grid-template-columns: 1fr; gap: 1rem; }
+  .testi-layout .valoracion-resumen { padding: .5rem 0; }
 }
-.testi-carrusel__flecha:hover { border-color: var(--color-primary); }
-.testi-carrusel__flecha:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
-.testi-carrusel__puntos { display: flex; gap: .5rem; }
-.testi-carrusel__punto {
-  width: 10px; height: 10px; padding: 0; border-radius: 999px; border: 0; cursor: pointer;
-  background: rgba(168, 179, 207, .35); transition: width var(--transition), background var(--transition);
+@media (max-width: 640px) {
+  .testi-grid--carrusel > .testi-card { flex-basis: 82vw; }
+  .testi-grid.testi-grid--carrusel { gap: 1rem; }
 }
-.testi-carrusel__punto[aria-current="true"] { width: 26px; background: var(--color-primary); }
-/* area tactil de 44px sin agrandar el punto */
-.testi-carrusel__punto { position: relative; }
-.testi-carrusel__punto::after { content: ""; position: absolute; inset: -17px -8px; }
-@media (prefers-reduced-motion: reduce) { .testi-grid.testi-grid--carrusel { scroll-behavior: auto; } }
-

@@ -2494,3 +2494,11 @@ html.js [data-cascada].is-visible > * { opacity: 1; transform: none; }
   .testi-grid:has(> .testi-card:nth-child(4):last-child) { max-width: 780px; margin-inline: auto; }
   .testi-grid:has(> .testi-card:nth-child(4):last-child) > .testi-card { flex: 0 1 calc(50% - .75rem); }
 }
+
+/* La etiqueta es un <p>: ".case-card p" (mas especifico) le ponia 0.875rem y
+   line-height 1.7, y la pastilla salia gigante y en dos lineas. */
+.case-card p.case-card__tag {
+  font-size: 0.62rem; line-height: 1; letter-spacing: 0.1em;
+  padding: 0.35rem 0.7rem; margin: 0 0 0.6rem; white-space: nowrap;
+  color: var(--gg-blue);
+}

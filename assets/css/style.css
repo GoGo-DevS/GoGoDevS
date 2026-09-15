@@ -2483,3 +2483,8 @@ html.js [data-cascada].is-visible > * { opacity: 1; transform: none; }
 }
 .testi-card__meta .testi-card__proyecto:hover,
 .testi-card__meta .testi-card__proyecto:focus-visible { text-decoration: underline; }
+
+/* Logo del cliente en la cabecera de un caso */
+.caso-logo { display: block; width: fit-content; margin: 1rem 0 .4rem; }
+.caso-logo img { height: 3.6rem; width: auto; display: block; }
+.caso-logo:hover img, .caso-logo:focus-visible img { opacity: .85; }

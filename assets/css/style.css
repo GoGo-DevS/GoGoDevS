@@ -2488,3 +2488,9 @@ html.js [data-cascada].is-visible > * { opacity: 1; transform: none; }
 .caso-logo { display: block; width: fit-content; margin: 1rem 0 .4rem; }
 .caso-logo img { height: 3.6rem; width: auto; display: block; }
 .caso-logo:hover img, .caso-logo:focus-visible img { opacity: .85; }
+
+/* 4 reseñas: 2 x 2 en escritorio en vez de 3 + 1 suelta */
+@media (min-width: 900px) {
+  .testi-grid:has(> .testi-card:nth-child(4):last-child) { max-width: 780px; margin-inline: auto; }
+  .testi-grid:has(> .testi-card:nth-child(4):last-child) > .testi-card { flex: 0 1 calc(50% - .75rem); }
+}

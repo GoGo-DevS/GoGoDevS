@@ -34,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="assets/img/logo-gogodevs.png" fetchpriority="high">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=20260914-valoraciones-arriba">
+  <link rel="stylesheet" href="assets/css/style.css?v=20260915-casos">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -182,7 +182,7 @@
         </div>
 
         <!-- Resumen de la ficha de Google. Datos traidos de la Places API por
-             Place ID (ChIJz7iiJJpaC4sREf_2_WIRqYY) el 14-09-2026: 5,0 y 3 reseñas.
+             Place ID (ChIJz7iiJJpaC4sREf_2_WIRqYY) el 14-09-2026: 5,0 y 3 reseñas. 15-09: 4 reseñas (Sergio, Salón Amanda).
              Al llegar reseñas nuevas, actualizar la nota, el total y las tarjetas.
              SIN schema AggregateRating a proposito: Google considera "self-serving"
              marcar las reseñas del propio negocio en su propio sitio. -->
@@ -190,7 +190,7 @@
           <div class="valoracion-resumen__nota">
             <span class="valoracion-resumen__numero">5,0</span>
             <span class="estrellas" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-            <span class="valoracion-resumen__total">3 reseñas en Google</span>
+            <span class="valoracion-resumen__total">4 reseñas en Google</span>
           </div>
           <div class="valoracion-resumen__acciones">
             <a class="button button--blue" href="https://g.page/r/CRH_9v1iEamGECE/review" target="_blank" rel="noopener">Deja tu reseña</a>
@@ -205,12 +205,27 @@
               <span class="estrellas" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
               <span class="sello-google">Reseña en Google</span>
             </div>
+            <blockquote class="testi-card__quote">Excelente experiencia con Gogo Devs. Muy profesionales, atentos y comprometidos durante todo el proceso. El resultado de nuestra página web superó nuestras expectativas y lograron representar perfectamente la esencia de Salón Amanda.</blockquote>
+            <figcaption class="testi-card__author">
+              <span class="testi-card__avatar" aria-hidden="true">S</span>
+              <span class="testi-card__meta">
+                <strong>Sergio Ledezma Castro</strong>
+                <a class="testi-card__proyecto" href="/proyectos/salon-amanda/">Salón Amanda</a>
+              </span>
+            </figcaption>
+          </figure>
+
+          <figure class="testi-card testi-card--google">
+            <div class="testi-card__top">
+              <span class="estrellas" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+              <span class="sello-google">Reseña en Google</span>
+            </div>
             <blockquote class="testi-card__quote">Responsable en los tiempos y acuerdos. Destaco su profesionalismo, diseño y rigurosidad, quedamos super satisfechos con nuestro portal web.</blockquote>
             <figcaption class="testi-card__author">
               <span class="testi-card__avatar" aria-hidden="true">M</span>
               <span class="testi-card__meta">
                 <strong>Marianela Venegas</strong>
-                <a class="testi-card__proyecto" href="https://voachile.cl" target="_blank" rel="noopener noreferrer">VOA Chile</a>
+                <a class="testi-card__proyecto" href="/proyectos/voa-chile/">VOA Chile</a>
               </span>
             </figcaption>
           </figure>
@@ -252,12 +267,19 @@
     <!-- ===== TRUST BAR (negocios reales que confían — marquee infinito) ===== -->
     <section class="trust-bar" aria-label="Negocios que confían en GoGoDevS">
       <div class="container">
-        <p class="trust-bar__title">+13 negocios reales que ya confían en nosotros</p>
+        <p class="trust-bar__title">+14 negocios reales que ya confían en nosotros</p>
       </div>
       <div class="trust-bar__viewport">
         <ul class="trust-bar__track" role="list">
           <!-- Set visible. <img> = logo real en assets/img/proyectos/<carpeta>/logo.(png|svg).
                Si faltara, onerror lo elimina y se muestra el wordmark de respaldo. -->
+          <li class="trust-bar__item">
+            <a class="trust-logo" href="https://voachile.cl" target="_blank" rel="noopener noreferrer">
+              <img class="trust-logo__img" src="/assets/img/proyectos/voachile/logo.png" alt="VOA Chile" loading="lazy" decoding="async" onerror="this.remove()">
+              <span class="trust-logo__name">VOA Chile</span>
+              <span class="trust-logo__type">Transporte y turismo</span>
+            </a>
+          </li>
           <li class="trust-bar__item">
             <a class="trust-logo" href="https://sindicatoaza.cl" target="_blank" rel="noopener noreferrer">
               <img class="trust-logo__img" src="/assets/img/proyectos/sindicatoaza/logo.png" alt="Sindicato AZA" loading="lazy" decoding="async" onerror="this.remove()">
@@ -350,6 +372,13 @@
             </a>
           </li>
           <!-- Set duplicado para loop sin costuras (oculto a lectores y a reduced-motion) -->
+          <li class="trust-bar__item trust-bar__item--dup" aria-hidden="true">
+            <a class="trust-logo" href="https://voachile.cl" target="_blank" rel="noopener noreferrer" tabindex="-1">
+              <img class="trust-logo__img" src="/assets/img/proyectos/voachile/logo.png" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+              <span class="trust-logo__name">VOA Chile</span>
+              <span class="trust-logo__type">Transporte y turismo</span>
+            </a>
+          </li>
           <li class="trust-bar__item trust-bar__item--dup" aria-hidden="true">
             <a class="trust-logo" href="https://sindicatoaza.cl" target="_blank" rel="noopener noreferrer" tabindex="-1">
               <img class="trust-logo__img" src="/assets/img/proyectos/sindicatoaza/logo.png" alt="" loading="lazy" decoding="async" onerror="this.remove()">
@@ -639,6 +668,10 @@
           <a class="case-tile" href="/proyectos/la-dolce-mammina/">
             <div class="case-tile__media"><img src="assets/img/la-dolce-mammina-caso-real.jpg" alt="Sitio web de La Dolce Mammina" width="1200" height="900" loading="lazy" decoding="async"></div>
             <span class="case-tile__name">La Dolce Mammina</span>
+          </a>
+          <a class="case-tile" href="/proyectos/voa-chile/">
+            <div class="case-tile__media"><img src="assets/img/proyectos/voachile/voachile-hero.jpg" alt="Sitio web de VOA Chile" width="1200" height="900" loading="lazy" decoding="async"></div>
+            <span class="case-tile__name">VOA Chile</span>
           </a>
           <a class="case-tile" href="/proyectos/dulcecita/">
             <div class="case-tile__media"><img src="assets/img/dulcecita-caso-real.jpg?v=20260914" alt="Sitio web de Dulcecita" width="1200" height="900" loading="lazy" decoding="async"></div>

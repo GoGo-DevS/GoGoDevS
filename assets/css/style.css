@@ -2475,3 +2475,11 @@ html.js [data-cascada].is-visible > * { opacity: 1; transform: none; }
   .case-card::after, .service-card::after, .pricing-card::after { display: none; }
   .floating-whatsapp { animation: none; }
 }
+
+/* Proyecto de quien deja la reseña: enlace al caso o al sitio del cliente */
+.testi-card__meta .testi-card__proyecto {
+  display: inline-block; margin-top: .1rem; font-size: .82rem; font-weight: 600;
+  color: #7fb0ff; text-decoration: none; /* azul claro: el azul de marca da ~3:1 sobre el fondo oscuro */
+}
+.testi-card__meta .testi-card__proyecto:hover,
+.testi-card__meta .testi-card__proyecto:focus-visible { text-decoration: underline; }

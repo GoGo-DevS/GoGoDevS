@@ -34,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="assets/img/logo-gogodevs.png" fetchpriority="high">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=20260914-valoraciones">
+  <link rel="stylesheet" href="assets/css/style.css?v=20260914-valoraciones-arriba">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -152,6 +152,99 @@
         <div class="hero-home__actions">
           <a class="button button--blue" href="/proyectos/">Ver proyectos</a>
           <a class="button button--secondary" href="/contacto/">Cotizar proyecto</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TESTIMONIOS (REALES, justo despues del hero: la prueba social va primero; los logos siguen abajo) — pendiente cargar citas textuales confirmadas) =====
+         IMPORTANTE: no rellenar con texto genérico ni inventado.
+         Para publicar un testimonio real, duplicar este bloque dentro de .testi-grid
+         (y borrar .testi-empty cuando haya al menos uno):
+
+         <figure class="testi-card reveal">
+           <span class="testi-card__quote-mark" aria-hidden="true">&ldquo;</span>
+           <blockquote class="testi-card__quote">CITA TEXTUAL EXACTA DEL CLIENTE</blockquote>
+           <figcaption class="testi-card__author">
+             <span class="testi-card__avatar" aria-hidden="true">R</span>
+             <span class="testi-card__meta">
+               <strong>Nombre del cliente</strong>
+               <span>Cargo · Empresa</span>
+             </span>
+           </figcaption>
+         </figure>
+    -->
+    <section class="section section--surface" aria-labelledby="home-testi-title">
+      <div class="container">
+        <div class="section-heading section-heading--center">
+          <span class="eyebrow">Valoraciones</span>
+          <h2 id="home-testi-title">Lo que dicen <span class="txt-accent">nuestros clientes</span></h2>
+          <p>Reseñas publicadas en Google por clientes reales, sin editar.</p>
+        </div>
+
+        <!-- Resumen de la ficha de Google. Datos traidos de la Places API por
+             Place ID (ChIJz7iiJJpaC4sREf_2_WIRqYY) el 14-09-2026: 5,0 y 3 reseñas.
+             Al llegar reseñas nuevas, actualizar la nota, el total y las tarjetas.
+             SIN schema AggregateRating a proposito: Google considera "self-serving"
+             marcar las reseñas del propio negocio en su propio sitio. -->
+        <div class="valoracion-resumen" data-cascada="0">
+          <div class="valoracion-resumen__nota">
+            <span class="valoracion-resumen__numero">5,0</span>
+            <span class="estrellas" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+            <span class="valoracion-resumen__total">3 reseñas en Google</span>
+          </div>
+          <div class="valoracion-resumen__acciones">
+            <a class="button button--blue" href="https://g.page/r/CRH_9v1iEamGECE/review" target="_blank" rel="noopener">Deja tu reseña</a>
+            <a class="button button--secondary" href="https://www.google.com/maps/place/?q=place_id:ChIJz7iiJJpaC4sREf_2_WIRqYY" target="_blank" rel="noopener">Ver en Google</a>
+          </div>
+        </div>
+
+        <div class="testi-grid" data-cascada="0.08">
+          <!-- Reseñas REALES de la ficha de Google, texto tal cual (14-09-2026). -->
+          <figure class="testi-card testi-card--google">
+            <div class="testi-card__top">
+              <span class="estrellas" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+              <span class="sello-google">Reseña en Google</span>
+            </div>
+            <blockquote class="testi-card__quote">Responsable en los tiempos y acuerdos. Destaco su profesionalismo, diseño y rigurosidad, quedamos super satisfechos con nuestro portal web.</blockquote>
+            <figcaption class="testi-card__author">
+              <span class="testi-card__avatar" aria-hidden="true">M</span>
+              <span class="testi-card__meta">
+                <strong>Marianela Venegas</strong>
+                <a class="testi-card__proyecto" href="https://voachile.cl" target="_blank" rel="noopener noreferrer">VOA Chile</a>
+              </span>
+            </figcaption>
+          </figure>
+
+          <figure class="testi-card testi-card--google">
+            <div class="testi-card__top">
+              <span class="estrellas" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+              <span class="sello-google">Reseña en Google</span>
+            </div>
+            <blockquote class="testi-card__quote">Excelente trabajo y atención. Quedé muy feliz con el resultado de mi página web, superó mis expectativas. Muy profesionales y atentos a cada detalle. ¡100% recomendados! ❤️</blockquote>
+            <figcaption class="testi-card__author">
+              <span class="testi-card__avatar" aria-hidden="true">T</span>
+              <span class="testi-card__meta">
+                <strong>Tamara Ruz</strong>
+                <a class="testi-card__proyecto" href="/proyectos/dulcecita/">Dulcecita</a>
+              </span>
+            </figcaption>
+          </figure>
+
+          <figure class="testi-card testi-card--google">
+            <div class="testi-card__top">
+              <span class="estrellas" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+              <span class="sello-google">Reseña en Google</span>
+            </div>
+            <blockquote class="testi-card__quote">Excelente experiencia con gogodevs</blockquote>
+            <figcaption class="testi-card__author">
+              <span class="testi-card__avatar" aria-hidden="true">L</span>
+              <span class="testi-card__meta">
+                <strong>Leonardo Valencia</strong>
+                <a class="testi-card__proyecto" href="/proyectos/punto-parcelas/">Punto Parcelas</a>
+              </span>
+            </figcaption>
+          </figure>
+
         </div>
       </div>
     </section>
@@ -571,99 +664,6 @@
 
         <div class="cases-strip__cta">
           <a class="button button--secondary" href="/proyectos/">Ver todos los proyectos</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== TESTIMONIOS (REALES — pendiente cargar citas textuales confirmadas) =====
-         IMPORTANTE: no rellenar con texto genérico ni inventado.
-         Para publicar un testimonio real, duplicar este bloque dentro de .testi-grid
-         (y borrar .testi-empty cuando haya al menos uno):
-
-         <figure class="testi-card reveal">
-           <span class="testi-card__quote-mark" aria-hidden="true">&ldquo;</span>
-           <blockquote class="testi-card__quote">CITA TEXTUAL EXACTA DEL CLIENTE</blockquote>
-           <figcaption class="testi-card__author">
-             <span class="testi-card__avatar" aria-hidden="true">R</span>
-             <span class="testi-card__meta">
-               <strong>Nombre del cliente</strong>
-               <span>Cargo · Empresa</span>
-             </span>
-           </figcaption>
-         </figure>
-    -->
-    <section class="section section--surface" aria-labelledby="home-testi-title">
-      <div class="container">
-        <div class="section-heading section-heading--center">
-          <span class="eyebrow">Valoraciones</span>
-          <h2 id="home-testi-title">Lo que dicen <span class="txt-accent">nuestros clientes</span></h2>
-          <p>Reseñas publicadas en Google por clientes reales, sin editar.</p>
-        </div>
-
-        <!-- Resumen de la ficha de Google. Datos traidos de la Places API por
-             Place ID (ChIJz7iiJJpaC4sREf_2_WIRqYY) el 14-09-2026: 5,0 y 3 reseñas.
-             Al llegar reseñas nuevas, actualizar la nota, el total y las tarjetas.
-             SIN schema AggregateRating a proposito: Google considera "self-serving"
-             marcar las reseñas del propio negocio en su propio sitio. -->
-        <div class="valoracion-resumen" data-cascada="0">
-          <div class="valoracion-resumen__nota">
-            <span class="valoracion-resumen__numero">5,0</span>
-            <span class="estrellas" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-            <span class="valoracion-resumen__total">3 reseñas en Google</span>
-          </div>
-          <div class="valoracion-resumen__acciones">
-            <a class="button button--blue" href="https://g.page/r/CRH_9v1iEamGECE/review" target="_blank" rel="noopener">Deja tu reseña</a>
-            <a class="button button--secondary" href="https://www.google.com/maps/place/?q=place_id:ChIJz7iiJJpaC4sREf_2_WIRqYY" target="_blank" rel="noopener">Ver en Google</a>
-          </div>
-        </div>
-
-        <div class="testi-grid" data-cascada="0.08">
-          <!-- Reseñas REALES de la ficha de Google, texto tal cual (14-09-2026). -->
-          <figure class="testi-card testi-card--google">
-            <div class="testi-card__top">
-              <span class="estrellas" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-              <span class="sello-google">Reseña en Google</span>
-            </div>
-            <blockquote class="testi-card__quote">Responsable en los tiempos y acuerdos. Destaco su profesionalismo, diseño y rigurosidad, quedamos super satisfechos con nuestro portal web.</blockquote>
-            <figcaption class="testi-card__author">
-              <span class="testi-card__avatar" aria-hidden="true">M</span>
-              <span class="testi-card__meta">
-                <strong>Marianela Venegas</strong>
-                <span>Septiembre 2026</span>
-              </span>
-            </figcaption>
-          </figure>
-
-          <figure class="testi-card testi-card--google">
-            <div class="testi-card__top">
-              <span class="estrellas" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-              <span class="sello-google">Reseña en Google</span>
-            </div>
-            <blockquote class="testi-card__quote">Excelente trabajo y atención. Quedé muy feliz con el resultado de mi página web, superó mis expectativas. Muy profesionales y atentos a cada detalle. ¡100% recomendados! ❤️</blockquote>
-            <figcaption class="testi-card__author">
-              <span class="testi-card__avatar" aria-hidden="true">T</span>
-              <span class="testi-card__meta">
-                <strong>Tamara Ruz</strong>
-                <span>Septiembre 2026</span>
-              </span>
-            </figcaption>
-          </figure>
-
-          <figure class="testi-card testi-card--google">
-            <div class="testi-card__top">
-              <span class="estrellas" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-              <span class="sello-google">Reseña en Google</span>
-            </div>
-            <blockquote class="testi-card__quote">Excelente experiencia con gogodevs</blockquote>
-            <figcaption class="testi-card__author">
-              <span class="testi-card__avatar" aria-hidden="true">L</span>
-              <span class="testi-card__meta">
-                <strong>Leonardo Valencia</strong>
-                <span>Septiembre 2026</span>
-              </span>
-            </figcaption>
-          </figure>
-
         </div>
       </div>
     </section>

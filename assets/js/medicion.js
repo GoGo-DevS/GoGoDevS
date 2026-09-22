@@ -18,7 +18,7 @@
   'use strict';
 
   var CONFIG = {
-    GA4_ID: '',       // G-XXXXXXXXXX  (Google Analytics 4)
+    GA4_ID: 'G-L5V8KTG6N2', // G-XXXXXXXXXX  (Google Analytics 4)
     META_PIXEL_ID: '' // 15 dígitos    (Meta / Facebook Pixel)
   };
 

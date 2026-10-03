@@ -1,3 +1,6 @@
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Repo git propio anidado: no va dentro de este repo.
+whatsapp-agentkit/

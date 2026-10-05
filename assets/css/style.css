@@ -2541,3 +2541,104 @@ html.js [data-cascada].is-visible > * { opacity: 1; transform: none; }
   .testi-grid--carrusel > .testi-card { flex-basis: 82vw; }
   .testi-grid.testi-grid--carrusel { gap: 1rem; }
 }
+
+/* ===========================================================================
+   Cyber GoGoDevS  (campana 05 al 12-10-2026)
+   El HTML nace con [hidden] y lo muestra assets/js/cyber.js solo dentro de la
+   ventana: sin JS no se ve nada. Para sacarlo del sitio basta borrar el <script>.
+   =========================================================================== */
+.cyber-barra {
+  background: linear-gradient(90deg, #FFB627 0%, #ff8f1f 100%);
+  color: #0A1428;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: .86rem;
+  line-height: 1.35;
+  text-align: center;
+  padding: .62rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem .75rem;
+}
+.cyber-barra a {
+  color: #0A1428;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+.cyber-barra__reloj {
+  background: rgba(10, 20, 40, .14);
+  border-radius: 999px;
+  padding: .12rem .6rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* El sello que va sobre cada tarjeta de precio */
+.cyber-sello {
+  display: inline-block;
+  background: var(--color-gold, #FFB627);
+  color: #0A1428;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: .64rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: .16rem .45rem;
+  margin-bottom: .35rem;
+}
+
+/* El precio de lista NO desaparece: queda tachado al lado. Es lo que protege
+   el piso cuando alguien pida el precio Cyber un mes despues. */
+.cyber-antes {
+  color: var(--color-text-muted, #A8B3CF);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+  font-weight: 500;
+  margin-right: .35rem;
+}
+.cyber-ahora { color: var(--color-gold, #FFB627); font-weight: 800; }
+.cyber-ahorro {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: .72rem;
+  color: var(--color-accent, #22C55E);
+  margin-top: .15rem;
+}
+
+/* Fila dentro de la tabla de la guia de precios */
+tr[data-cyber] td { background: rgba(255, 182, 39, .06); }
+
+@media (max-width: 560px) {
+  .cyber-barra { font-size: .78rem; padding: .55rem .75rem; }
+}
+
+/* El atributo `hidden` es el CONTRATO con assets/js/cyber.js, y ninguna regla
+   de layout puede ganarle. Pasa facil: `[hidden]{display:none}` del navegador
+   pesa (0,1,0) igual que `.cyber-barra{display:flex}`, asi que gana la ultima
+   declarada --la mia-- y la franja se veia SIN JavaScript, con el contador
+   escrito a mano en el HTML y sin apagarse nunca. Medido el 05-10-2026 con
+   java_script_enabled=False. De ahi el !important: es la excepcion correcta. */
+[data-cyber][hidden],
+[data-cyber-normal][hidden] { display: none !important; }
+
+/* Los contenedores que reciben estos bloques ya pintan sus <span>: por ejemplo
+   `.hero-card__item span` (0,1,1) le ganaba a `.cyber-sello` (0,1,0) y la
+   palabra CYBER salia gris claro sobre dorado, ilegible. Se ve MIRANDO la
+   captura, no midiendo. Duplicar la clase sube a (0,2,0) y gana sin !important
+   y sin amarrarse al contenedor, asi sirve igual en las tarjetas y en la tabla. */
+.cyber-sello.cyber-sello {
+  color: #0A1428;
+  font-size: .58rem;
+  padding: .14rem .4rem;
+  vertical-align: middle;
+  margin-right: .35rem;
+  margin-bottom: 0;
+}
+.cyber-antes.cyber-antes { color: var(--color-text-soft, #4a5a7a); font-size: .85em; }
+.cyber-ahora.cyber-ahora { color: var(--color-gold, #FFB627); }
+.cyber-ahorro.cyber-ahorro { color: var(--color-accent, #22C55E); }

@@ -78,7 +78,7 @@
           "name": "¿Cuánto cuesta una página web en Chile?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Depende del tipo de sitio. Un sitio parte desde 9 UF (~$368.000), y desde 14 UF (~$572.000) si quieres el panel para editarlo tú. Un catálogo de productos, desde 18 UF (~$736.000). Una tienda con pagos en línea, desde 25 UF (~$1.022.000). Cotizamos en UF y se paga el equivalente en pesos del día de pago. El precio real depende del alcance, no de plantillas predefinidas."
+            "text": "Depende del tipo de sitio. Un sitio parte desde 9 UF (~$368.000), y desde 14 UF (~$572.000) si quieres el panel para editarlo tú. Un catálogo de productos, desde 18 UF (~$736.000). Una tienda con pagos en línea, desde 25 UF (~$1.022.000). Cotizamos en UF y se paga el equivalente en pesos del día de pago. El precio real depende del alcance, no de plantillas predefinidas. Hasta el 12 de octubre de 2026 rige el Cyber GoGoDevS: sitio desde 7 UF, autoadministrable desde 11 UF, catálogo desde 14 UF y tienda desde 19 UF."
           }
         },
         {
@@ -133,6 +133,13 @@
   </style>
 </head>
 <body>
+<!-- Cyber GoGoDevS: nace OCULTO. Lo muestra /assets/js/cyber.js solo entre el
+     05 y el 12-10-2026. Sin JS no se ve, y pasada la fecha se apaga solo. -->
+<div class="cyber-barra" data-cyber hidden>
+  <span>Cyber GoGoDevS: hasta 24% en sitios web</span>
+  <span class="cyber-barra__reloj" data-cyber-cuenta>Hasta el domingo 12</span>
+  <a href="/cuanto-cuesta-una-pagina-web-chile/" data-cyber-cta="barra">Ver precios</a>
+</div>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
   <header class="site-header">
     <div class="container">
@@ -181,19 +188,19 @@
             <p class="hero-card__label" id="page-panel-title">Resumen rápido de precios</p>
             <div class="hero-card__item">
               <strong>Sitio</strong>
-              <span>Desde 9 UF (~$368.000)</span>
+              <span><span class="cyber-sello" data-cyber hidden>Cyber</span><span data-cyber hidden data-cyber-cta="web_9uf"><span class="cyber-antes">9 UF</span><span class="cyber-ahora">Desde 7 UF (~$287.000)</span></span><span data-cyber-normal>Desde 9 UF (~$368.000)</span></span>
             </div>
             <div class="hero-card__item">
               <strong>Sitio autoadministrable</strong>
-              <span>Desde 14 UF (~$572.000)</span>
+              <span><span class="cyber-sello" data-cyber hidden>Cyber</span><span data-cyber hidden data-cyber-cta="panel_14uf"><span class="cyber-antes">14 UF</span><span class="cyber-ahora">Desde 11 UF (~$452.000)</span></span><span data-cyber-normal>Desde 14 UF (~$572.000)</span></span>
             </div>
             <div class="hero-card__item">
               <strong>Catálogo de productos</strong>
-              <span>Desde 18 UF (~$736.000)</span>
+              <span><span class="cyber-sello" data-cyber hidden>Cyber</span><span data-cyber hidden data-cyber-cta="catalogo_18uf"><span class="cyber-antes">18 UF</span><span class="cyber-ahora">Desde 14 UF (~$575.000)</span></span><span data-cyber-normal>Desde 18 UF (~$736.000)</span></span>
             </div>
             <div class="hero-card__item">
               <strong>Tienda con pagos</strong>
-              <span>Desde 25 UF (~$1.022.000)</span>
+              <span><span class="cyber-sello" data-cyber hidden>Cyber</span><span data-cyber hidden data-cyber-cta="ecommerce_25uf"><span class="cyber-antes">25 UF</span><span class="cyber-ahora">Desde 19 UF (~$780.000)</span></span><span data-cyber-normal>Desde 25 UF (~$1.022.000)</span></span>
             </div>
           </div>
         </aside>
@@ -222,25 +229,25 @@
             <tbody>
               <tr>
                 <td>Sitio</td>
-                <td><span class="price-range">Desde 9 UF</span></td>
+                <td><span class="price-range"><span data-cyber hidden data-cyber-cta="tabla_9uf"><span class="cyber-antes">9 UF</span><span class="cyber-ahora">Desde 7 UF</span></span><span data-cyber-normal>Desde 9 UF</span></span></td>
                 <td>Varias páginas, móvil, contacto y WhatsApp, SEO base. Los cambios nos los pides</td>
                 <td>2–3 semanas</td>
               </tr>
               <tr>
                 <td>Sitio autoadministrable</td>
-                <td><span class="price-range">Desde 14 UF</span></td>
+                <td><span class="price-range"><span data-cyber hidden data-cyber-cta="tabla_14uf"><span class="cyber-antes">14 UF</span><span class="cyber-ahora">Desde 11 UF</span></span><span data-cyber-normal>Desde 14 UF</span></span></td>
                 <td>Todo lo anterior + panel propio para editar textos y fotos cuando quieras</td>
                 <td>3–4 semanas</td>
               </tr>
               <tr>
                 <td>Catálogo</td>
-                <td><span class="price-range">Desde 18 UF</span></td>
+                <td><span class="price-range"><span data-cyber hidden data-cyber-cta="tabla_18uf"><span class="cyber-antes">18 UF</span><span class="cyber-ahora">Desde 14 UF</span></span><span data-cyber-normal>Desde 18 UF</span></span></td>
                 <td>Vitrina de productos con panel propio, filtros, buscador, ficha y formulario de cotización</td>
                 <td>3–5 semanas</td>
               </tr>
               <tr>
                 <td>Tienda</td>
-                <td><span class="price-range">Desde 25 UF</span></td>
+                <td><span class="price-range"><span data-cyber hidden data-cyber-cta="tabla_25uf"><span class="cyber-antes">25 UF</span><span class="cyber-ahora">Desde 19 UF</span></span><span data-cyber-normal>Desde 25 UF</span></span></td>
                 <td>Catálogo, carrito, pasarela de pagos, pedidos, stock y despachos</td>
                 <td>6–12 semanas</td>
               </tr>
@@ -508,5 +515,6 @@
   <script src="/assets/js/main.js?v=20260911-anim" defer></script>
   <script src="/assets/js/chat-widget.js?v=20260911b" defer></script>
   <script src="/assets/js/medicion.js" defer></script>
+  <script src="/assets/js/cyber.js" defer></script>
 </body>
 </html>

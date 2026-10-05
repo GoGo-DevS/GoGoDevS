@@ -128,6 +128,42 @@
 
     .link-btn:active { transform: translateY(0); }
 
+    /* Cyber: nace con [hidden] y lo muestra /assets/js/cyber.js solo dentro de
+       la ventana. Esta pagina NO carga el CSS global, asi que los estilos van
+       aca; el !important es porque `hidden` es el contrato con el script y
+       ninguna regla de layout puede ganarle. */
+    [data-cyber][hidden] { display: none !important; }
+    .link-btn.cyber-btn {
+      background: linear-gradient(135deg, #FFB627 0%, #ff8f1f 100%);
+      border-color: transparent;
+      color: #0A1428;
+    }
+    .link-btn.cyber-btn .link-label { color: #0A1428; font-weight: 800; }
+    .link-btn.cyber-btn .link-sub { color: rgba(10,20,40,.78); font-weight: 600; }
+    .link-btn.cyber-btn .arrow { color: #0A1428; }
+    .cyber-pill {
+      display: inline-block;
+      background: rgba(10,20,40,.16);
+      border-radius: 999px;
+      padding: .08rem .5rem;
+      font-size: .72rem;
+      font-weight: 700;
+      margin-left: .35rem;
+    }
+
+    /* Dos botones dorados seguidos compiten y el Cyber pierde fuerza. Mientras
+       la campana este visible, el CTA baja a secundario; cuando el script
+       esconda el boton Cyber, esta regla deja de aplicar sola y el CTA vuelve
+       a su dorado. Si el navegador no soporta :has(), queda como estaba. */
+    .links:has(.cyber-btn:not([hidden])) .link-btn.cta-main {
+      background: rgba(255,255,255,.04);
+      border-color: rgba(255,255,255,.10);
+      color: #fff;
+    }
+    .links:has(.cyber-btn:not([hidden])) .link-btn.cta-main .link-label { color: #fff; }
+    .links:has(.cyber-btn:not([hidden])) .link-btn.cta-main .link-sub { color: rgba(255,255,255,.62); }
+    .links:has(.cyber-btn:not([hidden])) .link-btn.cta-main .arrow { color: rgba(255,255,255,.5); }
+
     .link-btn.cta-main {
       background: linear-gradient(135deg, var(--gold) 0%, #f59e0b 100%);
       border-color: transparent;
@@ -271,13 +307,6 @@
   </style>
 </head>
 <body>
-<!-- Cyber GoGoDevS: nace OCULTO. Lo muestra /assets/js/cyber.js solo entre el
-     05 y el 12-10-2026. Sin JS no se ve, y pasada la fecha se apaga solo. -->
-<div class="cyber-barra" data-cyber hidden>
-  <span>Cyber GoGoDevS: hasta 24% en sitios web</span>
-  <span class="cyber-barra__reloj" data-cyber-cuenta>Hasta el lunes 12</span>
-  <a href="/cuanto-cuesta-una-pagina-web-chile/" data-cyber-cta="barra">Ver precios</a>
-</div>
   <div class="page">
 
     <div class="header">
@@ -289,6 +318,16 @@
     </div>
 
     <div class="links">
+
+      <!-- Cyber (se apaga solo el 12-10) -->
+      <a href="https://gogodevs.cl/cuanto-cuesta-una-pagina-web-chile/" class="link-btn cyber-btn" data-cyber hidden data-cyber-cta="tree">
+        <div class="icon icon-rocket">⚡</div>
+        <div class="link-text">
+          <span class="link-label">Cyber GoGoDevS · hasta 22% menos</span>
+          <span class="link-sub">Sitio desde 7 UF <span class="cyber-pill" data-cyber-cuenta>Hasta el lunes 12</span></span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
 
       <!-- CTA -->
       <a href="https://gogodevs.cl/contacto/" class="link-btn cta-main">
@@ -331,7 +370,7 @@
         </div>
         <div class="link-text">
           <span class="link-label">Servicios y precios</span>
-          <span class="link-sub">Desde 9 UF (~$368.000) — webs + sistemas</span>
+          <span class="link-sub"><span data-cyber hidden>Cyber: desde 7 UF (~$287.000) — webs + sistemas</span><span data-cyber-normal>Desde 9 UF (~$368.000) — webs + sistemas</span></span>
         </div>
         <span class="arrow">→</span>
       </a>

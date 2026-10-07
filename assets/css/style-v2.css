@@ -1207,3 +1207,14 @@ ul { list-style: none; }
   .about__panel  { grid-template-columns: 1fr; }
   .projects-grid { grid-template-columns: 1fr; max-width: none; }
 }
+
+/* Redes en el pie (06-10-2026). Iconos de un solo color: cinco logos a todo
+   color en el pie pelean con el boton principal de la pagina. */
+.site-footer__redes { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: .4rem; }
+.site-footer__brand .site-footer__redes a {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.18); opacity: 1;
+}
+.site-footer__redes svg { fill: currentColor; }
+.site-footer__brand .site-footer__redes a:hover { border-color: currentColor; opacity: .8; }

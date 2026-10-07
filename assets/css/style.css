@@ -2642,3 +2642,14 @@ tr[data-cyber] td { background: rgba(255, 182, 39, .06); }
 .cyber-antes.cyber-antes { color: var(--color-text-soft, #4a5a7a); font-size: .85em; }
 .cyber-ahora.cyber-ahora { color: var(--color-gold, #FFB627); }
 .cyber-ahorro.cyber-ahorro { color: var(--color-accent, #22C55E); }
+
+/* Redes en el pie (06-10-2026). Iconos de un solo color en el azul de la
+   marca: cinco logos a todo color en el pie pelean con el boton principal. */
+.site-footer__redes { display: flex; gap: .55rem; flex-wrap: wrap; margin-top: .35rem; }
+.site-footer__brand .site-footer__redes a {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1px solid rgba(37,99,235,.25); color: var(--gg-blue);
+}
+.site-footer__redes svg { fill: currentColor; }
+.site-footer__brand .site-footer__redes a:hover { border-color: var(--gg-blue); opacity: 1; background: rgba(37,99,235,.08); }

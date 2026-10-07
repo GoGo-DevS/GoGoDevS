@@ -202,6 +202,9 @@
   (function autoApertura() {
     var esEscritorio = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)').matches;
     if (!esEscritorio) return;
+    // El Tree (/links) es una lista de botones: abrirse solo tapa justo los
+    // tres principales. Una pagina lo apaga con <html data-chat-quieto>.
+    if (document.documentElement.hasAttribute('data-chat-quieto')) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     try {
       if (sessionStorage.getItem('gg_chat_cerrado')) return;

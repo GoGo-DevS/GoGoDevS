@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-chat-quieto>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GoGoDevS — Links</title>
   <meta name="description" content="Agencia web premium en Chile. Webs que generan clientes reales.">
+  <meta name="theme-color" content="#0A1428">
   <link rel="icon" href="/favicon.ico?v=20261006" sizes="any">
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png?v=20261006">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.webp?v=20261006">
@@ -12,27 +13,39 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    /* GoGoDevS Tree (link en la bio de IG/TikTok/YouTube/Facebook).
+       Todo el trafico de redes aterriza aca: el trabajo de esta pagina es
+       convertir a alguien curioso en una conversacion por WhatsApp o en una
+       visita a /cotizar/. Esta pagina NO carga el CSS global del sitio, asi que
+       todos los estilos viven aca. */
     :root {
       --bg:      #0A1428;
-      --surface: #0d1a30;
-      --blue:    #2563eb;
-      --gold:    #FFB627;
-      --white:   #FFFFFF;
+      --bg-2:    #0E1B34;
+      --card:    rgba(255,255,255,.035);
+      --line:    rgba(255,255,255,.08);
+      --blue:    #2563EB;
+      --blue-2:  #3B82F6;
+      --gold:    #D4AF37;
+      --gold-2:  #EBCB6B;
+      --white:   #F5F7FB;
       --gray:    #A8B3CF;
+      --gray-2:  #7C88A6;
       --green:   #25D366;
+      --radius:  16px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html { -webkit-text-size-adjust: 100%; }
+
     body {
       background: var(--bg);
       color: var(--white);
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       min-height: 100vh;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 2.5rem 1rem 4rem;
+      padding: 1.75rem 1rem 3rem;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
     body::before {
@@ -40,8 +53,8 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(ellipse 60% 40% at 50% -10%, rgba(37,99,235,0.18) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 30% at 80% 90%, rgba(255,182,39,0.06) 0%, transparent 60%);
+        radial-gradient(ellipse 70% 38% at 50% -6%, rgba(37,99,235,.24) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 30% at 90% 100%, rgba(37,99,235,.08) 0%, transparent 65%);
       pointer-events: none;
       z-index: 0;
     }
@@ -50,436 +63,689 @@
       position: relative;
       z-index: 1;
       width: 100%;
-      max-width: 480px;
+      max-width: 460px;
+      margin: 0 auto;
     }
+
+    a { color: inherit; }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    :focus-visible { outline: 2px solid var(--blue-2); outline-offset: 3px; }
+
+    /* ── Entrada ── cada bloque sube con un desfase propio (--i). */
+    .reveal {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: subir .55s cubic-bezier(.2,.7,.2,1) forwards;
+      animation-delay: calc(var(--i, 0) * 70ms);
+    }
+    @keyframes subir { to { opacity: 1; transform: none; } }
 
     /* ── Header ── */
-    .header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
+    .header { text-align: center; margin-bottom: 1.4rem; }
 
     .logo-wrap {
+      position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 88px;
-      height: 88px;
-      background: var(--surface);
+      width: 76px;
+      height: 76px;
       border-radius: 50%;
-      border: 2px solid rgba(37,99,235,0.25);
-      margin-bottom: 1rem;
+      background: var(--bg-2);
+      border: 1px solid rgba(59,130,246,.35);
+      box-shadow: 0 0 0 6px rgba(37,99,235,.07), 0 10px 36px rgba(37,99,235,.28);
+      margin-bottom: .85rem;
       overflow: hidden;
-      box-shadow: 0 0 32px rgba(37,99,235,0.2);
     }
-
-    .logo-wrap img {
-      width: 64px;
-      height: 64px;
-      object-fit: contain;
-    }
+    .logo-wrap img { width: 56px; height: 56px; object-fit: contain; }
 
     .header h1 {
       font-family: 'Montserrat', sans-serif;
-      font-size: 1.4rem;
+      font-size: 1.45rem;
       font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.3rem;
+      letter-spacing: -.02em;
+      line-height: 1.1;
+    }
+    .header h1 span { color: var(--blue-2); }
+
+    .verificado {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: .3rem;
+      width: 18px; height: 18px;
+      transform: translateY(-2px);
     }
 
-    .header h1 span { color: var(--gold); }
+    .propuesta {
+      margin: .5rem auto 0;
+      max-width: 22rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.02rem;
+      line-height: 1.3;
+      color: var(--white);
+      text-wrap: balance;
+    }
 
-    .tagline {
-      font-size: 0.85rem;
+    .confianza {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      margin-top: .7rem;
+      padding: .32rem .75rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--line);
+      font-size: .76rem;
       color: var(--gray);
-      letter-spacing: 0.03em;
+    }
+    .confianza strong { color: var(--white); font-weight: 600; }
+    .punto-vivo {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 0 rgba(37,211,102,.55);
+      animation: latir 2.4s ease-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes latir {
+      0%   { box-shadow: 0 0 0 0 rgba(37,211,102,.5); }
+      70%  { box-shadow: 0 0 0 7px rgba(37,211,102,0); }
+      100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
     }
 
-    /* ── Links ── */
-    .links {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
+    /* ── Botones principales ── */
+    .acciones { display: flex; flex-direction: column; gap: .65rem; }
 
-    .link-btn {
+    .boton {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      padding: 1rem 1.25rem;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.07);
-      background: rgba(255,255,255,0.03);
+      gap: .9rem;
+      width: 100%;
+      min-height: 66px;
+      padding: .8rem 1rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--card);
       color: var(--white);
       text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: transform 150ms ease, background 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
-      cursor: pointer;
-      width: 100%;
       text-align: left;
-      font-family: 'Inter', sans-serif;
-      backdrop-filter: blur(8px);
+      font-family: inherit;
+      font-size: .95rem;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
     }
+    .boton:hover { transform: translateY(-2px); background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.14); box-shadow: 0 10px 28px rgba(0,0,0,.32); }
+    .boton:active { transform: translateY(0) scale(.985); }
 
-    .link-btn:hover {
-      transform: translateY(-2px);
-      background: rgba(255,255,255,0.07);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    .boton__icono {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      background: rgba(37,99,235,.14);
+      font-size: 1.15rem;
     }
+    .boton__icono svg { display: block; }
 
-    .link-btn:active { transform: translateY(0); }
+    .boton__texto { flex: 1; min-width: 0; }
+    .boton__titulo { display: block; font-weight: 600; line-height: 1.2; }
+    .boton__sub { display: block; margin-top: 3px; font-size: .76rem; color: var(--gray); line-height: 1.3; }
+
+    .boton__flecha {
+      flex-shrink: 0;
+      color: var(--gray-2);
+      transition: transform 160ms ease;
+    }
+    .boton:hover .boton__flecha { transform: translateX(3px); }
+
+    /* Cotizar: el CTA principal del Tree. Azul de marca. */
+    .boton--cotizar {
+      background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+      border-color: rgba(147,197,253,.25);
+      box-shadow: 0 10px 30px rgba(37,99,235,.35), inset 0 1px 0 rgba(255,255,255,.14);
+    }
+    .boton--cotizar:hover { background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); border-color: rgba(147,197,253,.4); box-shadow: 0 14px 36px rgba(37,99,235,.45), inset 0 1px 0 rgba(255,255,255,.16); }
+    .boton--cotizar .boton__icono { background: rgba(255,255,255,.16); }
+    .boton--cotizar .boton__titulo { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.02rem; }
+    .boton--cotizar .boton__sub { color: rgba(255,255,255,.82); }
+    .boton--cotizar .boton__flecha { color: #fff; }
+
+    .boton--wa { border-color: rgba(37,211,102,.28); background: rgba(37,211,102,.07); }
+    .boton--wa:hover { background: rgba(37,211,102,.12); border-color: rgba(37,211,102,.45); }
+    .boton--wa .boton__icono { background: rgba(37,211,102,.16); }
 
     /* Cyber: nace con [hidden] y lo muestra /assets/js/cyber.js solo dentro de
-       la ventana. Esta pagina NO carga el CSS global, asi que los estilos van
-       aca; el !important es porque `hidden` es el contrato con el script y
-       ninguna regla de layout puede ganarle. */
-    [data-cyber][hidden] { display: none !important; }
-    .link-btn.cyber-btn {
-      background: linear-gradient(135deg, #FFB627 0%, #ff8f1f 100%);
+       la ventana (05-10 al 12-10-2026 23:59). El !important es porque `hidden`
+       es el contrato con el script: ninguna regla de layout puede ganarle
+       (un display:flex propio pesa lo mismo que el [hidden] del navegador y
+       ganaria por orden). */
+    [data-cyber][hidden], [data-cyber-normal][hidden] { display: none !important; }
+
+    .boton--cyber {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #E9C55A 0%, #D4AF37 55%, #B8912A 100%);
       border-color: transparent;
       color: #0A1428;
+      box-shadow: 0 10px 30px rgba(212,175,55,.32);
     }
-    .link-btn.cyber-btn .link-label { color: #0A1428; font-weight: 800; }
-    .link-btn.cyber-btn .link-sub { color: rgba(10,20,40,.78); font-weight: 600; }
-    .link-btn.cyber-btn .arrow { color: #0A1428; }
+    .boton--cyber:hover { background: linear-gradient(135deg, #F0D06C 0%, #DDB942 55%, #C29A2E 100%); border-color: transparent; box-shadow: 0 14px 36px rgba(212,175,55,.42); }
+    .boton--cyber::after {
+      /* brillo que cruza una vez cada tanto: senal de "oferta viva" */
+      content: '';
+      position: absolute; top: 0; bottom: 0; left: -40%;
+      width: 35%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,.45), transparent);
+      transform: skewX(-18deg);
+      animation: brillo 4.5s ease-in-out 1.2s infinite;
+      pointer-events: none;
+    }
+    @keyframes brillo { 0% { left: -40%; } 30%, 100% { left: 130%; } }
+    .boton--cyber .boton__icono { background: rgba(10,20,40,.14); }
+    .boton--cyber .boton__titulo { font-family: 'Montserrat', sans-serif; font-weight: 800; color: #0A1428; }
+    .boton--cyber .boton__sub { color: rgba(10,20,40,.8); font-weight: 600; }
+    .boton--cyber .boton__flecha { color: #0A1428; }
+    .boton--cyber .boton__sub { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem .45rem; }
     .cyber-pill {
       display: inline-block;
-      background: rgba(10,20,40,.16);
+      padding: .06rem .5rem;
       border-radius: 999px;
-      padding: .08rem .5rem;
-      font-size: .72rem;
+      background: rgba(10,20,40,.16);
+      font-size: .7rem;
       font-weight: 700;
-      margin-left: .35rem;
+      white-space: nowrap;
     }
 
-    /* Dos botones dorados seguidos compiten y el Cyber pierde fuerza. Mientras
-       la campana este visible, el CTA baja a secundario; cuando el script
-       esconda el boton Cyber, esta regla deja de aplicar sola y el CTA vuelve
-       a su dorado. Si el navegador no soporta :has(), queda como estaba. */
-    .links:has(.cyber-btn:not([hidden])) .link-btn.cta-main {
-      background: rgba(255,255,255,.04);
-      border-color: rgba(255,255,255,.10);
-      color: #fff;
-    }
-    .links:has(.cyber-btn:not([hidden])) .link-btn.cta-main .link-label { color: #fff; }
-    .links:has(.cyber-btn:not([hidden])) .link-btn.cta-main .link-sub { color: rgba(255,255,255,.62); }
-    .links:has(.cyber-btn:not([hidden])) .link-btn.cta-main .arrow { color: rgba(255,255,255,.5); }
-
-    .link-btn.cta-main {
-      background: linear-gradient(135deg, var(--gold) 0%, #f59e0b 100%);
-      border-color: transparent;
-      color: #0A1428;
-      font-weight: 700;
-      font-size: 1rem;
-      padding: 1.1rem 1.25rem;
-      box-shadow: 0 4px 20px rgba(255,182,39,0.3);
-    }
-
-    .link-btn.cta-main:hover {
-      background: linear-gradient(135deg, #ffc947 0%, #FFB627 100%);
-      box-shadow: 0 8px 32px rgba(255,182,39,0.45);
-    }
-
-    .link-btn.wa {
-      border-color: rgba(37,211,102,0.2);
-      background: rgba(37,211,102,0.05);
-    }
-
-    .link-btn.wa:hover {
-      background: rgba(37,211,102,0.1);
-      border-color: rgba(37,211,102,0.35);
-    }
-
-    /* Ícono */
-    .icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
+    /* ── Secciones ── */
+    .seccion { margin-top: 2rem; }
+    .seccion__cabeza {
       display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: .75rem;
+      margin-bottom: .8rem;
+    }
+    .seccion__titulo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+    .seccion__link {
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--blue-2);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .seccion__link:hover { color: #93C5FD; text-decoration: underline; text-underline-offset: 3px; }
+
+    /* ── Trabajos recientes: tira horizontal ── */
+    .tira {
+      display: flex;
+      gap: .75rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: 1rem;
+      padding: .15rem 1rem .9rem;
+      margin: 0 -1rem;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,.15) transparent;
+      overscroll-behavior-x: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tira::-webkit-scrollbar { height: 4px; }
+    .tira::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 4px; }
+
+    .caso {
+      flex: 0 0 236px;
+      scroll-snap-align: start;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--bg-2);
+      text-decoration: none;
+      color: var(--white);
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+    .caso:hover { transform: translateY(-3px); border-color: rgba(59,130,246,.45); box-shadow: 0 14px 30px rgba(0,0,0,.4); }
+    .caso:active { transform: scale(.985); }
+    .caso, .caso__media, .caso__cuerpo { display: block; }
+    .caso__media { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #0d1a30; }
+    .caso__media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 400ms ease; }
+    .caso:hover .caso__media img { transform: scale(1.04); }
+    .caso__media::after {
+      content: '';
+      position: absolute; inset: auto 0 0 0; height: 40%;
+      background: linear-gradient(to top, rgba(14,27,52,.85), transparent);
+      pointer-events: none;
+    }
+    .caso__cuerpo { padding: .7rem .85rem .8rem; }
+    .caso__tipo {
+      display: inline-block;
+      font-size: .66rem;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: #93C5FD;
+    }
+    .caso__nombre { display: block; margin-top: .15rem; font-weight: 600; font-size: .92rem; }
+    .caso__ver { display: block; margin-top: .25rem; font-size: .74rem; color: var(--gray); }
+
+    .caso--todos {
+      display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
+      gap: .4rem;
+      text-align: center;
+      padding: 1rem;
+      background: linear-gradient(160deg, rgba(37,99,235,.18), rgba(37,99,235,.04));
+      border-color: rgba(59,130,246,.3);
+      flex-basis: 160px;
     }
+    .caso--todos strong { font-family: 'Montserrat', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--white); }
+    .caso--todos span { font-size: .82rem; color: var(--gray); }
 
-    .icon svg { display: block; }
-
-    .icon-rocket  { background: rgba(10,20,40,0.15); font-size: 1.2rem; }
-    .icon-wa      { background: rgba(37,211,102,0.15); }
-    .icon-default { background: rgba(37,99,235,0.15); }
-    .icon-mail    { background: rgba(37,99,235,0.1); }
-    .icon-ig      { background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%); }
-    .icon-tt      { background: #010101; }
-    .icon-fb      { background: #1877F2; }
-    .icon-li      { background: #0A66C2; }
-    .icon-yt      { background: #FF0000; }
-
-    .link-text { flex: 1; }
-
-    .link-label {
+    /* ── Escalera de precios ── */
+    .precios { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+    .precio {
       display: block;
-      line-height: 1.2;
+      padding: .85rem .9rem;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      text-decoration: none;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
     }
-
-    .link-sub {
+    .precio:hover { transform: translateY(-2px); border-color: rgba(59,130,246,.4); background: rgba(255,255,255,.055); }
+    .precio:active { transform: scale(.985); }
+    .precio__tipo { display: block; font-size: .8rem; color: var(--gray); }
+    .precio__desde { display: block; margin-top: .3rem; font-size: .68rem; color: var(--gray-2); letter-spacing: .04em; text-transform: uppercase; }
+    .precio__monto {
       display: block;
-      font-size: 0.75rem;
-      color: var(--gray);
-      font-weight: 400;
-      margin-top: 2px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.35rem;
+      line-height: 1.1;
+      color: var(--white);
+      white-space: nowrap;
     }
-
-    .cta-main .link-sub { color: rgba(10,20,40,0.6); }
-    .wa .link-sub       { color: rgba(255,255,255,0.5); }
-
-    .arrow {
-      color: var(--gray);
-      font-size: 1rem;
-      opacity: 0.5;
-      flex-shrink: 0;
+    .precio__monto small { font-size: .7em; font-weight: 700; color: var(--gray); }
+    .precio__antes { font-size: .72em; font-weight: 700; color: var(--gray-2); text-decoration: line-through; margin-right: .3rem; }
+    .precio__cyber { color: var(--gold); }
+    .precio__cyber small { color: var(--gold-2); }
+    .precio__sello {
+      display: inline-block;
+      margin-left: .3rem;
+      padding: 0 .4rem;
+      border-radius: 6px;
+      background: rgba(212,175,55,.16);
+      color: var(--gold-2);
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      vertical-align: middle;
     }
+    .nota {
+      margin-top: .7rem;
+      font-size: .76rem;
+      color: var(--gray);
+      line-height: 1.45;
+    }
+    .nota a { color: var(--blue-2); font-weight: 600; text-decoration: none; }
+    .nota a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-    .cta-main .arrow { color: rgba(10,20,40,0.4); opacity: 1; }
+    /* ── Mas formas de contacto ── */
+    .secundarios { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+    .secundario {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      min-height: 54px;
+      padding: .6rem .8rem;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--white);
+      text-decoration: none;
+      font-family: inherit;
+      font-size: .84rem;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+    }
+    .secundario:hover { transform: translateY(-2px); background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.14); }
+    .secundario:active { transform: scale(.985); }
+    .secundario svg { flex-shrink: 0; }
+    .secundario span { min-width: 0; line-height: 1.25; }
+
+    /* ── Redes ── */
+    .redes { display: flex; justify-content: center; gap: .7rem; flex-wrap: wrap; }
+    .red {
+      width: 50px; height: 50px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: var(--white);
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+    }
+    .red svg { display: block; fill: currentColor; }
+    .red:hover { transform: translateY(-3px); border-color: transparent; }
+    .red:active { transform: scale(.94); }
+    .red--ig:hover { background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%); box-shadow: 0 8px 22px rgba(253,29,29,.3); }
+    .red--tt:hover { background: #010101; box-shadow: 0 8px 22px rgba(0,0,0,.5), -2px -2px 0 rgba(37,244,238,.5), 2px 2px 0 rgba(254,44,85,.5); }
+    .red--yt:hover { background: #FF0000; box-shadow: 0 8px 22px rgba(255,0,0,.3); }
+    .red--fb:hover { background: #1877F2; box-shadow: 0 8px 22px rgba(24,119,242,.35); }
+    .red--li:hover { background: #0A66C2; box-shadow: 0 8px 22px rgba(10,102,194,.35); }
+    .redes__handle { margin-top: .65rem; text-align: center; font-size: .8rem; color: var(--gray); }
+    .redes__handle strong { color: var(--white); font-weight: 600; }
+
+    /* ── Pie ── */
+    .pie {
+      margin-top: 2.2rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--line);
+      text-align: center;
+      font-size: .76rem;
+      color: var(--gray-2);
+      line-height: 1.7;
+    }
+    .pie a { color: var(--gray); text-decoration: none; }
+    .pie a:hover { color: var(--white); }
 
     /* Toast clipboard */
     .toast {
       position: fixed;
-      bottom: 2rem;
+      bottom: 1.5rem;
       left: 50%;
       transform: translateX(-50%) translateY(1rem);
       background: #1e3a5f;
       color: #fff;
-      padding: 0.6rem 1.2rem;
+      padding: .6rem 1.2rem;
       border-radius: 999px;
-      font-size: 0.85rem;
+      font-size: .85rem;
       font-weight: 500;
-      border: 1px solid rgba(37,99,235,0.3);
+      border: 1px solid rgba(37,99,235,.35);
       opacity: 0;
       transition: opacity 200ms ease, transform 200ms ease;
       pointer-events: none;
       z-index: 100;
       white-space: nowrap;
     }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
+    @media (min-width: 720px) {
+      body { padding-top: 3rem; }
     }
 
-    /* Divider */
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin: 0.25rem 0;
+    /* En pantallas anchas la tira no puede sangrar hasta el borde (la columna
+       mide 460px y quedaria una tarjeta cortada a mitad en el aire): se queda
+       dentro de la columna y se desvanece a la derecha para invitar a deslizar. */
+    @media (min-width: 520px) {
+      .tira {
+        margin: 0;
+        padding-left: 0;
+        padding-right: 0;
+        scroll-padding-inline: 0;
+        -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
+                mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
+      }
     }
 
-    .divider::before, .divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: rgba(255,255,255,0.07);
+    @media (max-width: 370px) {
+      body { padding-left: .75rem; padding-right: .75rem; }
+      .tira { margin: 0 -.75rem; padding-left: .75rem; padding-right: .75rem; scroll-padding-inline: .75rem; }
+      .boton { gap: .7rem; padding: .75rem .85rem; }
+      .header h1 { font-size: 1.3rem; }
+      .precio__monto { font-size: 1.2rem; }
+      .secundario { font-size: .8rem; }
     }
 
-    .divider span {
-      font-size: 0.7rem;
-      color: var(--gray);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    /* Footer */
-    .footer {
-      text-align: center;
-      margin-top: 2.5rem;
-      font-size: 0.75rem;
-      color: rgba(168,179,207,0.4);
-    }
-
-    .footer a {
-      color: rgba(168,179,207,0.5);
-      text-decoration: none;
-    }
-
-    .footer a:hover { color: var(--gray); }
-
-    @media (max-width: 400px) {
-      body { padding: 1.5rem 0.75rem 3rem; }
-      .header h1 { font-size: 1.2rem; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        animation-delay: 0ms !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+      .boton--cyber::after { display: none; }
     }
   </style>
 </head>
 <body>
-  <div class="page">
+  <main class="page">
 
-    <div class="header">
+    <header class="header reveal" style="--i:0">
       <div class="logo-wrap">
-        <img src="../assets/img/logo-gogodevs.png" alt="GoGoDevS" width="320" height="320">
+        <img src="/assets/img/logo-gogodevs.png" alt="GoGoDevS" width="320" height="320" fetchpriority="high">
       </div>
-      <h1>GoGo<span>DevS</span></h1>
-      <p class="tagline">Agencia web premium · Chile 🇨🇱</p>
-    </div>
+      <h1>GoGo<span>DevS</span><svg class="verificado" viewBox="0 0 24 24" aria-hidden="true"><path fill="#2563EB" d="M12 1.5l2.6 1.9 3.2-.2 1 3.1 2.6 1.9-1 3 1 3.1-2.6 1.9-1 3-3.2-.1L12 22.5l-2.6-1.9-3.2.1-1-3-2.6-1.9 1-3.1-1-3 2.6-1.9 1-3.1 3.2.2z"/><path fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M7.8 12.2l2.8 2.8 5.6-5.8"/></svg></h1>
+      <p class="propuesta">Sitios web que venden, no solo que se ven bien</p>
+      <p class="confianza"><span class="punto-vivo" aria-hidden="true"></span><span><strong>+14 negocios reales</strong> ya confían en nosotros · Chile</span></p>
+    </header>
 
-    <div class="links">
+    <nav class="acciones" aria-label="Acciones principales">
 
-      <!-- Cyber (se apaga solo el 12-10) -->
-      <a href="https://gogodevs.cl/cuanto-cuesta-una-pagina-web-chile/" class="link-btn cyber-btn" data-cyber hidden data-cyber-cta="tree">
-        <div class="icon icon-rocket">⚡</div>
-        <div class="link-text">
-          <span class="link-label">Cyber GoGoDevS · hasta 22% menos</span>
-          <span class="link-sub">Sitio desde 7 UF <span class="cyber-pill" data-cyber-cuenta>Hasta el lunes 12</span></span>
-        </div>
-        <span class="arrow">→</span>
+      <!-- Cyber (se apaga solo el 12-10; lo controla /assets/js/cyber.js) -->
+      <a href="/cuanto-cuesta-una-pagina-web-chile/" class="boton boton--cyber reveal" style="--i:1" data-cyber hidden data-cyber-cta="tree">
+        <span class="boton__icono" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0A1428"><path d="M13.2 2.5L4.8 13.4h6l-1.1 8.1 8.5-11h-6.1z"/></svg></span>
+        <span class="boton__texto">
+          <span class="boton__titulo">Cyber GoGoDevS · hasta 24% menos</span>
+          <span class="boton__sub">Sitio desde 7 UF <span class="cyber-pill" data-cyber-cuenta>Hasta el lunes 12</span></span>
+        </span>
+        <svg class="boton__flecha" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
 
-      <!-- CTA -->
-      <a href="https://gogodevs.cl/contacto/" class="link-btn cta-main">
-        <div class="icon icon-rocket">🚀</div>
-        <div class="link-text">
-          <span class="link-label">Ver propuesta gratuita</span>
-          <span class="link-sub">Cuéntanos tu proyecto — sin compromiso</span>
-        </div>
-        <span class="arrow">→</span>
+      <!-- CTA principal: cotizador -->
+      <a href="/cotizar/" class="boton boton--cotizar reveal" style="--i:2">
+        <span class="boton__icono" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8M8 11.5h2M12 11.5h0M16 11.5h0M8 15.5h2M12 15.5h0M16 15.5h0M8 18h2"/></svg>
+        </span>
+        <span class="boton__texto">
+          <span class="boton__titulo">Cotiza en 4 pasos</span>
+          <span class="boton__sub">Precio real en UF · te respondemos el mismo día hábil</span>
+        </span>
+        <svg class="boton__flecha" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
 
       <!-- WhatsApp -->
-      <a href="https://wa.me/56956392509?text=Hola%20GoGoDevS!%20Vi%20tu%20Instagram%20y%20me%20interesa%20una%20web%20para%20mi%20negocio%20%F0%9F%91%8B" class="link-btn wa" target="_blank" rel="noopener">
-        <div class="icon icon-wa">
+      <a href="https://wa.me/56956392509?text=Hola%20GoGoDevS!%20Vi%20tu%20Instagram%20y%20me%20interesa%20una%20web%20para%20mi%20negocio%20%F0%9F%91%8B" class="boton boton--wa reveal" style="--i:3" target="_blank" rel="noopener">
+        <span class="boton__icono" aria-hidden="true">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        </div>
-        <div class="link-text">
-          <span class="link-label">Escríbenos por WhatsApp</span>
-          <span class="link-sub">Respuesta en minutos</span>
-        </div>
-        <span class="arrow">→</span>
+        </span>
+        <span class="boton__texto">
+          <span class="boton__titulo">Escríbenos por WhatsApp</span>
+          <span class="boton__sub">Respuesta en minutos</span>
+        </span>
+        <svg class="boton__flecha" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
 
-      <!-- Portafolio -->
-      <a href="https://gogodevs.cl/proyectos/" class="link-btn" target="_blank" rel="noopener">
-        <div class="icon icon-default">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
-        </div>
-        <div class="link-text">
-          <span class="link-label">Ver portafolio</span>
-          <span class="link-sub">Webs reales para negocios reales</span>
-        </div>
-        <span class="arrow">→</span>
-      </a>
+    </nav>
 
-      <!-- Servicios -->
-      <a href="https://gogodevs.cl/servicios/" class="link-btn" target="_blank" rel="noopener">
-        <div class="icon icon-default">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
-        </div>
-        <div class="link-text">
-          <span class="link-label">Servicios y precios</span>
-          <span class="link-sub"><span data-cyber hidden>Cyber: desde 7 UF (~$287.000) — webs + sistemas</span><span data-cyber-normal>Desde 9 UF (~$368.000) — webs + sistemas</span></span>
-        </div>
-        <span class="arrow">→</span>
-      </a>
+    <!-- Trabajos recientes: solo clientes que ya tienen su caso en /proyectos/ -->
+    <section class="seccion reveal" style="--i:4" aria-labelledby="t-trabajos">
+      <div class="seccion__cabeza">
+        <h2 class="seccion__titulo" id="t-trabajos">Trabajos recientes</h2>
+        <a class="seccion__link" href="/proyectos/">Ver portafolio →</a>
+      </div>
+      <div class="tira" role="list">
+        <a class="caso" role="listitem" href="/proyectos/medina4x4/">
+          <span class="caso__media"><img src="/assets/img/links/medina4x4.webp" alt="Portada de la tienda online de Medina4x4" width="640" height="400" loading="lazy" decoding="async"></span>
+          <span class="caso__cuerpo"><span class="caso__tipo">Tienda online</span><span class="caso__nombre">Medina4x4</span><span class="caso__ver">Ver el caso →</span></span>
+        </a>
+        <a class="caso" role="listitem" href="/proyectos/punto-parcelas/">
+          <span class="caso__media"><img src="/assets/img/links/punto-parcelas.webp" alt="Portada del catálogo de Punto Parcelas" width="640" height="400" loading="lazy" decoding="async"></span>
+          <span class="caso__cuerpo"><span class="caso__tipo">Catálogo · panel</span><span class="caso__nombre">Punto Parcelas</span><span class="caso__ver">Ver el caso →</span></span>
+        </a>
+        <a class="caso" role="listitem" href="/proyectos/puas-tatuajes/">
+          <span class="caso__media"><img src="/assets/img/links/puas-tatuajes.webp" alt="Portada del sitio de Púas Tatuajes" width="640" height="400" loading="lazy" decoding="async"></span>
+          <span class="caso__cuerpo"><span class="caso__tipo">Autoadministrable</span><span class="caso__nombre">Púas Tatuajes</span><span class="caso__ver">Ver el caso →</span></span>
+        </a>
+        <a class="caso" role="listitem" href="/proyectos/salon-amanda/">
+          <span class="caso__media"><img src="/assets/img/links/salon-amanda.webp" alt="Portada del sitio de Salón Amanda" width="640" height="400" loading="lazy" decoding="async"></span>
+          <span class="caso__cuerpo"><span class="caso__tipo">Autoadministrable</span><span class="caso__nombre">Salón Amanda</span><span class="caso__ver">Ver el caso →</span></span>
+        </a>
+        <a class="caso" role="listitem" href="/proyectos/saferoom/">
+          <span class="caso__media"><img src="/assets/img/links/saferoom.webp" alt="Portada del sitio de SafeRoom Chile" width="640" height="400" loading="lazy" decoding="async"></span>
+          <span class="caso__cuerpo"><span class="caso__tipo">Autoadministrable</span><span class="caso__nombre">SafeRoom Chile</span><span class="caso__ver">Ver el caso →</span></span>
+        </a>
+        <a class="caso" role="listitem" href="/proyectos/sindicato-aza/">
+          <span class="caso__media"><img src="/assets/img/links/sindicato-aza.webp" alt="Portada del portal del Sindicato AZA" width="640" height="400" loading="lazy" decoding="async"></span>
+          <span class="caso__cuerpo"><span class="caso__tipo">Sistema a medida</span><span class="caso__nombre">Sindicato AZA</span><span class="caso__ver">Ver el caso →</span></span>
+        </a>
+        <a class="caso caso--todos" role="listitem" href="/proyectos/">
+          <strong>+14</strong>
+          <span>Ver todos los proyectos →</span>
+        </a>
+      </div>
+    </section>
 
-      <!-- Email — copia al clipboard -->
-      <button class="link-btn" onclick="copyEmail()">
-        <div class="icon icon-mail">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 7 10-7"/></svg>
-        </div>
-        <div class="link-text">
-          <span class="link-label">Copiar email</span>
-          <span class="link-sub">contacto@gogodevs.cl</span>
-        </div>
-        <span class="arrow">→</span>
-      </button>
+    <!-- Precios en UF. Durante el Cyber, cyber.js muestra los [data-cyber] y
+         esconde los [data-cyber-normal]: el precio de lista se TACHA, no se
+         reemplaza (misma regla que el resto del sitio). -->
+    <section class="seccion reveal" style="--i:5" aria-labelledby="t-precios">
+      <div class="seccion__cabeza">
+        <h2 class="seccion__titulo" id="t-precios">Precios desde</h2>
+        <a class="seccion__link" href="/servicios/">Servicios →</a>
+      </div>
+      <div class="precios">
+        <a class="precio" href="/cuanto-cuesta-una-pagina-web-chile/" data-cyber-cta="tree_sitio_9uf">
+          <span class="precio__tipo">Sitio web</span>
+          <span class="precio__desde">desde<span class="precio__sello" data-cyber hidden>Cyber</span></span>
+          <span class="precio__monto"><span data-cyber hidden><span class="precio__antes">9 UF</span><span class="precio__cyber">7 <small>UF</small></span></span><span data-cyber-normal>9 <small>UF</small></span></span>
+        </a>
+        <a class="precio" href="/cuanto-cuesta-una-pagina-web-chile/" data-cyber-cta="tree_autoadministrable_14uf">
+          <span class="precio__tipo">Autoadministrable</span>
+          <span class="precio__desde">desde<span class="precio__sello" data-cyber hidden>Cyber</span></span>
+          <span class="precio__monto"><span data-cyber hidden><span class="precio__antes">14 UF</span><span class="precio__cyber">11 <small>UF</small></span></span><span data-cyber-normal>14 <small>UF</small></span></span>
+        </a>
+        <a class="precio" href="/cuanto-cuesta-una-pagina-web-chile/" data-cyber-cta="tree_catalogo_18uf">
+          <span class="precio__tipo">Catálogo</span>
+          <span class="precio__desde">desde<span class="precio__sello" data-cyber hidden>Cyber</span></span>
+          <span class="precio__monto"><span data-cyber hidden><span class="precio__antes">18 UF</span><span class="precio__cyber">14 <small>UF</small></span></span><span data-cyber-normal>18 <small>UF</small></span></span>
+        </a>
+        <a class="precio" href="/cuanto-cuesta-una-pagina-web-chile/" data-cyber-cta="tree_tienda_25uf">
+          <span class="precio__tipo">Tienda online</span>
+          <span class="precio__desde">desde<span class="precio__sello" data-cyber hidden>Cyber</span></span>
+          <span class="precio__monto"><span data-cyber hidden><span class="precio__antes">25 UF</span><span class="precio__cyber">19 <small>UF</small></span></span><span data-cyber-normal>25 <small>UF</small></span></span>
+        </a>
+      </div>
+      <p class="nota">Cotizamos en UF y se puede pagar en cuotas. <a href="/cotizar/">Calcula el tuyo en 4 pasos →</a></p>
+    </section>
 
-      <div class="divider"><span>Síguenos</span></div>
+    <!-- Otras formas de contacto -->
+    <section class="seccion reveal" style="--i:6" aria-label="Más formas de contacto">
+      <div class="secundarios">
+        <a class="secundario" href="/contacto/">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          <span>Cuéntanos tu proyecto</span>
+        </a>
+        <button type="button" class="secundario" onclick="copyEmail()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 7 10-7"/></svg>
+          <span>Copiar email</span>
+        </button>
+      </div>
+    </section>
 
-      <!-- Instagram -->
-      <a href="https://instagram.com/gogodevs.cl" class="link-btn" target="_blank" rel="noopener">
-        <div class="icon icon-ig">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        </div>
-        <div class="link-text">
-          <span class="link-label">Instagram</span>
-          <span class="link-sub">@gogodevs.cl</span>
-        </div>
-        <span class="arrow">→</span>
-      </a>
+    <!-- Redes -->
+    <section class="seccion reveal" style="--i:7" aria-labelledby="t-redes">
+      <div class="seccion__cabeza" style="justify-content:center">
+        <h2 class="seccion__titulo" id="t-redes">Síguenos</h2>
+      </div>
+      <div class="redes">
+        <a class="red red--ig" href="https://instagram.com/gogodevs.cl" target="_blank" rel="noopener" aria-label="Instagram @gogodevs.cl">
+          <svg width="21" height="21" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          <span class="sr-only">Instagram @gogodevs.cl</span>
+        </a>
+        <a class="red red--tt" href="https://tiktok.com/@gogodevs.cl" target="_blank" rel="noopener" aria-label="TikTok @gogodevs.cl">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.78a4.85 4.85 0 01-1.01-.09z"/></svg>
+          <span class="sr-only">TikTok @gogodevs.cl</span>
+        </a>
+        <a class="red red--yt" href="https://www.youtube.com/@gogodevs" target="_blank" rel="noopener" aria-label="YouTube @gogodevs">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>
+          <span class="sr-only">YouTube @gogodevs</span>
+        </a>
+        <a class="red red--fb" href="https://www.facebook.com/GoGoDevS" target="_blank" rel="noopener" aria-label="Facebook GoGoDevS">
+          <svg width="21" height="21" viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          <span class="sr-only">Facebook GoGoDevS</span>
+        </a>
+        <a class="red red--li" href="https://www.linkedin.com/in/diegodinamarca/" target="_blank" rel="noopener" aria-label="LinkedIn de Diego Dinamarca, fundador">
+          <svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          <span class="sr-only">LinkedIn de Diego Dinamarca, fundador</span>
+        </a>
+      </div>
+      <p class="redes__handle">Encuéntranos como <strong>@gogodevs.cl</strong></p>
+    </section>
 
-      <!-- TikTok -->
-      <a href="https://tiktok.com/@gogodevs.cl" class="link-btn" target="_blank" rel="noopener">
-        <div class="icon icon-tt">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.78a4.85 4.85 0 01-1.01-.09z"/></svg>
-        </div>
-        <div class="link-text">
-          <span class="link-label">TikTok</span>
-          <span class="link-sub">@gogodevs.cl</span>
-        </div>
-        <span class="arrow">→</span>
-      </a>
+    <footer class="pie">
+      <a href="/">gogodevs.cl</a> · <a href="mailto:contacto@gogodevs.cl">contacto@gogodevs.cl</a><br>
+      Webs que generan clientes reales
+    </footer>
 
-      <!-- YouTube -->
-      <a href="https://www.youtube.com/@gogodevs" class="link-btn" target="_blank" rel="noopener">
-        <div class="icon icon-yt">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>
-        </div>
-        <div class="link-text">
-          <span class="link-label">YouTube</span>
-          <span class="link-sub">@gogodevs</span>
-        </div>
-        <span class="arrow">→</span>
-      </a>
-
-      <!-- Facebook -->
-      <a href="https://www.facebook.com/GoGoDevS" class="link-btn" target="_blank" rel="noopener">
-        <div class="icon icon-fb">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        </div>
-        <div class="link-text">
-          <span class="link-label">Facebook</span>
-          <span class="link-sub">GoGoDevS</span>
-        </div>
-        <span class="arrow">→</span>
-      </a>
-
-      <!-- LinkedIn -->
-      <a href="https://www.linkedin.com/in/diegodinamarca/" class="link-btn" target="_blank" rel="noopener">
-        <div class="icon icon-li">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        </div>
-        <div class="link-text">
-          <span class="link-label">LinkedIn</span>
-          <span class="link-sub">Diego Dinamarca, fundador</span>
-        </div>
-        <span class="arrow">→</span>
-      </a>
-
-    </div>
-
-    <p class="footer">
-      <a href="https://gogodevs.cl">gogodevs.cl</a> · Webs que generan clientes reales
-    </p>
-
-  </div>
+  </main>
 
   <!-- Toast -->
-  <div class="toast" id="toast">✅ Email copiado al portapapeles</div>
+  <div class="toast" id="toast" role="status" aria-live="polite">✅ Email copiado al portapapeles</div>
 
   <script>
     function copyEmail() {
-      navigator.clipboard.writeText('contacto@gogodevs.cl').then(function() {
+      var email = 'contacto@gogodevs.cl';
+      function aviso() {
         var t = document.getElementById('toast');
         t.classList.add('show');
-        setTimeout(function() { t.classList.remove('show'); }, 2500);
-      });
+        setTimeout(function () { t.classList.remove('show'); }, 2500);
+      }
+      // navigator.clipboard solo existe en https; el respaldo cubre navegadores
+      // dentro de apps (IG/TikTok) que a veces lo bloquean.
+      function respaldo() {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = email;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          aviso();
+        } catch (e) {
+          window.location.href = 'mailto:' + email;
+        }
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(email).then(aviso, respaldo);
+      } else {
+        respaldo();
+      }
     }
   </script>
-  <script src="/assets/js/chat-widget.js?v=20260911b" defer></script>
+  <script src="/assets/js/chat-widget.js?v=20261006" defer></script>
   <script>
     /* GoGoDevS Tree: cada boton que se aprieta en esta pagina se manda a GA4
        como evento "tree_click" con el parametro "destino" (whatsapp,
        instagram, interno:/catalogo/ ...). Sin esto GA solo cuenta los clics
        que salen del sitio y no dice a cual boton fueron.
        gtag se busca AL HACER CLIC, no al cargar: si GA no esta configurado
-       (local, o sin la variable) el script no hace nada. */
+       (local, o sin la variable) el script no hace nada.
+       Los enlaces internos van con ruta relativa (/cotizar/), no con
+       https://gogodevs.cl/...: el sitio vive en www.gogodevs.cl, y una URL sin
+       www no calza con location.host y se clasificaba como "externo" (ademas
+       de pasar por un 301). */
     (function () {
       var reglas = [
         [/wa\.me|whatsapp\.com/i, 'whatsapp'],
@@ -506,6 +772,7 @@
         } catch (e) {}
         return 'externo';
       }
+      window.__treeDestino = destino; // solo para poder comprobarlo en QA
       document.addEventListener('click', function (ev) {
         if (typeof window.gtag !== 'function' || !ev.target.closest) return;
         var a = ev.target.closest('a[href]');

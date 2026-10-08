@@ -170,7 +170,7 @@
   </url>
   <url>
     <loc>https://www.gogodevs.cl/blog/</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -199,5 +199,11 @@
     <loc>https://www.gogodevs.cl/legal/pagos-y-cancelacion/</loc>
     <lastmod>2026-09-11</lastmod>
     <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://www.gogodevs.cl/blog/mercado-pago-o-webpay-tienda-online/</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>

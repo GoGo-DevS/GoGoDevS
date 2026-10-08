@@ -3,81 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog de ecommerce, desarrollo web y sistemas | GoGoDevS</title>
-  <meta name="description" content="Artículos prácticos sobre ecommerce, desarrollo web, sistemas a medida y automatización para negocios en Chile.">
+  <title>{{TITLE}}</title>
+  <meta name="description" content="{{DESCRIPTION}}">
   <meta name="robots" content="index, follow">
-  <meta name="author" content="GoGoDevS">
+  <meta name="author" content="Diego Dinamarca">
   <meta name="theme-color" content="#0A1428">
-  <link rel="canonical" href="https://www.gogodevs.cl/blog/">
+  <link rel="canonical" href="{{CANONICAL}}">
   <link rel="icon" href="/favicon.ico?v=20261006" sizes="any">
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png?v=20261006">
   <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png?v=20261006">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.webp?v=20261006">
   <meta property="og:locale" content="es_CL">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="article">
   <meta property="og:site_name" content="GoGoDevS">
-  <meta property="og:title" content="Blog de GoGoDevS">
-  <meta property="og:description" content="Artículos prácticos sobre ecommerce, desarrollo web, sistemas a medida y automatización.">
-  <meta property="og:url" content="https://www.gogodevs.cl/blog/">
-  <meta property="og:image" content="https://www.gogodevs.cl/assets/img/og-image.webp">
+  <meta property="og:title" content="{{OG_TITLE}}">
+  <meta property="og:description" content="{{DESCRIPTION}}">
+  <meta property="og:url" content="{{CANONICAL}}">
+  <meta property="og:image" content="{{OG_IMAGE}}">
+  <meta property="og:image:alt" content="{{OG_IMAGE_ALT}}">
+  <meta property="og:image:width" content="{{FOTO_W}}">
+  <meta property="og:image:height" content="{{FOTO_H}}">
+  <meta property="og:image:type" content="image/webp">
+  <meta property="article:published_time" content="{{FECHA_ISO}}">
+  <meta property="article:modified_time" content="{{MODIFICADO_ISO}}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{OG_TITLE}}">
+  <meta name="twitter:description" content="{{DESCRIPTION}}">
+  <meta name="twitter:image" content="{{OG_IMAGE}}">
+  <link rel="preload" as="image" href="{{FOTO_SRC}}" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/style.css?v=20261006-redes">
+  <style>.article-prose a{color:var(--color-gold);text-decoration:underline;text-underline-offset:3px}.article-prose h3{font-family:'Montserrat',sans-serif;font-weight:700;color:var(--color-text);font-size:1.1rem;margin:1.6rem 0 0.6rem}</style>
   <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "https://www.gogodevs.cl/#organization",
-      "name": "GoGoDevS",
-      "url": "https://www.gogodevs.cl/",
-      "logo": "https://www.gogodevs.cl/assets/img/logo-gogodevs.png"
-    },
-    {
-      "@type": "Blog",
-      "@id": "https://www.gogodevs.cl/blog/#blog",
-      "url": "https://www.gogodevs.cl/blog/",
-      "name": "Blog de GoGoDevS",
-      "inLanguage": "es-CL",
-      "publisher": {
-        "@id": "https://www.gogodevs.cl/#organization"
-      },
-      "blogPost": [
-        {
-          "@type": "BlogPosting",
-          "headline": "Mercado Pago o Webpay: cómo decidir qué checkout usa tu tienda online en Chile",
-          "url": "https://www.gogodevs.cl/blog/mercado-pago-o-webpay-tienda-online/",
-          "datePublished": "2026-10-08"
-        },
-        {
-          "@type": "BlogPosting",
-          "headline": "Vender solo por WhatsApp tiene un techo (y cómo se nota)",
-          "url": "https://www.gogodevs.cl/blog/vender-solo-por-whatsapp-tiene-un-techo/",
-          "datePublished": "2026-08-26"
-        }
-      ]
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Inicio",
-          "item": "https://www.gogodevs.cl/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Blog",
-          "item": "https://www.gogodevs.cl/blog/"
-        }
-      ]
-    }
-  ]
-}
+{{JSONLD}}
   </script>
 </head>
 <body>
@@ -110,57 +70,28 @@
   </header>
 
   <main id="contenido" tabindex="-1">
-    <section class="hero section" aria-labelledby="blog-title">
-      <div class="container">
-        <span class="eyebrow">Blog</span>
-        <h1 id="blog-title">Ideas prácticas para vender y operar mejor en línea</h1>
-        <p class="hero__text">Artículos sobre ecommerce, desarrollo web, sistemas a medida y automatización, escritos desde proyectos reales, no de teoría genérica.</p>
-      </div>
-    </section>
+    <article class="section" aria-labelledby="post-title">
+      <div class="container" style="max-width:800px">
+        <p class="hero__support" style="text-align:center"><a href="/blog/">Blog</a> / <span data-blog-categoria>{{CATEGORIA}}</span></p>
+        <h1 id="post-title" style="text-align:center;margin-top:0.5rem">{{H1}}</h1>
+        <p class="article-meta" style="flex-wrap:wrap;row-gap:0.25rem"><span style="white-space:nowrap">Diego Dinamarca</span><span>·</span><time datetime="{{FECHA_ISO}}" style="white-space:nowrap">{{FECHA_TEXTO}}</time><span>·</span><span style="white-space:nowrap">{{MINUTOS}} min de lectura</span></p>
 
-    <section class="section section--surface" aria-labelledby="destacado-title">
-      <div class="container">
-        <div class="section-heading">
-          <span class="eyebrow">Último artículo</span>
-          <h2 id="destacado-title" class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden">Último artículo</h2>
-        </div>
-        <a class="blog-featured" href="/blog/mercado-pago-o-webpay-tienda-online/" style="text-decoration:none;color:inherit">
-          <div class="blog-featured__media">
-            <img src="/assets/img/blog/mercado-pago-o-webpay-tienda-online.webp" alt="Persona pagando con tarjeta desde el celular junto a una caja de despacho y un notebook con un carrito de compra" width="1200" height="675" loading="eager" fetchpriority="high" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-            <span class="blog-featured__tag" style="position:relative;z-index:1;background:rgba(8,16,32,0.85)">Ecommerce</span>
-          </div>
-          <div class="blog-featured__content">
-            <h3>Mercado Pago o Webpay: cómo decidir qué checkout usa tu tienda online en Chile</h3>
-            <p style="color:var(--color-text-muted)">Cómo elegir entre Mercado Pago y Webpay para cobrar con tarjeta en tu tienda: las preguntas que deciden, quién saca las credenciales y qué probar antes.</p>
-            <p class="article-meta" style="justify-content:flex-start"><span>8 de octubre de 2026</span><span>·</span><span style="color:var(--color-gold);font-weight:700">Leer →</span></p>
-          </div>
-        </a>
+        <figure style="margin:0 0 2.5rem">
+          <img src="{{FOTO_SRC}}" alt="{{OG_IMAGE_ALT}}" width="{{FOTO_W}}" height="{{FOTO_H}}" loading="eager" fetchpriority="high" decoding="async" style="display:block;width:100%;height:auto;aspect-ratio:{{FOTO_W}}/{{FOTO_H}};object-fit:cover;border-radius:18px;border:1px solid var(--color-line)">
+        </figure>
 
-        <h2 style="margin-top:3rem;font-size:1.3rem">Todos los artículos</h2>
-        <div class="blog-grid">
-          <a class="blog-card" href="/blog/vender-solo-por-whatsapp-tiene-un-techo/" style="text-decoration:none;color:inherit">
-            <span class="blog-card__tag">Ecommerce</span>
-            <h3>Vender solo por WhatsApp tiene un techo (y cómo se nota)</h3>
-            <p>Señales de que tu negocio ya superó lo que WhatsApp e Instagram pueden manejar, y qué cambia realmente con un ecommerce con pago y catálogo reales.</p>
-            <span class="blog-card__link">26 de agosto de 2026 · Leer &rarr;</span>
-          </a>
+        <div class="article-prose">
+{{CUERPO}}
+{{FAQ}}
         </div>
-      </div>
-    </section>
 
-    <section class="section" aria-labelledby="cta-title">
-      <div class="container contact cta-inner">
-        <div class="section-heading section-heading--left cta-text">
-          <span class="eyebrow">¿Necesitas algo de esto?</span>
-          <h2 id="cta-title">Cuéntanos tu proyecto y lo revisamos juntos</h2>
-          <p>Te respondemos rápido, sin compromiso y evaluamos tu caso.</p>
+        <div class="contact__actions cta-buttons" style="justify-content:center;margin-top:2rem">
+          <a class="button button--primary" href="/cotizar/">{{CTA_TEXTO}}</a>
+          <a class="button button--secondary" href="{{CTA2_HREF}}">{{CTA2_TEXTO}}</a>
         </div>
-        <address class="contact__actions cta-buttons">
-          <a class="button button--primary" href="/contacto/">Solicitar cotización</a>
-          <a class="button button--secondary" href="https://wa.me/56956392509" target="_blank" rel="noopener noreferrer">Hablar por WhatsApp</a>
-        </address>
+{{RELACIONADOS}}
       </div>
-    </section>
+    </article>
   </main>
 
   <footer class="site-footer">

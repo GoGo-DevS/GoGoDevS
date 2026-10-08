@@ -1,0 +1,86 @@
+name: Blog diario (publicar y desplegar)
+
+# Publica los articulos programados en _blog/programados/ cuya fecha ya llego
+# (hora de Chile), commitea el resultado y lo sube por FTP.
+#
+# Por que el deploy va AQUI y no en deploy.yml: un push hecho con GITHUB_TOKEN
+# no dispara otros workflows, asi que el commit del bot nunca activaria el
+# deploy normal. Por eso este workflow despliega solo.
+#
+# El cron de GitHub se atrasa o se salta a veces. No importa: publicar.py
+# publica TODO lo vencido (recupera los dias perdidos) y es idempotente.
+# Se programa dos veces al dia; la segunda solo actua si la primera no corrio.
+
+on:
+  schedule:
+    # 12:00 UTC = 09:00 en Chile con horario de verano (UTC-3, sep-abr).
+    # En invierno (UTC-4) seria 08:00; para octubre no importa.
+    - cron: "0 12 * * *"
+    # Respaldo por si GitHub se salta el primero.
+    - cron: "0 16 * * *"
+  workflow_dispatch:
+    inputs:
+      desplegar_siempre:
+        description: "Subir por FTP aunque no haya articulos nuevos"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-ftp-gogodevs
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Publicar lo vencido
+        run: python3 _blog/publicar.py
+
+      - name: Verificar antes de subir
+        run: python3 _blog/verificar.py
+
+      - name: Commit y push
+        id: commit
+        run: |
+          git config user.name "gogodevs-blog-bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add blog sitemap.xml assets/img/blog
+          if git diff --cached --quiet; then
+            echo "cambios=no" >> "$GITHUB_OUTPUT"
+            echo "Nada nuevo que publicar."
+          else
+            git commit -m "blog: publicacion diaria $(TZ=America/Santiago date +%Y-%m-%d)"
+            # Si alguien pusheo mientras tanto, se integra y se reintenta.
+            ok=no
+            for i in 1 2 3; do
+              if git pull --rebase origin main && git push origin HEAD:main; then ok=si; break; fi
+              sleep 5
+            done
+            # Sin push no se despliega: lo subido tiene que estar en el repo,
+            # si no el proximo deploy normal (mirror --delete) lo borraria.
+            if [ "$ok" != "si" ]; then echo "No se pudo pushear"; exit 1; fi
+            echo "cambios=si" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Instalar lftp
+        if: steps.commit.outputs.cambios == 'si' || inputs.desplegar_siempre
+        run: sudo apt-get install -y lftp
+
+      - name: Deploy por FTP
+        if: steps.commit.outputs.cambios == 'si' || inputs.desplegar_siempre
+        run: |
+          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_HOST }}" << 'EOF'
+          set ftp:ssl-allow no
+          set ftp:passive-mode on
+          set net:max-retries 3
+          set net:timeout 30
+          mirror -R --delete --only-newer --exclude-glob .git* --exclude-glob .vscode/ --exclude ^_blog/ --exclude ^_programados/ --verbose . /domains/gogodevs.cl/public_html/
+          bye
+          EOF

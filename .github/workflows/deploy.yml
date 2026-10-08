@@ -5,6 +5,12 @@ on:
     branches:
       - main
 
+# Un solo deploy por FTP a la vez: este y el del blog diario (blog-diario.yml)
+# comparten el grupo para no pisarse si coinciden.
+concurrency:
+  group: deploy-ftp-gogodevs
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -21,6 +27,6 @@ jobs:
           set ftp:passive-mode on
           set net:max-retries 3
           set net:timeout 30
-          mirror -R --delete --only-newer --exclude-glob .git* --exclude-glob .vscode/ --verbose . /domains/gogodevs.cl/public_html/
+          mirror -R --delete --only-newer --exclude-glob .git* --exclude-glob .vscode/ --exclude ^_blog/ --exclude ^_programados/ --verbose . /domains/gogodevs.cl/public_html/
           bye
           EOF

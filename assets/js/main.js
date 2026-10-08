@@ -273,7 +273,7 @@ if (contactForm) {
         'No pudimos enviar el formulario en este momento. Escríbenos directo por ' +
           '<a href="' +
           WSP_FALLBACK +
-          '" target="_blank" rel="noopener noreferrer">WhatsApp</a> y te respondemos al toque.'
+          '" target="_blank" rel="noopener noreferrer">WhatsApp</a> y te respondemos el mismo día.'
       );
     } finally {
       if (submitBtn) {

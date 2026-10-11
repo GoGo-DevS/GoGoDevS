@@ -170,7 +170,7 @@
   </url>
   <url>
     <loc>https://www.gogodevs.cl/blog/</loc>
-    <lastmod>2026-10-10</lastmod>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -215,6 +215,12 @@
   <url>
     <loc>https://www.gogodevs.cl/blog/software-a-medida-o-herramienta-generica/</loc>
     <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.gogodevs.cl/blog/que-pedirle-a-una-empresa-de-desarrollo-web/</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

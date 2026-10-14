@@ -43,6 +43,9 @@ import shutil
 import struct
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import og_jpeg  # noqa: E402  (miniatura JPEG para WhatsApp)
+
 RAIZ_DEF = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITIO = "https://www.gogodevs.cl"
 ORG_ID = SITIO + "/#organization"
@@ -187,6 +190,12 @@ def url_foto(slug):
     return "/assets/img/blog/%s.webp" % slug
 
 
+def url_foto_og(slug):
+    # La miniatura al compartir va en JPEG: WhatsApp no muestra og:image WebP
+    # (probado 13-10-2026). Ver _blog/og_jpeg.py.
+    return "/assets/img/blog/%s-og.jpg" % slug
+
+
 def jsonld_articulo(d):
     url = url_articulo(d["slug"])
     imagen = {"@type": "ImageObject", "url": abs_url(url_foto(d["slug"])),
@@ -288,7 +297,7 @@ def render_articulo(d, plantilla, publicados):
         "DESCRIPTION": html.escape(d["descripcion"]),
         "CANONICAL": url_articulo(d["slug"]),
         "OG_TITLE": html.escape(d["h1"]),
-        "OG_IMAGE": abs_url(url_foto(d["slug"])),
+        "OG_IMAGE": abs_url(url_foto_og(d["slug"])),
         "OG_IMAGE_ALT": html.escape(d["foto_alt"]),
         "FOTO_SRC": url_foto(d["slug"]),
         "FOTO_W": str(d["foto_w"]),
@@ -531,6 +540,9 @@ def main():
         if os.path.exists(foto):
             os.remove(foto)
             cambios.append("retirada foto " + b["slug"])
+        og = og_jpeg.nombre_og(foto)
+        if os.path.exists(og):
+            os.remove(og)
 
     # 2. Publicar todo lo vencido. Los relacionados solo miran lo vencido.
     for b in vencidos:
@@ -540,6 +552,13 @@ def main():
             os.makedirs(os.path.dirname(destino), exist_ok=True)
             shutil.copyfile(fuente, destino)
             cambios.append("foto " + b["slug"])
+        # La copia JPEG para og:image, cada vez que cambia la foto o si falta.
+        # Sin Pillow esto FALLA a proposito: volver en silencio al WebP es dejar
+        # el articulo sin miniatura en WhatsApp (el workflow instala Pillow).
+        og = og_jpeg.nombre_og(destino)
+        if not os.path.exists(og) or os.path.getmtime(og) < os.path.getmtime(destino):
+            og_jpeg.hacer_og(destino, og)
+            cambios.append("miniatura " + b["slug"])
         ruta = os.path.join(raiz, "blog", b["slug"], "index.html")
         if escribir_si_cambia(ruta, render_articulo(b, plantilla_art, vencidos)):
             cambios.append("publicado %s %s" % (b["fecha"], b["slug"]))

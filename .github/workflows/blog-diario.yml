@@ -40,6 +40,15 @@ jobs:
         with:
           ref: main
 
+      # Pillow arma la miniatura JPEG de cada articulo (og:image): WhatsApp no
+      # muestra WebP. Sin esto publicar.py falla a proposito. Ver _blog/og_jpeg.py.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar Pillow
+        run: python3 -m pip install --quiet pillow
+
       - name: Publicar lo vencido
         run: python3 _blog/publicar.py
 

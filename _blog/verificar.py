@@ -123,6 +123,11 @@ def main():
             # del dia tiene que poder desplegarse igual.
             avisos.append("%s: falta la foto %s.webp (no se publica hasta que exista)" % (nombre, b["slug"]))
 
+    # 3b. Footer comun en todas las paginas (14-10-2026): llego a haber 31
+    # versiones copiadas a mano en 40 paginas. Se edita en sitio_comun.py.
+    import sitio_comun
+    errores.extend(sitio_comun.revisar())
+
     # 4. Nada futuro en lo que se sube
     sitemap = open(os.path.join(raiz, "sitemap.xml"), encoding="utf-8").read()
     indice = open(os.path.join(raiz, "blog", "index.html"), encoding="utf-8").read()

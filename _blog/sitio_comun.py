@@ -18,12 +18,13 @@ ese mismo H1 como texto (regla de Jorge Urzua: la miga y el enlace = el H1).
 verificar.py corre --revisar antes de cada deploy del blog.
 """
 import html
+import json
 import os
 import re
 import sys
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CSS_VERSION = "20261014-footer"
+CSS_VERSION = "20261016-rubros"
 
 # slug -> (marca, rubro). El rubro sale de la descripcion de cada caso, no se
 # inventa: si un caso no dice su rubro, dice lo que si es ("marca gastronomica").
@@ -64,6 +65,41 @@ GUIAS = [
     ("/blog/", "Todas las guías del blog"),
 ]
 
+# RUBROS (tandas 3 y 4 del piloto, 16-10-2026): cada rubro con sus casos reales y
+# la guia del blog que le corresponde. La guia se enlaza SOLO si ya esta
+# publicada (existe blog/<slug>/index.html): el blog diario publica una por dia
+# y el workflow corre --aplicar despues de publicar, asi que el enlace aparece
+# solo el dia que la guia sale. Un rubro sin caso real no entra (regla 2 del
+# metodo: no se publica una pagina vacia). Sin "abogados" ni "restaurantes"
+# hasta tener uno.
+RUBROS = [
+    ("salon-de-belleza", "Página web para salón de belleza", ["salon-amanda"], "pagina-web-salon-de-belleza"),
+    ("venta-de-parcelas", "Página web para venta de parcelas", ["punto-parcelas"], "sitio-web-venta-de-parcelas"),
+    ("repuestos-automotrices", "Tienda online de repuestos automotrices", ["medina4x4", "villarreal"], "ecommerce-repuestos-automotrices"),
+    ("ropa-y-uniformes", "Tienda online de ropa y uniformes", ["popi"], "tienda-online-ropa-tallas-colores"),
+    ("pasteleria-y-reposteria", "Tienda online de pastelería y repostería", ["dulcecita", "la-dolce-mammina"], "tienda-online-pasteleria-reposteria"),
+    ("climatizacion", "Página web para empresa de climatización", ["fco-climatizacion"], "pagina-web-empresa-climatizacion"),
+    ("transporte-y-logistica", "Página web para transporte, turismo y logística", ["voa-chile", "travesia-logistica"], "pagina-web-empresa-de-transporte-y-turismo"),
+    ("sindicatos", "Sitio web para sindicatos", ["sindicato-aza"], "sitio-web-para-sindicatos"),
+    ("estudio-de-tatuajes", "Página web para estudio de tatuajes", ["puas-tatuajes"], None),
+    ("seguridad", "Plataforma web para empresa de seguridad", ["saferoom"], None),
+]
+HUB = "paginas-web-por-rubro"
+HUB_H1 = "Páginas web por rubro"
+
+
+def guia_publicada(slug):
+    """(href, H1 de la guia) si esta publicada; None si todavia no sale."""
+    if not slug:
+        return None
+    ruta = os.path.join(RAIZ, "blog", slug, "index.html")
+    if not os.path.isfile(ruta):
+        return None
+    m = re.search(r"<h1[^>]*>(.*?)</h1>", _leer(ruta), re.S)
+    h1 = html.unescape(re.sub(r"<[^>]+>", "", m.group(1))).strip() if m else slug
+    return "/blog/%s/" % slug, h1
+
+
 # Paginas que NO llevan el footer comun: el arbol de enlaces y la home vieja,
 # y los stubs de redireccion (no tienen footer).
 FUERA = {"links/index.html", "index-v2.html"}
@@ -84,7 +120,7 @@ def footer_html():
     guias = "".join(_a(h, t) for h, t in GUIAS)
     explorar = "".join(_a(h, t) for h, t in (
         ("/", "Inicio"), ("/servicios/", "Servicios"), ("/proyectos/", "Proyectos"),
-        ("/blog/", "Blog"), ("/cotizar/", "Cotizar"), ("/sobre-gogodevs/", "Nosotros"),
+        ("/blog/", "Blog"), ("/%s/" % HUB, HUB_H1), ("/cotizar/", "Cotizar"), ("/sobre-gogodevs/", "Nosotros"),
         ("/contacto/", "Contacto")))
     return (
         '<footer class="site-footer"><!-- footer comun: se edita en _blog/sitio_comun.py, no aca -->'
@@ -159,11 +195,126 @@ def aplicar():
                 # Los 6 casos con title generico ("Caso de Desarrollo Web") pasan a decir su rubro.
                 n = re.sub(r"<title>([^<|]+)\| Caso de Desarrollo Web \| GoGoDevS</title>",
                            lambda mm: "<title>%s| %s | GoGoDevS</title>" % (mm.group(1), rubro[0].upper() + rubro[1:]), n)
+            if m:
+                n = _con_bloque_rubro(n, m.group(1))
         if n != t:
             _escribir(ruta, n)
             cambiadas.append(rel)
+    if escribir_hub():
+        cambiadas.append(HUB + "/index.html")
     print("Paginas cambiadas: %d" % len(cambiadas))
     return cambiadas
+
+
+BLOQUE_RE = re.compile(r"<!-- rubro:inicio -->.*?<!-- rubro:fin -->\n?", re.S)
+
+
+def _con_bloque_rubro(texto, slug_caso):
+    """Al final del caso: la guia de su rubro (si ya salio) y la pagina de rubros.
+
+    Tanda 3: los casos recibian entre 3 y 14 enlaces internos y no enlazaban a
+    ninguna guia; las guias si enlazaban a los casos. Ahora es ida y vuelta.
+    """
+    rubro = next((r for r in RUBROS if slug_caso in r[2]), None)
+    texto = BLOQUE_RE.sub("", texto)
+    if not rubro or "</main>" not in texto:
+        return texto
+    nombre, articulo = rubro[1], rubro[3]
+    enlaces = []
+    guia = guia_publicada(articulo)
+    if guia:
+        enlaces.append("Guía: " + _a(guia[0], guia[1]))
+    # El texto es el H1 del hub (regla de Jorge: el enlace dice el H1 de su destino).
+    enlaces.append(_a("/%s/#%s" % (HUB, rubro[0]), HUB_H1))
+    bloque = (
+        '<!-- rubro:inicio -->'
+        '<section class="section section--surface" aria-labelledby="rubro-title">'
+        '<div class="container"><h2 id="rubro-title">%s</h2>'
+        '<p>%s</p></div></section>'
+        '<!-- rubro:fin -->\n' % (html.escape(nombre, quote=False), " · ".join(enlaces))
+    )
+    i = texto.rfind("</main>")
+    return texto[:i] + bloque + texto[i:]
+
+
+def escribir_hub():
+    """Escribe /paginas-web-por-rubro/ con el esqueleto de /servicios/. True si cambio."""
+    casos = {s: (m, r) for s, m, r in CASOS}
+    shell = _leer(os.path.join(RAIZ, "servicios", "index.html"))
+    titulo = "Páginas web por rubro: casos reales en Chile | GoGoDevS"
+    desc = ("Páginas web y tiendas online para salones de belleza, inmobiliarias, repuestos, "
+            "pastelerías, transporte, sindicatos y más: casos reales hechos por GoGoDevS en Chile.")
+    url = "https://www.gogodevs.cl/%s/" % HUB
+
+    bloques, items = [], []
+    for slug, nombre, slugs_casos, articulo in RUBROS:
+        presentes = [c for c in slugs_casos if c in casos]
+        if not presentes:
+            continue
+        lis = "".join("<li>%s</li>" % _a("/proyectos/%s/" % c, h1_caso(*casos[c])) for c in presentes)
+        guia = guia_publicada(articulo)
+        extra = "<p>Guía: %s</p>" % _a(guia[0], guia[1]) if guia else ""
+        bloques.append('<article class="service-card" id="%s"><h2>%s</h2><ul>%s</ul>%s</article>'
+                       % (slug, html.escape(nombre, quote=False), lis, extra))
+        items.append(nombre)
+    main = (
+        '<main id="contenido" tabindex="-1">'
+        '<section class="hero section" aria-labelledby="rubro-hub-title"><div class="container">'
+        '<h1 id="rubro-hub-title">%s</h1>'
+        '<p>Cada rubro necesita cosas distintas: un salón necesita que le reserven, una tienda de '
+        'repuestos que el cliente encuentre la pieza exacta, una inmobiliaria mostrar cada proyecto '
+        'con su ubicación. Acá están los sitios que ya hicimos, ordenados por rubro, y la guía de '
+        'cada uno.</p></div></section>'
+        '<section class="section rubro-hub"><div class="container"><div class="services-grid">%s</div>'
+        '<p>¿Tu rubro no está? %s o revisa %s.</p></div></section></main>'
+        % (html.escape(HUB_H1, quote=False), "".join(bloques),
+           _a("/cotizar/", "Cuéntanos tu proyecto"), _a("/servicios/", "todos los servicios"))
+    )
+    ld = json.dumps([
+        {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://www.gogodevs.cl/"},
+            {"@type": "ListItem", "position": 2, "name": HUB_H1, "item": url}]},
+        {"@context": "https://schema.org", "@type": "CollectionPage", "name": HUB_H1, "url": url,
+         "description": desc, "about": items},
+    ], ensure_ascii=False, indent=2)
+
+    t = shell
+    t = re.sub(r"<title>.*?</title>", lambda m: "<title>%s</title>" % html.escape(titulo, quote=False), t, count=1, flags=re.S)
+    for patron in (r'(<meta name="description" content=")[^"]*(")',
+                   r'(<meta property="og:description" content=")[^"]*(")',
+                   r'(<meta name="twitter:description" content=")[^"]*(")'):
+        t = re.sub(patron, lambda m: m.group(1) + html.escape(desc) + m.group(2), t, count=1)
+    for patron in (r'(<meta property="og:title" content=")[^"]*(")',
+                   r'(<meta name="twitter:title" content=")[^"]*(")'):
+        t = re.sub(patron, lambda m: m.group(1) + html.escape(titulo) + m.group(2), t, count=1)
+    t = re.sub(r'(<link rel="canonical" href=")[^"]*(")', lambda m: m.group(1) + url + m.group(2), t, count=1)
+    t = re.sub(r'(<meta property="og:url" content=")[^"]*(")', lambda m: m.group(1) + url + m.group(2), t, count=1)
+    # El segundo JSON-LD del esqueleto es el BreadcrumbList de /servicios/: se reemplaza.
+    bloques_ld = list(re.finditer(r'<script type="application/ld\+json">.*?</script>', t, re.S))
+    if len(bloques_ld) >= 2:
+        b = bloques_ld[1]
+        t = t[:b.start()] + '<script type="application/ld+json">\n%s\n</script>' % ld + t[b.end():]
+    t = re.sub(r"<main\b.*?</main>", lambda m: main, t, count=1, flags=re.S)
+    # Sin la marca de "pagina activa" del menu que trae el esqueleto de Servicios.
+    t = t.replace(' aria-current="page"', "")
+
+    ruta = os.path.join(RAIZ, HUB, "index.html")
+    if os.path.isfile(ruta) and _leer(ruta) == t:
+        return False
+    os.makedirs(os.path.dirname(ruta), exist_ok=True)
+    _escribir(ruta, t)
+    _sitemap_con_hub()
+    return True
+
+
+def _sitemap_con_hub():
+    ruta = os.path.join(RAIZ, "sitemap.xml")
+    sm = _leer(ruta)
+    loc = "https://www.gogodevs.cl/%s/" % HUB
+    if loc in sm:
+        return
+    entrada = "  <url>\n    <loc>%s</loc>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>\n" % loc
+    _escribir(ruta, sm.replace("</urlset>", entrada + "</urlset>", 1))
 
 
 def revisar():

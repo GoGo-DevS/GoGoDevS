@@ -2684,3 +2684,11 @@ tr[data-cyber] td { background: rgba(255, 182, 39, .06); }
   opacity: 0.85;
   margin-top: 0.5rem;
 }
+
+
+/* Pagina de rubros y bloque de rubro en los casos (16-10-2026, _blog/sitio_comun.py):
+   los enlaces dentro de las tarjetas tienen que verse como enlaces. */
+.rubro-hub .service-card a,
+section[aria-labelledby="rubro-title"] a { color: var(--gg-blue); font-weight: 600; }
+.rubro-hub .service-card a:hover,
+section[aria-labelledby="rubro-title"] a:hover { text-decoration: underline; }

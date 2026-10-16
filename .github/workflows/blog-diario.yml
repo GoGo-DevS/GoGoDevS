@@ -52,6 +52,11 @@ jobs:
       - name: Publicar lo vencido
         run: python3 _blog/publicar.py
 
+      # Despues de publicar: los casos enlazan a la guia de su rubro el dia que
+      # sale, y la pagina de rubros la suma. Ver _blog/sitio_comun.py (RUBROS).
+      - name: Enlazar casos y rubros
+        run: python3 _blog/sitio_comun.py --aplicar
+
       - name: Verificar antes de subir
         run: python3 _blog/verificar.py
 
@@ -60,7 +65,7 @@ jobs:
         run: |
           git config user.name "gogodevs-blog-bot"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add blog sitemap.xml assets/img/blog
+          git add blog sitemap.xml assets/img/blog proyectos paginas-web-por-rubro
           if git diff --cached --quiet; then
             echo "cambios=no" >> "$GITHUB_OUTPUT"
             echo "Nada nuevo que publicar."

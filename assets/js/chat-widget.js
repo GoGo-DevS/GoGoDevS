@@ -205,6 +205,10 @@
     // El Tree (/links) es una lista de botones: abrirse solo tapa justo los
     // tres principales. Una pagina lo apaga con <html data-chat-quieto>.
     if (document.documentElement.hasAttribute('data-chat-quieto')) return;
+    // 16-10-2026: en /cotizar/ se abria encima del formulario de cotizacion, en
+    // el momento exacto en que el visitante ya decidio escribir. Ninguna pagina
+    // con formulario de contacto lo abre solo.
+    if (document.querySelector('form.contact-form')) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     try {
       if (sessionStorage.getItem('gg_chat_cerrado')) return;

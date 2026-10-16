@@ -221,8 +221,22 @@ if (contactSuccessMessage) {
 // Si el procesador (FormSubmit) está caído o falla, el usuario NO ve una
 // pantalla de error: le mostramos un mensaje para escribir por WhatsApp.
 if (contactForm) {
-  const WSP_FALLBACK =
-    "https://wa.me/56956392509?text=Hola%2C%20intent%C3%A9%20enviar%20el%20formulario%20de%20la%20web%20pero%20no%20pude.%20Quiero%20cotizar%20un%20proyecto%20digital";
+  // 16-10-2026: el formulario nunca se activo en FormSubmit y CADA cotizacion
+  // terminaba en este error, con un enlace a WhatsApp que decia solo "no pude
+  // enviar el formulario": el cliente perdia todo lo que habia llenado. Ahora
+  // el mensaje de WhatsApp lleva la cotizacion completa, campo por campo.
+  const WSP_NUMERO = "56956392509";
+  const resumenParaWhatsApp = () => {
+    const campos = new Map();
+    for (const [clave, valor] of new FormData(contactForm).entries()) {
+      const texto = String(valor || "").trim();
+      if (!texto || clave.startsWith("_")) continue;
+      campos.set(clave, campos.has(clave) ? campos.get(clave) + ", " + texto : texto);
+    }
+    const lineas = ["Hola, quiero cotizar un proyecto (lo envio por aqui porque el formulario de la web fallo):", ""];
+    for (const [clave, valor] of campos) lineas.push("*" + clave + ":* " + valor);
+    return "https://wa.me/" + WSP_NUMERO + "?text=" + encodeURIComponent(lineas.join(String.fromCharCode(10)));
+  };
   const formAction = contactForm.getAttribute("action") || "";
   const ajaxAction = formAction.replace("formsubmit.co/", "formsubmit.co/ajax/");
 
@@ -270,10 +284,12 @@ if (contactForm) {
     } catch (err) {
       showFormResult(
         "error",
-        'No pudimos enviar el formulario en este momento. Escríbenos directo por ' +
-          '<a href="' +
-          WSP_FALLBACK +
-          '" target="_blank" rel="noopener noreferrer">WhatsApp</a> y te respondemos el mismo día.'
+        "No pudimos enviar el formulario en este momento, pero no pierdes nada: " +
+          "tu cotización ya está escrita en WhatsApp, solo aprieta enviar.<br>" +
+          '<a class="button button--primary" style="margin-top:.75rem" href="' +
+          resumenParaWhatsApp() +
+          '" target="_blank" rel="noopener noreferrer" data-evento="cotizacion_por_whatsapp">' +
+          "Enviar mi cotización por WhatsApp</a>"
       );
     } finally {
       if (submitBtn) {

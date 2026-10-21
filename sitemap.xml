@@ -170,7 +170,7 @@
   </url>
   <url>
     <loc>https://www.gogodevs.cl/blog/</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -280,6 +280,12 @@
   <url>
     <loc>https://www.gogodevs.cl/blog/whatsapp-en-tu-sitio-web-sin-perder-pedidos/</loc>
     <lastmod>2026-10-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.gogodevs.cl/blog/mercado-libre-o-tienda-propia/</loc>
+    <lastmod>2026-10-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

@@ -170,7 +170,7 @@
   </url>
   <url>
     <loc>https://www.gogodevs.cl/blog/</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -322,6 +322,12 @@
   <url>
     <loc>https://www.gogodevs.cl/blog/como-conseguir-resenas-en-google/</loc>
     <lastmod>2026-10-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.gogodevs.cl/blog/registrar-dominio-cl-nic-chile/</loc>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

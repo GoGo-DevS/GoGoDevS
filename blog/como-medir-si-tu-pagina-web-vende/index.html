@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cómo medir si tu página web vende (GA4) | GoGoDevS</title>
+  <meta name="description" content="Qué medir en tu web para saber si genera negocio: clics a WhatsApp, formularios enviados y ventas como eventos clave en Google Analytics 4.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Diego Dinamarca">
+  <meta name="theme-color" content="#0A1428">
+  <link rel="canonical" href="https://www.gogodevs.cl/blog/como-medir-si-tu-pagina-web-vende/">
+  <link rel="icon" href="/favicon.ico?v=20261006" sizes="any">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png?v=20261006">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png?v=20261006">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.webp?v=20261006">
+  <meta property="og:locale" content="es_CL">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="GoGoDevS">
+  <meta property="og:title" content="Cómo medir si tu página web vende: visitas, contactos y ventas con Google Analytics 4">
+  <meta property="og:description" content="Qué medir en tu web para saber si genera negocio: clics a WhatsApp, formularios enviados y ventas como eventos clave en Google Analytics 4.">
+  <meta property="og:url" content="https://www.gogodevs.cl/blog/como-medir-si-tu-pagina-web-vende/">
+  <meta property="og:image" content="https://www.gogodevs.cl/assets/img/blog/como-medir-si-tu-pagina-web-vende-og.jpg">
+  <meta property="og:image:alt" content="Dueño de un negocio mirando un gráfico de visitas y contactos en el notebook junto a una taza de café">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="article:published_time" content="2026-10-29">
+  <meta property="article:modified_time" content="2026-10-29">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cómo medir si tu página web vende: visitas, contactos y ventas con Google Analytics 4">
+  <meta name="twitter:description" content="Qué medir en tu web para saber si genera negocio: clics a WhatsApp, formularios enviados y ventas como eventos clave en Google Analytics 4.">
+  <meta name="twitter:image" content="https://www.gogodevs.cl/assets/img/blog/como-medir-si-tu-pagina-web-vende-og.jpg">
+  <link rel="preload" as="image" href="/assets/img/blog/como-medir-si-tu-pagina-web-vende.webp" fetchpriority="high">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css?v=20261016-rubros">
+  <style>.article-prose a{color:var(--color-gold);text-decoration:underline;text-underline-offset:3px}.article-prose h3{font-family:'Montserrat',sans-serif;font-weight:700;color:var(--color-text);font-size:1.1rem;margin:1.6rem 0 0.6rem}</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": "https://www.gogodevs.cl/blog/como-medir-si-tu-pagina-web-vende/#articulo",
+      "headline": "Cómo medir si tu página web vende: visitas, contactos y ventas con Google Analytics 4",
+      "description": "Qué medir en tu web para saber si genera negocio: clics a WhatsApp, formularios enviados y ventas como eventos clave en Google Analytics 4.",
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://www.gogodevs.cl/assets/img/blog/como-medir-si-tu-pagina-web-vende.webp",
+        "width": 1200,
+        "height": 675
+      },
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "inLanguage": "es-CL",
+      "wordCount": 927,
+      "articleSection": "Medición",
+      "author": {
+        "@type": "Person",
+        "name": "Diego Dinamarca",
+        "url": "https://www.linkedin.com/in/diegodinamarca/"
+      },
+      "publisher": {
+        "@id": "https://www.gogodevs.cl/#organization"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.gogodevs.cl/blog/como-medir-si-tu-pagina-web-vende/"
+      },
+      "isPartOf": {
+        "@id": "https://www.gogodevs.cl/blog/#blog"
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://www.gogodevs.cl/#organization",
+      "name": "GoGoDevS",
+      "url": "https://www.gogodevs.cl/",
+      "logo": "https://www.gogodevs.cl/assets/img/logo-gogodevs.png"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://www.gogodevs.cl/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://www.gogodevs.cl/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Cómo medir si tu página web vende: visitas, contactos y ventas con Google Analytics 4",
+          "item": "https://www.gogodevs.cl/blog/como-medir-si-tu-pagina-web-vende/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Google Analytics 4 tiene costo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La versión estándar de Google Analytics 4 no tiene costo y suele bastar para lo que necesita medir una pyme."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué es un evento clave?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Es una acción que marcas como importante para tu negocio, como enviar un formulario o tocar el botón de WhatsApp. Google Analytics la cuenta aparte para que puedas ver cuántas veces ocurre y desde dónde."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Necesito un aviso de cookies?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Depende del público y la normativa que te aplique. Si pautas o vendes a países con reglas más estrictas, como los de la Unión Europea, conviene revisarlo con cuidado."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Principal">
+        <a class="brand" href="/" aria-label="Ir al inicio">
+          <img src="/assets/img/logo-gogodevs.png" alt="GoGoDevS" class="navbar-logo" width="48" height="48" decoding="async" fetchpriority="high">
+          <span class="brand-name">GoGoDevS</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Abrir menu principal">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
+        <div class="nav-menu" id="nav-menu">
+          <ul class="nav-list">
+            <li class="nav-item"><a href="/">Inicio</a></li>
+            <li class="nav-item"><a href="/servicios/">Servicios</a></li>
+            <li class="nav-item"><a href="/proyectos/">Proyectos</a></li>
+            <li class="nav-item"><a href="/blog/" aria-current="page">Blog</a></li>
+            <li class="nav-item"><a href="/sobre-gogodevs/">Nosotros</a></li>
+            <li class="nav-item"><a href="/contacto/">Contacto</a></li>
+          </ul>
+          <a class="button button--small button--blue" href="/cotizar/">Cotizar</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido" tabindex="-1">
+    <article class="section" aria-labelledby="post-title">
+      <div class="container" style="max-width:800px">
+        <p class="hero__support" style="text-align:center"><a href="/blog/">Blog</a> / <span data-blog-categoria>Medición</span></p>
+        <h1 id="post-title" style="text-align:center;margin-top:0.5rem">Cómo medir si tu página web vende: visitas, contactos y ventas con Google Analytics 4</h1>
+        <p class="article-meta" style="flex-wrap:wrap;row-gap:0.25rem"><span style="white-space:nowrap">Diego Dinamarca</span><span>·</span><time datetime="2026-10-29" style="white-space:nowrap">29 de octubre de 2026</time><span>·</span><span style="white-space:nowrap">5 min de lectura</span></p>
+
+        <figure style="margin:0 0 2.5rem">
+          <img src="/assets/img/blog/como-medir-si-tu-pagina-web-vende.webp" alt="Dueño de un negocio mirando un gráfico de visitas y contactos en el notebook junto a una taza de café" width="1200" height="675" loading="eager" fetchpriority="high" decoding="async" style="display:block;width:100%;height:auto;aspect-ratio:1200/675;object-fit:cover;border-radius:18px;border:1px solid var(--color-line)">
+        </figure>
+
+        <div class="article-prose">
+          <p>"¿Me sirve la página web?" es una de las preguntas más comunes de un dueño de negocio, y la mayoría la responde a ojo: "creo que llegan algunos clientes por ahí". El problema de responder a ojo es que no puedes mejorar lo que no mides, y menos decidir si vale la pena pagar publicidad.</p>
+          <p>Esta guía explica qué medir para saber si tu web genera negocio, con una herramienta gratuita: Google Analytics 4.</p>
+
+          <h2>Las visitas no son el objetivo</h2>
+          <p>El error más común es mirar solo cuántas personas entran. Las visitas importan, pero una web con muchas visitas y ningún contacto no está trabajando. Lo que de verdad quieres saber es:</p>
+          <ul>
+            <li><strong>¿Cuántas personas te contactaron desde la web?</strong></li>
+            <li><strong>¿Por dónde llegaron?</strong> Google, Instagram, un anuncio, un enlace directo.</li>
+            <li><strong>¿Qué páginas miraron antes de contactarte?</strong></li>
+            <li><strong>Si vendes en línea, ¿cuántas ventas hubo?</strong></li>
+          </ul>
+
+          <h2>Qué es Google Analytics 4</h2>
+          <p>Es la herramienta de medición de Google. Se instala con un código en tu sitio y registra visitas y acciones. Funciona en base a <strong>eventos</strong>: cada cosa que pasa en tu sitio (ver una página, tocar un botón, enviar un formulario) puede registrarse como un evento. Los que importan para tu negocio se marcan como <strong>eventos clave</strong>.</p>
+
+          <h2>Los eventos que una pyme debería medir</h2>
+          <ul>
+            <li><strong>Clic en WhatsApp.</strong> Para muchas pymes es el contacto principal. Cada toque al botón es una intención de hablar contigo.</li>
+            <li><strong>Formulario enviado.</strong> Pero ojo: cuando el envío se confirma, no cuando la persona aprieta el botón. Si el formulario falla, ese clic no fue un contacto.</li>
+            <li><strong>Clic en el teléfono o el correo.</strong></li>
+            <li><strong>Compra</strong>, si tienes tienda, con su monto.</li>
+            <li><strong>Inicio de pago</strong>, para saber cuánta gente llega al checkout y no termina.</li>
+          </ul>
+          <p>Marcarlos como eventos clave te permite ver cuántos ocurren y de qué fuente vinieron.</p>
+
+          <h2>Un caso real</h2>
+          <p>En la tienda de <a href="/proyectos/dulcecita/">Dulcecita</a>, una repostería artesanal, la medición está configurada con Google Analytics 4 y Clarity, con ventas y contactos como conversiones. Además, su página de links para la bio de Instagram cuenta qué botón toca cada visita. Con eso se puede responder algo que antes era pura intuición: qué canal trae pedidos de verdad.</p>
+          <p>Clarity, una herramienta gratuita de Microsoft, complementa a Analytics mostrando cómo se mueven las personas en la página: dónde tocan, hasta dónde bajan y dónde se frustran.</p>
+
+          <h2>Cómo leer los números sin ser analista</h2>
+          <p>No necesitas revisar cien informes. Con tres preguntas al mes basta:</p>
+          <ul>
+            <li><strong>¿Cuántos contactos o ventas hubo?</strong> Compara con el mes anterior.</li>
+            <li><strong>¿De qué fuente vinieron?</strong> Si Google trae más contactos que Instagram, eso dice algo sobre dónde poner energía.</li>
+            <li><strong>¿Qué página genera más contactos?</strong> Esa página merece que la cuides y la mejores.</li>
+          </ul>
+
+          <h2>Antes de pagar publicidad, mide</h2>
+          <p>Pagar anuncios sin medición es pagar a ciegas. Si no sabes cuántos contactos te trae cada campaña, no puedes saber cuál funciona ni cuánto te cuesta cada cliente. Por eso la medición se instala antes de la primera campaña, no después.</p>
+
+          <h2>Errores comunes</h2>
+          <ul>
+            <li><strong>Contar el clic en "enviar" como contacto</strong> aunque el formulario haya fallado.</li>
+            <li><strong>Medir tus propias visitas</strong> mientras revisas el sitio, inflando los números.</li>
+            <li><strong>Instalar Analytics y no mirarlo nunca.</strong></li>
+            <li><strong>Perder el acceso.</strong> La cuenta de Analytics debe estar a nombre del negocio, aunque otra persona te la configure.</li>
+            <li><strong>Mirar solo el total</strong> sin separar por fuente.</li>
+          </ul>
+
+          <h2>Medición y Google son dos cosas distintas</h2>
+          <p>Google Analytics te dice qué pasa dentro de tu sitio. Search Console, otra herramienta gratuita de Google, te dice cómo apareces en los resultados de búsqueda: con qué palabras, cuántas veces y cuántas personas hicieron clic. Las dos se complementan y conviene tener ambas desde el principio.</p>
+
+          <h2>El detalle técnico que más se equivoca</h2>
+          <p>Medir un clic en WhatsApp parece simple, pero tiene trampas. Un sitio puede tener varios botones de WhatsApp (el flotante, el de cada producto, el del pie de página) y conviene saber cuál se usa más. Además, si un formulario se envía y la página cambia, el evento tiene que registrarse en la confirmación y no en el clic del botón, porque si el envío falla ese clic no fue un contacto.</p>
+          <p>Por eso, después de instalar la medición, hay que probarla: tocar cada botón, enviar un formulario de prueba y revisar en el informe en tiempo real de Analytics que cada evento aparezca una vez y con el nombre correcto. Una medición sin probar puede estar contando de más, de menos o nada.</p>
+
+          <h2>Por dónde empezar</h2>
+          <p>Si tu sitio no mide nada, el primer paso es instalar Google Analytics 4 y configurar dos eventos clave: clic en WhatsApp y formulario enviado. Con eso, en un mes ya tienes una respuesta real a la pregunta del principio.</p>
+          <p>Cuando desarrollamos un sitio podemos dejar la medición configurada desde el inicio, y en nuestro servicio de <a href="/servicios/seo-tecnico/">SEO técnico</a> se incluye dejar el sitio verificado en Search Console. Si ya tienes un sitio y no sabes qué mide, una <a href="/servicios/consultoria/">auditoría técnica</a> lo revisa. Para una tienda con ventas medibles, revisa <a href="/servicios/ecommerce/">ecommerce</a>.</p>
+          <h2>Preguntas frecuentes</h2>
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary>¿Google Analytics 4 tiene costo?</summary>
+              <p>La versión estándar de Google Analytics 4 no tiene costo y suele bastar para lo que necesita medir una pyme.</p>
+            </details>
+            <details class="faq-item">
+              <summary>¿Qué es un evento clave?</summary>
+              <p>Es una acción que marcas como importante para tu negocio, como enviar un formulario o tocar el botón de WhatsApp. Google Analytics la cuenta aparte para que puedas ver cuántas veces ocurre y desde dónde.</p>
+            </details>
+            <details class="faq-item">
+              <summary>¿Necesito un aviso de cookies?</summary>
+              <p>Depende del público y la normativa que te aplique. Si pautas o vendes a países con reglas más estrictas, como los de la Unión Europea, conviene revisarlo con cuidado.</p>
+            </details>
+          </div>
+        </div>
+
+        <div class="contact__actions cta-buttons" style="justify-content:center;margin-top:2rem">
+          <a class="button button--primary" href="/cotizar/">Cotizar un sitio que mida</a>
+          <a class="button button--secondary" href="/proyectos/dulcecita/">Ver caso Dulcecita</a>
+        </div>
+
+        <section aria-labelledby="relacionados-title" style="margin-top:3rem">
+          <h2 id="relacionados-title" style="font-size:1.2rem;text-align:center">Sigue leyendo</h2>
+          <div class="blog-grid">
+          <a class="blog-card" href="/blog/registrar-dominio-cl-nic-chile/" style="text-decoration:none;color:inherit">
+            <img src="/assets/img/blog/registrar-dominio-cl-nic-chile.webp" alt="Notebook con un buscador de dominios en pantalla junto a una libreta con un nombre de negocio terminado en .cl" width="1200" height="675" loading="lazy" decoding="async" style="width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:10px">
+            <span class="blog-card__tag">Dominio y correo</span>
+            <h3>Cómo registrar un dominio .cl en NIC Chile y no perder el control de él</h3>
+            <span class="blog-card__link">Leer &rarr;</span>
+          </a>
+          <a class="blog-card" href="/blog/como-conseguir-resenas-en-google/" style="text-decoration:none;color:inherit">
+            <img src="/assets/img/blog/como-conseguir-resenas-en-google.webp" alt="Clienta en un mostrador escribiendo una reseña con estrellas en su celular mientras la dueña sonríe al fondo" width="1200" height="675" loading="lazy" decoding="async" style="width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:10px">
+            <span class="blog-card__tag">Google</span>
+            <h3>Cómo conseguir más reseñas en Google sin trampas (y qué hacer con las malas)</h3>
+            <span class="blog-card__link">Leer &rarr;</span>
+          </a>
+          </div>
+        </section>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer"><!-- footer comun: se edita en _blog/sitio_comun.py, no aca --><div class="container site-footer__content site-footer__content--comun"><div class="site-footer__brand"><p>GoGoDevS &middot; Desarrollo Web Profesional &middot; gogodevs.cl</p><p class="site-footer__note">Desarrollo web, ecommerce, sistemas a medida y automatización para negocios en Chile.</p><a href="mailto:contacto@gogodevs.cl">contacto@gogodevs.cl</a><!-- redes-gogodevs --><div class="site-footer__redes"><a href="https://www.instagram.com/gogodevs.cl/" target="_blank" rel="noopener" aria-label="GoGoDevS en Instagram"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 100 12.4 6.2 6.2 0 000-12.4zM12 16a4 4 0 110-8 4 4 0 010 8zm6.4-11.8a1.4 1.4 0 100 2.9 1.4 1.4 0 000-2.9z"/></svg></a><a href="https://www.tiktok.com/@gogodevs.cl" target="_blank" rel="noopener" aria-label="GoGoDevS en TikTok"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M19.6 6.7a4.8 4.8 0 01-3.8-4.3V2h-3.4v13.7a2.9 2.9 0 01-2.9 2.5 2.9 2.9 0 01-2.9-2.9 2.9 2.9 0 012.9-2.9c.3 0 .5 0 .8.1V9a6.3 6.3 0 00-.8 0 6.3 6.3 0 00-6.3 6.3 6.3 6.3 0 006.3 6.3 6.3 6.3 0 006.3-6.3V8.7a8.2 8.2 0 004.8 1.5V6.8a4.9 4.9 0 01-1-.1z"/></svg></a><a href="https://www.youtube.com/@gogodevs" target="_blank" rel="noopener" aria-label="GoGoDevS en YouTube"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg></a><a href="https://www.facebook.com/GoGoDevS" target="_blank" rel="noopener" aria-label="GoGoDevS en Facebook"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M24 12.1C24 5.4 18.6 0 12 0S0 5.4 0 12.1c0 6 4.4 11 10.1 11.9v-8.4h-3v-3.5h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9v2.3h3.3l-.5 3.5h-2.8V24C19.6 23 24 18.1 24 12.1z"/></svg></a><a href="https://www.linkedin.com/in/diegodinamarca/" target="_blank" rel="noopener" aria-label="GoGoDevS en LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3-1.9 0-2.1 1.4-2.1 2.9v5.7H9.4V9h3.4v1.6c.5-.9 1.6-1.9 3.4-1.9 3.6 0 4.3 2.4 4.3 5.5v6.3zM5.3 7.4a2.1 2.1 0 110-4.1 2.1 2.1 0 010 4.1zm1.8 13.1H3.6V9h3.5v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7C24 .8 23.2 0 22.2 0z"/></svg></a></div><p class="site-footer__copy">&copy; 2026 GoGoDevS.</p><p class="site-footer__copy">GoGoDevS es la marca comercial de Diego Alfonso Dinamarca Abarca.</p></div><nav class="site-footer__nav" aria-label="Explorar"><span class="site-footer__nav-title">Explorar</span><div class="site-footer__links"><a href="/">Inicio</a><a href="/servicios/">Servicios</a><a href="/proyectos/">Proyectos</a><a href="/blog/">Blog</a><a href="/paginas-web-por-rubro/">Páginas web por rubro</a><a href="/cotizar/">Cotizar</a><a href="/sobre-gogodevs/">Nosotros</a><a href="/contacto/">Contacto</a></div></nav><nav class="site-footer__nav" aria-label="Servicios"><span class="site-footer__nav-title">Servicios</span><div class="site-footer__links"><a href="/servicios/desarrollo-web/">Desarrollo web</a><a href="/servicios/ecommerce/">Ecommerce</a><a href="/servicios/sistemas-a-medida/">Sistemas a medida</a><a href="/servicios/apps-a-medida/">Apps a medida</a><a href="/servicios/automatizacion-de-procesos/">Automatización de procesos</a><a href="/servicios/integraciones/">Integraciones de pago</a><a href="/servicios/seo-tecnico/">SEO técnico</a><a href="/servicios/consultoria/">Consultoría / auditoría</a></div></nav><nav class="site-footer__nav" aria-label="Casos reales"><span class="site-footer__nav-title">Casos reales</span><div class="site-footer__links site-footer__links--casos"><a href="/proyectos/medina4x4/">Medina4x4: tienda online de repuestos 4x4</a><a href="/proyectos/villarreal/">Comercial Villarreal: ecommerce de repuestos automotrices</a><a href="/proyectos/popi/">Popi Uniformes Clínicos: ecommerce de uniformes clínicos</a><a href="/proyectos/dulcecita/">Dulcecita: tienda online de repostería</a><a href="/proyectos/punto-parcelas/">Punto Parcelas: página web para venta de parcelas</a><a href="/proyectos/salon-amanda/">Salón Amanda: página web para salón de belleza con reservas</a><a href="/proyectos/puas-tatuajes/">Púas Tatuajes: página web para estudio de tatuajes</a><a href="/proyectos/saferoom/">SafeRoom Chile: plataforma web de seguridad residencial</a><a href="/proyectos/voa-chile/">VOA Chile: página web de transporte y turismo</a><a href="/proyectos/travesia-logistica/">Travesía Logística: página web para empresa de logística</a><a href="/proyectos/fco-climatizacion/">FCO Climatización: página web para empresa de climatización</a><a href="/proyectos/sindicato-aza/">Sindicato AZA: sitio web para sindicato</a><a href="/proyectos/la-dolce-mammina/">La Dolce Mammina: sitio web para marca gastronómica</a><a href="/proyectos/max-services-spa/">MAX SERVICES SPA: sitio web corporativo de servicios</a></div></nav><nav class="site-footer__nav" aria-label="Guías"><span class="site-footer__nav-title">Guías</span><div class="site-footer__links"><a href="/cuanto-cuesta-una-pagina-web-chile/">¿Cuánto cuesta una página web en Chile?</a><a href="/blog/que-pedirle-a-una-empresa-de-desarrollo-web/">Qué pedirle a una empresa de desarrollo web</a><a href="/blog/catalogo-o-tienda-online/">¿Catálogo o tienda online?</a><a href="/blog/mercado-pago-o-webpay-tienda-online/">Mercado Pago o Webpay</a><a href="/blog/software-a-medida-o-herramienta-generica/">Software a medida o herramienta ya hecha</a><a href="/blog/">Todas las guías del blog</a></div></nav><div class="footer-legal"><a href="/legal/privacidad/">Privacidad</a><a href="/legal/terminos/">Términos</a><a href="/legal/pagos-y-cancelacion/">Pagos y cancelación</a><a href="https://maps.google.com/?cid=9703305989011734289" target="_blank" rel="noopener">Nuestra ficha en Google</a></div></div></footer>
+
+  <script src="/assets/js/main.js?v=20261016-cotizar" defer></script>
+  <script src="/assets/js/chat-widget.js?v=20261016-cotizar" defer></script>
+  <script src="/assets/js/medicion.js" defer></script>
+</body>
+</html>

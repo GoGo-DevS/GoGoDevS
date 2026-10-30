@@ -52,6 +52,7 @@ SERVICIOS = [
     ("apps-a-medida", "Apps a medida"),
     ("automatizacion-de-procesos", "Automatización de procesos"),
     ("integraciones", "Integraciones de pago"),
+    ("mantencion-web", "Mantención web"),
     ("seo-tecnico", "SEO técnico"),
     ("consultoria", "Consultoría / auditoría"),
 ]

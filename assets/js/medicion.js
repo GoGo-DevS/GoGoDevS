@@ -122,8 +122,10 @@
     return 'contenido';
   }
 
-  /* Formulario de contacto: se envía a formsubmit.co (fuera del sitio) y vuelve
-     a /contacto/?enviado=1. Se marcan las dos cosas y NO significan lo mismo:
+  /* Formulario de contacto: main.js lo envía por AJAX a formsubmit.co y avisa
+     con "gg:lead-formulario" cuando formsubmit confirma (antes volvía a
+     /contacto/?enviado=1; se deja por si algún formulario aún lo usa).
+     Se marcan las dos cosas y NO significan lo mismo:
        submit  = apretó enviar (puede fallar o abandonar)
        enviado = formsubmit confirmó y lo devolvió  <- este es el lead de verdad
      El Lead de Meta y la conversión de Ads van SOLO en el segundo, si no se
@@ -136,6 +138,13 @@
       });
     }
   }, true);
+
+  document.addEventListener('gg:lead-formulario', function (e) {
+    evento('lead_formulario', {
+      metodo: 'formulario',
+      tipo_servicio: (e.detail || {}).tipo_servicio || ''
+    }, 'Lead');
+  });
 
   if (/[?&]enviado=1/.test(window.location.search)) {
     evento('lead_formulario', { metodo: 'formulario' }, 'Lead');

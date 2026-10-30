@@ -273,6 +273,10 @@ if (contactForm) {
       if (!response.ok) throw new Error("bad_status");
       const data = await response.json().catch(() => ({}));
       if (String(data.success) === "true") {
+        // El envio es por AJAX y no vuelve con ?enviado=1: medicion.js marca el
+        // lead con este aviso, solo cuando formsubmit confirmo.
+        const tipo = contactForm.querySelector('[name="tipo_servicio"], [name="Tipo de proyecto"]:checked');
+        contactForm.dispatchEvent(new CustomEvent("gg:lead-formulario", { bubbles: true, detail: { tipo_servicio: tipo ? tipo.value : "" } }));
         contactForm.reset();
         showFormResult(
           "ok",

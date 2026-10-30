@@ -182,7 +182,7 @@
   </url>
   <url>
     <loc>https://www.gogodevs.cl/blog/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -346,6 +346,12 @@
   <url>
     <loc>https://www.gogodevs.cl/blog/como-medir-si-tu-pagina-web-vende/</loc>
     <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.gogodevs.cl/blog/search-console-para-duenos-de-negocio/</loc>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

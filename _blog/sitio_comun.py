@@ -121,7 +121,7 @@ def footer_html():
     guias = "".join(_a(h, t) for h, t in GUIAS)
     explorar = "".join(_a(h, t) for h, t in (
         ("/", "Inicio"), ("/servicios/", "Servicios"), ("/proyectos/", "Proyectos"),
-        ("/blog/", "Blog"), ("/%s/" % HUB, HUB_H1), ("/cotizar/", "Cotizar"), ("/sobre-gogodevs/", "Nosotros"),
+        ("/blog/", "Blog"), ("/%s/" % HUB, HUB_H1), ("/paginas-web-maipu/", "Páginas web en Maipú"), ("/cotizar/", "Cotizar"), ("/sobre-gogodevs/", "Nosotros"),
         ("/contacto/", "Contacto")))
     return (
         '<footer class="site-footer"><!-- footer comun: se edita en _blog/sitio_comun.py, no aca -->'

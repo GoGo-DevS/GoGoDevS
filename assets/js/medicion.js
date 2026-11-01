@@ -11,9 +11,13 @@
    IDs vacíos = esa plataforma NO carga. Así este archivo se puede subir hoy y
    activarse cuando existan las cuentas, sin tocar nada más que estas líneas.
 
-   Consentimiento de cookies: no se agrega banner. El público es Chile, que no
-   exige el opt-in previo del RGPD. Si algún día se pauta a Europa, hay que
-   revisarlo. */
+   Consentimiento (01-11-2026): la decisión del 10-09 de no poner banner ("Chile
+   no exige opt-in") quedó obsoleta. La Ley 21.719 rige desde el 01-12-2026 y
+   GA4 y el Pixel tratan datos personales (identificadores, IP). Ahora NADA de
+   medición carga hasta que el visitante acepta. Si rechaza, o no decide, el
+   sitio funciona igual y no se mide. La decisión dura un año; la señal Global
+   Privacy Control del navegador cuenta como rechazo. Cualquier elemento con
+   data-gg-consentimiento (la política de privacidad tiene uno) reabre el aviso. */
 (function () {
   'use strict';
 
@@ -24,7 +28,100 @@
 
   var WHATSAPP = /(?:wa\.me|api\.whatsapp\.com|web\.whatsapp\.com)/i;
 
-  /* ---------- Carga de plataformas ---------- */
+  /* ---------- Consentimiento ---------- */
+
+  var CLAVE_DECISION = 'gg_consentimiento_v1';
+  var VIGENCIA_MS = 365 * 24 * 60 * 60 * 1000;
+
+  function leerDecision() {
+    try {
+      var d = JSON.parse(window.localStorage.getItem(CLAVE_DECISION));
+      if (d && typeof d.analitica === 'boolean' && Date.now() - d.fecha < VIGENCIA_MS) return d;
+    } catch (e) {}
+    return null;
+  }
+
+  function guardarDecision(acepta) {
+    try {
+      window.localStorage.setItem(CLAVE_DECISION, JSON.stringify({ analitica: acepta, fecha: Date.now() }));
+    } catch (e) {}
+  }
+
+  /* Quien acepta y después rechaza no puede quedar medido: se corta GA4 en esta
+     página y se borran las cookies que ya había dejado. */
+  function revocar() {
+    if (CONFIG.GA4_ID) window['ga-disable-' + CONFIG.GA4_ID] = true;
+    ga4Listo = pixelListo = false;
+    document.cookie.split(';').forEach(function (c) {
+      var nombre = c.split('=')[0].trim();
+      if (/^(_ga|_gid|_gat|_fbp|_fbc)/.test(nombre)) {
+        var base = nombre + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+        document.cookie = base;
+        document.cookie = base + '; domain=.' + window.location.hostname.replace(/^www\./, '');
+      }
+    });
+  }
+
+  var aviso = null;
+  function cerrarAviso() {
+    if (aviso) { aviso.remove(); aviso = null; }
+  }
+
+  function decidir(acepta) {
+    guardarDecision(acepta);
+    cerrarAviso();
+    if (acepta) cargarPlataformas(); else revocar();
+  }
+
+  function mostrarAviso() {
+    if (aviso) return;
+    var estilos = document.getElementById('gg-consent-css');
+    if (!estilos) {
+      estilos = document.createElement('style');
+      estilos.id = 'gg-consent-css';
+      estilos.textContent = [
+        '.gg-consent{position:fixed;left:1rem;right:1rem;bottom:1rem;z-index:40;max-width:46rem;margin:0 auto;',
+        'background:#0D1A30;border:1px solid #2A3B5E;border-radius:16px;padding:1rem 1.2rem;',
+        'box-shadow:0 24px 60px rgba(0,0,0,.55);color:#FFFFFF;font-family:"Montserrat",system-ui,sans-serif;',
+        'display:flex;flex-wrap:wrap;align-items:center;gap:.9rem 1.2rem;}',
+        '.gg-consent p{margin:0;flex:1 1 20rem;font-size:.85rem;line-height:1.5;color:#FFFFFF;}',
+        '.gg-consent a{color:#FFB627;}',
+        '.gg-consent-botones{display:flex;gap:.6rem;flex:0 0 auto;}',
+        '.gg-consent button{font:inherit;font-size:.82rem;font-weight:700;border-radius:999px;',
+        'padding:.65rem 1.3rem;cursor:pointer;min-width:7.5rem;}',
+        '.gg-consent .gg-si{background:#FFB627;color:#0A1428;border:1px solid #FFB627;}',
+        '.gg-consent .gg-no{background:transparent;color:#FFFFFF;border:1px solid #A8B3CF;}',
+        '.gg-consent button:focus-visible{outline:2px solid #FFB627;outline-offset:2px;}'
+      ].join('');
+      document.head.appendChild(estilos);
+    }
+    aviso = document.createElement('div');
+    aviso.className = 'gg-consent';
+    aviso.setAttribute('role', 'region');
+    aviso.setAttribute('aria-label', 'Aviso de cookies');
+    aviso.innerHTML =
+      '<p>Usamos Google Analytics para saber qué páginas sirven y mejorar el sitio. ' +
+      'Solo se activa si aceptas; si no, el sitio funciona igual. ' +
+      '<a href="/legal/privacidad/#cookies">Política de privacidad</a></p>' +
+      '<div class="gg-consent-botones">' +
+        '<button type="button" class="gg-no">Rechazar</button>' +
+        '<button type="button" class="gg-si">Aceptar</button>' +
+      '</div>';
+    aviso.querySelector('.gg-si').addEventListener('click', function () { decidir(true); });
+    aviso.querySelector('.gg-no').addEventListener('click', function () { decidir(false); });
+    document.body.appendChild(aviso);
+  }
+
+  window.ggConsentimiento = { abrir: mostrarAviso, decision: leerDecision };
+
+  document.addEventListener('click', function (e) {
+    var el = e.target && e.target.closest ? e.target.closest('[data-gg-consentimiento]') : null;
+    if (!el) return;
+    e.preventDefault();
+    mostrarAviso();
+  });
+
+  /* ---------- Carga de plataformas (solo con consentimiento) ---------- */
 
   function cargarScript(src) {
     var s = document.createElement('script');
@@ -34,19 +131,25 @@
   }
 
   var ga4Listo = false;
+  var pixelListo = false;
   window.dataLayer = window.dataLayer || [];
   function gtag() { window.dataLayer.push(arguments); }
 
-  if (CONFIG.GA4_ID) {
-    cargarScript('https://www.googletagmanager.com/gtag/js?id=' + CONFIG.GA4_ID);
-    gtag('js', new Date());
-    // send_page_view por defecto: GA4 ya cuenta la visita y el scroll solo.
-    gtag('config', CONFIG.GA4_ID);
-    ga4Listo = true;
+  function cargarPlataformas() {
+    if (CONFIG.GA4_ID) {
+      window['ga-disable-' + CONFIG.GA4_ID] = false;
+      if (!document.querySelector('script[src*="googletagmanager.com/gtag/js"]')) {
+        cargarScript('https://www.googletagmanager.com/gtag/js?id=' + CONFIG.GA4_ID);
+      }
+      gtag('js', new Date());
+      // send_page_view por defecto: GA4 ya cuenta la visita y el scroll solo.
+      gtag('config', CONFIG.GA4_ID);
+      ga4Listo = true;
+    }
+    if (CONFIG.META_PIXEL_ID) cargarPixel();
   }
 
-  var pixelListo = false;
-  if (CONFIG.META_PIXEL_ID) {
+  function cargarPixel() {
     /* Snippet oficial de Meta, con el mismo nombre de cola (fbq) que espera
        su plataforma. No se reescribe "más lindo": Meta valida que exista. */
     !function (f, b, e, v, n, t, s) {
@@ -60,6 +163,17 @@
     window.fbq('init', CONFIG.META_PIXEL_ID);
     window.fbq('track', 'PageView');
     pixelListo = true;
+  }
+
+  /* ---------- Arranque ---------- */
+
+  var decision = leerDecision();
+  if (decision) {
+    if (decision.analitica) cargarPlataformas();
+  } else if (navigator.globalPrivacyControl !== true) {
+    // Con Global Privacy Control el navegador ya dijo que no: no se pregunta.
+    if (document.body) mostrarAviso();
+    else document.addEventListener('DOMContentLoaded', mostrarAviso);
   }
 
   /* ---------- Envío de eventos ---------- */

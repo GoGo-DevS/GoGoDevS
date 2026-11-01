@@ -9,6 +9,17 @@
   var ENDPOINT = 'https://gogocrm-h050.onrender.com/agente-web/chat/';
   var historial = []; // [{rol:'usuario'|'agente', texto:'...'}]
 
+  /* Id de la conversación guardada en el CRM. Lo entrega el servidor en la
+     primera respuesta; se guarda por pestaña para que, si el visitante cambia
+     de página, sus mensajes sigan en la misma conversación. */
+  var conversacionId = null;
+  try { conversacionId = sessionStorage.getItem('gg_chat_id'); } catch (e) {}
+  function recordarConversacion(id) {
+    if (!id) return;
+    conversacionId = id;
+    try { sessionStorage.setItem('gg_chat_id', id); } catch (e) {}
+  }
+
   var estilos = document.createElement('style');
   estilos.textContent = [
     '.gg-chat-fab{position:fixed;right:1.2rem;bottom:12.4rem;z-index:31;',
@@ -63,6 +74,8 @@
     '.gg-chat-input{flex:1;background:#0A1428;border:1px solid rgba(37,99,235,.25);border-radius:999px;',
     'padding:.6rem 1rem;color:#fff;font-size:.85rem;outline:none;}',
     '.gg-chat-input:focus{border-color:#2563eb;}',
+    '.gg-chat-aviso{margin:0;padding:0 .9rem .65rem;font-size:.66rem;line-height:1.4;color:#A8B3CF;}',
+    '.gg-chat-aviso a{color:#FFB627;}',
     '.gg-chat-send{background:#2563eb;border:none;border-radius:999px;width:2.4rem;height:2.4rem;flex-shrink:0;',
     'display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;}',
     '.gg-chat-send:disabled{opacity:.5;cursor:default;}',
@@ -115,7 +128,11 @@
       '<button class="gg-chat-send" id="ggChatSend" aria-label="Enviar">' +
         '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>' +
       '</button>' +
-    '</div>';
+    '</div>' +
+    /* 01-11-2026: desde hoy la conversación se guarda en el CRM (Ley 21.719:
+       hay que avisarlo ANTES de que escriba, no después). */
+    '<p class="gg-chat-aviso">Guardamos esta conversación para responderte y, si nos dejas tu contacto, escribirte. ' +
+      '<a href="/legal/privacidad/#asistente">Política de privacidad</a></p>';
 
   document.body.appendChild(fab);
   document.body.appendChild(panel);
@@ -247,11 +264,17 @@
     fetch(ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mensaje: texto, historial: historial }),
+      body: JSON.stringify({
+        mensaje: texto,
+        historial: historial,
+        conversacion: conversacionId,
+        pagina: window.location.pathname,
+      }),
     })
       .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
       .then(function (res) {
         indicador.remove();
+        recordarConversacion(res.data.conversacion);
         if (res.ok && res.data.respuesta) {
           agregarMensaje(res.data.respuesta, 'gg-msg-agente');
           historial.push({ rol: 'agente', texto: res.data.respuesta });

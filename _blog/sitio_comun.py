@@ -25,6 +25,9 @@ import sys
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CSS_VERSION = "20261016-rubros"
+# Los scripts se versionan igual que el CSS: medicion.js iba SIN versión, y el
+# navegador que lo tenía guardado seguía midiendo sin pedir consentimiento.
+JS_VERSION = {"medicion.js": "20261101-consentimiento", "chat-widget.js": "20261101-historial"}
 
 # slug -> (marca, rubro). El rubro sale de la descripcion de cada caso, no se
 # inventa: si un caso no dice su rubro, dice lo que si es ("marca gastronomica").
@@ -145,6 +148,9 @@ def footer_html():
         '<div class="footer-legal">'
         '<a href="/legal/privacidad/">Privacidad</a><a href="/legal/terminos/">Términos</a>'
         '<a href="/legal/pagos-y-cancelacion/">Pagos y cancelación</a>'
+        # data-gg-consentimiento: medicion.js lo intercepta y reabre el aviso.
+        # Sin JS, el enlace igual lleva a la sección de cookies de la política.
+        '<a href="/legal/privacidad/#cookies" data-gg-consentimiento>Preferencias de cookies</a>'
         '<a href="https://maps.google.com/?cid=9703305989011734289" target="_blank" rel="noopener">Nuestra ficha en Google</a>'
         '</div></div></footer>'
     )
@@ -183,6 +189,14 @@ def aplicar():
             continue  # stub de redireccion
         n = FOOTER_RE.sub(lambda m: footer, t, count=0)
         n = re.sub(r"style\.css\?v=[0-9A-Za-z_-]+", "style.css?v=" + CSS_VERSION, n)
+        for script, version in JS_VERSION.items():
+            n = re.sub(r'/assets/js/%s(?:\?v=[0-9A-Za-z_-]+)?"' % re.escape(script),
+                       '/assets/js/%s?v=%s"' % (script, version), n)
+        # Un script viejo pegó los íconos de redes tras CUALQUIER mailto, también
+        # dentro del texto (contacto y las tres legales). Fuera del footer sobran.
+        pie = n.find('<footer class="site-footer">')
+        if pie > 0:
+            n = re.sub(r'<!-- redes-gogodevs --><div class="site-footer__redes">.*?</div>', '', n[:pie], flags=re.S) + n[pie:]
         m = re.match(r"proyectos/([^/]+)/index\.html$", rel)
         if m:
             caso = {s: (ma, ru) for s, ma, ru in CASOS}.get(m.group(1))

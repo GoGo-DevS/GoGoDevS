@@ -27,7 +27,7 @@ RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CSS_VERSION = "20261016-rubros"
 # Los scripts se versionan igual que el CSS: medicion.js iba SIN versión, y el
 # navegador que lo tenía guardado seguía midiendo sin pedir consentimiento.
-JS_VERSION = {"medicion.js": "20261101-consentimiento", "chat-widget.js": "20261101-historial"}
+JS_VERSION = {"medicion.js": "20261101-banner-izq", "chat-widget.js": "20261101-chat-derecha"}
 
 # slug -> (marca, rubro). El rubro sale de la descripcion de cada caso, no se
 # inventa: si un caso no dice su rubro, dice lo que si es ("marca gastronomica").

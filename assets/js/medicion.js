@@ -91,7 +91,11 @@
         'padding:.65rem 1.3rem;cursor:pointer;min-width:7.5rem;}',
         '.gg-consent .gg-si{background:#FFB627;color:#0A1428;border:1px solid #FFB627;}',
         '.gg-consent .gg-no{background:transparent;color:#FFFFFF;border:1px solid #A8B3CF;}',
-        '.gg-consent button:focus-visible{outline:2px solid #FFB627;outline-offset:2px;}'
+        '.gg-consent button:focus-visible{outline:2px solid #FFB627;outline-offset:2px;}',
+        // Fuera del celular va abajo a la IZQUIERDA: la derecha es de WhatsApp,
+        // Instagram y el chat. Y mientras el chat esta abierto se esconde.
+        '@media(min-width:641px){.gg-consent{left:1.2rem;right:5.6rem;margin:0;max-width:34rem;}}',
+        'html.gg-chat-abierto .gg-consent{display:none;}'
       ].join('');
       document.head.appendChild(estilos);
     }

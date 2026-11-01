@@ -22,7 +22,7 @@
 
   var estilos = document.createElement('style');
   estilos.textContent = [
-    '.gg-chat-fab{position:fixed;right:1.2rem;bottom:12.4rem;z-index:31;',
+    '.gg-chat-fab{position:fixed;right:1.2rem;bottom:9.4rem;z-index:31;',
     'display:inline-flex;align-items:center;gap:.7rem;min-height:3.2rem;',
     'padding:.85rem 1.1rem;border-radius:999px;border:none;cursor:pointer;',
     'background:linear-gradient(135deg,#2563eb,#FFB627);color:#0A1428;',
@@ -30,8 +30,8 @@
     'font-size:.78rem;font-weight:700;letter-spacing:.04em;transition:transform .2s,box-shadow .2s;}',
     '.gg-chat-fab:hover{transform:translateY(-3px);box-shadow:0 24px 52px rgba(37,99,235,.42);}',
     '.gg-chat-fab svg{width:1.3rem;height:1.3rem;flex-shrink:0;}',
-    '.gg-chat-panel{position:fixed;right:1.2rem;bottom:16.2rem;z-index:32;width:min(400px,calc(100vw - 2rem));',
-    'height:min(600px,calc(100vh - 18rem));background:#0d1a30;border:1px solid rgba(37,99,235,.25);',
+    '.gg-chat-panel{position:fixed;right:5.6rem;bottom:1.2rem;z-index:32;width:min(400px,calc(100vw - 7rem));',
+    'height:min(640px,calc(100vh - 2.4rem));background:#0d1a30;border:1px solid rgba(37,99,235,.25);',
     'border-radius:22px;box-shadow:0 24px 60px rgba(0,0,0,.5);display:flex;flex-direction:column;overflow:hidden;',
     'font-family:"Montserrat",system-ui,sans-serif;',
     /* 11-09: el panel se abria de golpe porque se alternaba `display`, que NO es
@@ -87,24 +87,19 @@
     '.gg-typing i:nth-child(3){animation-delay:.3s;}',
     '@keyframes ggBounce{0%,60%,100%{transform:translateY(0);opacity:.5;}30%{transform:translateY(-4px);opacity:1;}}',
     '@media(max-width:480px){.gg-chat-fab span{display:none;}.gg-chat-fab{padding:.85rem;min-width:3.2rem;justify-content:center;}}',
-    /* 07-09-2026: Diego pidio el boton al centro, pero solo en desktop -- en
-       mobile se queda apilado con WhatsApp/Instagram (poco ancho, el centro
-       ahi tapa contenido). El panel se centra igual, para que abra justo
-       arriba del boton en vez de quedar descuadrado a la derecha. */
-    '@media(min-width:769px){',
-    '.gg-chat-fab{right:auto;left:50%;transform:translateX(-50%);bottom:1.6rem;}',
-    '.gg-chat-fab:hover{transform:translateX(-50%) translateY(-3px);}',
-    /* OJO: en escritorio el panel se CENTRA con translateX(-50%), y eso pisaba
-       entera la transformacion de entrada -- quedaba solo el fade, sin el
-       deslizamiento ni la escala. Las transformaciones no se heredan: la de
-       abajo reemplaza a la de arriba completa. Por eso aca se COMPONEN las dos
-       en la misma declaracion. */
-    '.gg-chat-panel{right:auto;left:50%;bottom:5.4rem;',
-    'width:440px;height:min(680px,calc(100vh - 9rem));',
-    'transform-origin:50% 100%;transform:translateX(-50%) translateY(14px) scale(.96);}',
-    '.gg-chat-panel.gg-open{transform:translateX(-50%) translateY(0) scale(1);}',
-    '@media(prefers-reduced-motion:reduce){',
-    '.gg-chat-panel,.gg-chat-panel.gg-open{transform:translateX(-50%);}}',
+    /* Abierto, el boton se encoge a circulo como WhatsApp e Instagram: con la
+       etiqueta, el panel le tapaba la mitad ("...untanos"). */
+    'html.gg-chat-abierto .gg-chat-fab{padding:0;width:3.4rem;height:3.4rem;justify-content:center;}',
+    'html.gg-chat-abierto .gg-chat-fab span{display:none;}',
+    /* 01-11-2026: el boton centrado en escritorio (pedido el 07-09) salio: Diego
+       nunca le gusto ahi, tapaba el titulo del inicio y chocaba con el aviso de
+       cookies. Ahora vive en la columna de WhatsApp e Instagram y el panel se
+       abre AL LADO de esa columna, sin taparla. En celular es una hoja desde
+       abajo: la ventanita encima de los botones quedaba chica. */
+    '@media(max-width:640px){',
+    '.gg-chat-fab{right:.9rem;bottom:calc(12.2rem + env(safe-area-inset-bottom));}',
+    '.gg-chat-panel{left:.6rem;right:.6rem;bottom:calc(.6rem + env(safe-area-inset-bottom));width:auto;',
+    'height:min(620px,calc(100vh - 5rem));transform-origin:50% 100%;}',
     '}',
     '@media(prefers-reduced-motion:reduce){.gg-typing i{animation:none;opacity:.8;}}',
   ].join('');
@@ -184,6 +179,9 @@
   var saludado = false;
   function abrir(porElUsuario) {
     panel.classList.add('gg-open');
+    // medicion.js esconde el aviso de cookies mientras el chat esta abierto:
+    // en pantallas medianas se montaban y el aviso tapaba el campo de escribir.
+    document.documentElement.classList.add('gg-chat-abierto');
     if (!saludado) {
       agregarMensaje('¡Hola! 👋 Soy el asistente de GoGoDevS. Cuéntame qué necesitas: un sitio, una tienda online o un sistema a medida.', 'gg-msg-agente');
       saludado = true;
@@ -192,7 +190,10 @@
     // apertura automatica robarle el cursor mientras lee es agresivo.
     if (porElUsuario !== false) input.focus();
   }
-  function cerrar() { panel.classList.remove('gg-open'); }
+  function cerrar() {
+    panel.classList.remove('gg-open');
+    document.documentElement.classList.remove('gg-chat-abierto');
+  }
 
   fab.addEventListener('click', function () {
     if (panel.classList.contains('gg-open')) cerrar(); else abrir();
@@ -234,6 +235,9 @@
 
     setTimeout(function () {
       if (panel.classList.contains('gg-open')) return;
+      // Con el aviso de cookies en pantalla no se abre: una cosa a la vez. No
+      // se marca como abierto, asi que lo intenta de nuevo en la proxima pagina.
+      if (document.querySelector('.gg-consent')) return;
       try { sessionStorage.setItem('gg_chat_autoabierto', '1'); } catch (e) {}
       abrir(false);
       // El foco NO se roba al abrir solo: si el visitante esta leyendo o

@@ -9,3 +9,9 @@ RewriteRule ^ https://www.gogodevs.cl%{REQUEST_URI} [R=301,L]
 
 Redirect 301 /servicios/sistemas-web/ /servicios/sistemas-a-medida/
 Redirect 301 /servicios/automatizacion-procesos/ /servicios/automatizacion-de-procesos/
+
+# Archivos internos del repo: no se sirven aunque ya esten en el servidor.
+# El mirror FTP de los workflows tampoco los sube; esto cubre las copias viejas.
+RedirectMatch 404 ^/(README\.md|CAMBIOS_GOGODEVS\.txt|index-v2\.html|assets/css/style-v2\.css)$
+RedirectMatch 404 ^/docs/
+RedirectMatch 404 \.md$

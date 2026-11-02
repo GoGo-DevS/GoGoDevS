@@ -95,6 +95,6 @@ jobs:
           set ftp:passive-mode on
           set net:max-retries 3
           set net:timeout 30
-          mirror -R --delete --only-newer --exclude-glob .git* --exclude-glob .vscode/ --exclude ^_blog/ --exclude ^_programados/ --verbose . /domains/gogodevs.cl/public_html/
+          mirror -R --delete --only-newer --exclude-glob .git* --exclude-glob .vscode/ --exclude ^_blog/ --exclude ^_programados/ --exclude ^docs/ --exclude ^README.md --exclude ^CAMBIOS_GOGODEVS.txt --exclude ^index-v2.html --exclude ^assets/css/style-v2.css --verbose . /domains/gogodevs.cl/public_html/
           bye
           EOF

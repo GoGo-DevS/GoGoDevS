@@ -1,0 +1,62 @@
+titulo: Correo corporativo con dominio propio en Chile | GoGoDevS
+h1: Correo corporativo con tu dominio: opciones en Chile y cómo configurarlo para que no llegue a spam
+descripcion: Cómo tener correo corporativo con tu dominio: Google Workspace, Microsoft 365, Gmail con reenvío, Zoho o el hosting, y SPF, DKIM y DMARC contra el spam.
+categoria: Dominio y correo
+foto_alt: Mujer de perfil en una oficina pequeña revisando su bandeja de correo en un notebook con una taza y documentos al lado
+cta: Configurar mi correo corporativo
+cta2_href: /servicios/integraciones/
+cta2_texto: Ver integraciones
+faq: ¿Puedo tener correo con mi dominio sin pagar por usuario? || Sí. Puedes recibir el correo de tu dominio en tu Gmail actual mediante reenvío y responder como tu dominio con un servicio de envío autenticado, y muchos planes de hosting incluyen casillas. Las condiciones de cada servicio cambian, así que revisa el plan vigente. Lo que no se puede omitir es la configuración del dominio.
+faq: ¿Puedo usar Gmail con mi dominio? || Sí, de dos formas: con Google Workspace, que es Gmail con tu dominio y se paga por usuario, o recibiendo el correo de tu dominio en tu Gmail mediante reenvío y respondiendo como contacto@tunegocio.cl con un servicio de envío autenticado. La segunda funciona bien para equipos chicos si el dominio queda bien configurado.
+faq: ¿Qué son SPF, DKIM y DMARC? || Son registros que se agregan al dominio para demostrar que un correo realmente viene de tu empresa. SPF dice qué servidores pueden enviar en tu nombre, DKIM firma cada correo y DMARC le dice al que recibe qué hacer si un correo no pasa esas pruebas. Sin ellos, tus correos tienen muchas más probabilidades de terminar en spam.
+---
+          <p>Escribirle a un cliente desde "ventas@tunegocio.cl" no es lo mismo que hacerlo desde una cuenta personal de Gmail con un nombre inventado. El correo corporativo con tu dominio da confianza, ordena la comunicación de tu empresa y, sobre todo, deja las cuentas a nombre del negocio y no de una persona.</p>
+          <p>Esta guía explica qué opciones hay en Chile para tener correo con tu dominio, cuál conviene según tu equipo y qué hay que configurar para que tus correos no terminen en la carpeta de spam.</p>
+
+          <h2>¿Qué necesitas para tener correo corporativo?</h2>
+          <p>Dos cosas: un dominio propio, por ejemplo tunegocio.cl, y un servicio de correo que lo use. El dominio se inscribe en NIC Chile y tiene que estar a tu nombre; cómo hacerlo está en <a href="/blog/registrar-dominio-cl-nic-chile/">cómo registrar un dominio .cl en NIC Chile</a>. El servicio de correo se elige aparte y se conecta al dominio con unos registros técnicos que veremos más abajo.</p>
+
+          <h2>Las opciones más usadas</h2>
+          <h3>Google Workspace</h3>
+          <p>Es Gmail con tu dominio, más Drive, Calendar y Meet, con una administración central de todas las cuentas. Se paga por usuario al mes. Conviene si tu equipo comparte documentos y calendarios en Google y quieres controlar las cuentas desde un solo lugar.</p>
+          <h3>Microsoft 365</h3>
+          <p>Es Outlook con tu dominio, más Word, Excel y Teams, según el plan. También se paga por usuario al mes. Conviene si tu empresa trabaja con Office y con archivos de Excel todo el día.</p>
+          <h3>Gmail con reenvío y envío como tu dominio</h3>
+          <p>Lo que llega a contacto@tunegocio.cl se reenvía a la cuenta de Gmail que ya usas, y desde ahí respondes como contacto@tunegocio.cl gracias a un servicio de envío autenticado. No pagas licencias por usuario y no cambias de bandeja. Funciona bien para equipos chicos que ya viven en Gmail, siempre que el dominio quede bien configurado; los servicios de envío gratuitos tienen límites diarios, así que no sirve para envíos masivos.</p>
+          <h3>Zoho Mail</h3>
+          <p>Un servicio de correo profesional con casillas propias del dominio. Conviene si necesitas varias casillas independientes sin depender de Google o Microsoft. Revisa qué incluye cada plan: las versiones más básicas suelen tener limitaciones para usar el correo desde otras aplicaciones.</p>
+          <h3>El correo de tu hosting</h3>
+          <p>Muchos planes de hosting incluyen cuentas de correo con tu dominio. Sirve para partir, pero suele tener menos espacio, un filtro de spam más débil y un webmail menos cómodo. Y si el sitio y el correo están en el mismo servidor, un problema en uno puede afectar al otro.</p>
+
+          <h2>¿Cuál conviene para tu pyme?</h2>
+          <ul>
+            <li><strong>Un equipo chico que ya usa Gmail:</strong> reenvío a Gmail con envío como tu dominio.</li>
+            <li><strong>Un equipo que comparte documentos y calendarios:</strong> Google Workspace.</li>
+            <li><strong>Un equipo que vive en Excel y Outlook:</strong> Microsoft 365.</li>
+            <li><strong>Varias casillas independientes, sin Gmail:</strong> Zoho o el correo del hosting.</li>
+          </ul>
+          <p>No compares solo por precio: piensa en cuántas casillas necesitas hoy y en un año, y en cuánto cuesta cambiar si te equivocas, porque mover años de correos de un proveedor a otro es un trabajo en sí mismo.</p>
+
+          <h2>Cómo configurarlo para que no llegue a spam</h2>
+          <p>Aquí es donde la mayoría falla. Elegir el servicio es fácil; dejarlo bien configurado no tanto. Hay cuatro registros que se agregan en la configuración de tu dominio:</p>
+          <ul>
+            <li><strong>MX:</strong> dice a qué servicio tienen que llegar los correos de tu dominio. Sin él, no recibes nada.</li>
+            <li><strong>SPF:</strong> la lista de servidores autorizados para enviar correos en tu nombre. Tiene que ser uno solo por dominio, aunque uses varios servicios.</li>
+            <li><strong>DKIM:</strong> una firma digital en cada correo que demuestra que viene de ti y que no fue alterado.</li>
+            <li><strong>DMARC:</strong> le dice al que recibe qué hacer con un correo que dice ser tuyo pero no pasa las pruebas anteriores.</li>
+          </ul>
+          <p>Desde 2024, Gmail y Yahoo exigen que los correos lleguen autenticados y son mucho más estrictos con los que no lo están. Un dominio sin SPF ni DKIM bien configurados tiene muchas más probabilidades de que sus correos terminen en spam, aunque el mensaje sea perfectamente legítimo.</p>
+
+          <h2>No olvides los correos de tu página web</h2>
+          <p>Tu sitio también envía correos: avisos de formularios, confirmaciones de compra, recuperación de contraseñas. Si salen directo desde el servidor de la página, sin autenticación, es común que no lleguen. Es el mismo problema que explicamos en <a href="/blog/tienda-woocommerce-que-no-vende/">tu tienda WooCommerce no vende</a>: se resuelve enviando a través de un servicio autenticado, con el dominio bien configurado.</p>
+
+          <h2>Buenas prácticas que evitan problemas</h2>
+          <ul>
+            <li><strong>Las cuentas a nombre de la empresa.</strong> El servicio de correo conviene que quede contratado por tu empresa, a su nombre, y no por un trabajador ni por el proveedor del sitio.</li>
+            <li><strong>Casillas por función.</strong> Además de las personales, ten direcciones como contacto@ o ventas@: cuando alguien deja la empresa, la dirección sigue y los clientes no se pierden.</li>
+            <li><strong>Un administrador de confianza.</strong> Que el acceso de administrador del correo y del dominio lo tengas tú o alguien de tu confianza dentro de la empresa.</li>
+            <li><strong>Verificación en dos pasos</strong> en todas las cuentas. Un correo robado es la puerta a todo lo demás.</li>
+          </ul>
+
+          <h2>¿Lo configuramos por ti?</h2>
+          <p>Configuramos el correo corporativo de tu dominio con la opción que calce con tu equipo, con los registros MX, SPF, DKIM y DMARC correctos, y lo dejamos funcionando junto con los formularios de tu sitio. El servicio queda a nombre de tu empresa. El detalle está en <a href="/servicios/integraciones/">integraciones para tu sitio</a>, y si todavía no tienes dominio ni hosting, empieza por <a href="/blog/hosting-para-pagina-web-chile/">hosting para tu página web en Chile</a>.</p>

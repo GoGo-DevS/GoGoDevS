@@ -1,0 +1,11 @@
+Articulos sacados del calendario a proposito. publicar.py solo lee
+_blog/programados/ y el deploy excluye todo _blog/, asi que lo que esta aqui
+no se publica.
+
+2026-11-06-hosting-para-pagina-web-chile.html (pausado el 03-11-2026)
+  Dice "En GoGoDevS si: la mantencion ... incluye el hosting pagado y
+  administrado". Choca con la regla del 03-11 (la infraestructura va a nombre
+  del cliente y se paga directo al proveedor, como en la propuesta de SINAIL)
+  y con /legal/terminos/ ("el dominio y el hosting van a nombre del cliente y
+  son de su costo"). Diego decide el modelo; despues se corrige el texto y se
+  devuelve a _blog/programados/ con una fecha nueva.

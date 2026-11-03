@@ -83,6 +83,11 @@ def main():
             n_links += 1
             if not existe_interno(raiz, href):
                 errores.append("Enlace interno roto en %s -> %s" % (rel, href))
+        # 03-11-2026: la home enlazaba a villarreal.onrender.com (el subdominio
+        # de Render, no el sitio del cliente). Un caso se enlaza a su pagina en
+        # /proyectos/ o al dominio propio del cliente, nunca a onrender.com.
+        if re.search(r'href="https?://[^"]*\.onrender\.com', t):
+            errores.append("%s enlaza a un *.onrender.com (usar /proyectos/<caso>/ o el dominio del cliente)" % rel)
 
     # 3. Borradores
     borradores = publicar.cargar_borradores(raiz)  # ya falla si hay slugs repetidos

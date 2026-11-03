@@ -244,13 +244,13 @@
   </url>
   <url>
     <loc>https://www.gogodevs.cl/blog/pagina-web-salon-de-belleza/</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.gogodevs.cl/blog/sitio-web-venta-de-parcelas/</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -270,6 +270,18 @@
     <loc>https://www.gogodevs.cl/paginas-web-por-rubro/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.gogodevs.cl/paginas-web-por-rubro/inmobiliarias/</loc>
+    <lastmod>2026-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.gogodevs.cl/paginas-web-por-rubro/peluquerias-y-salones/</loc>
+    <lastmod>2026-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.gogodevs.cl/blog/migrar-sitio-web-sin-perder-google/</loc>

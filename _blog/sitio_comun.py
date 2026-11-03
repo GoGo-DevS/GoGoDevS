@@ -91,6 +91,30 @@ RUBROS = [
 HUB = "paginas-web-por-rubro"
 HUB_H1 = "Páginas web por rubro"
 
+# LANDINGS (tanda SEO 03-11-2026): la pagina de servicio de un rubro, hija del
+# hub, para la busqueda comercial ("pagina web para inmobiliarias", "pagina web
+# para peluqueria"). Se escriben a mano en /paginas-web-por-rubro/<slug>/ y aca
+# solo se enlazan: hub > landing > hub, y caso > landing. El texto del enlace es
+# el H1 de la landing (regla de Jorge), leido del archivo. Si el archivo no
+# existe, no se enlaza: nunca un enlace a un 404.
+LANDINGS = {
+    "salon-de-belleza": "peluquerias-y-salones",
+    "venta-de-parcelas": "inmobiliarias",
+}
+
+
+def landing_publicada(slug_rubro):
+    """(href, H1 de la landing) si existe; None si no."""
+    destino = LANDINGS.get(slug_rubro)
+    if not destino:
+        return None
+    ruta = os.path.join(RAIZ, HUB, destino, "index.html")
+    if not os.path.isfile(ruta):
+        return None
+    m = re.search(r"<h1[^>]*>(.*?)</h1>", _leer(ruta), re.S)
+    h1 = html.unescape(re.sub(r"<[^>]+>", "", m.group(1))).strip() if m else destino
+    return "/%s/%s/" % (HUB, destino), h1
+
 
 def guia_publicada(slug):
     """(href, H1 de la guia) si esta publicada; None si todavia no sale."""
@@ -221,7 +245,9 @@ def aplicar():
     return cambiadas
 
 
-BLOQUE_RE = re.compile(r"<!-- rubro:inicio -->.*?<!-- rubro:fin -->\n?", re.S)
+# (?:\r?\n)? y no \n?: en Windows el repo sale con CRLF y el \n? dejaba el \r,
+# asi que cada --aplicar local sumaba una linea en blanco a los 14 casos (03-11-2026).
+BLOQUE_RE = re.compile(r"<!-- rubro:inicio -->.*?<!-- rubro:fin -->(?:\r?\n)?", re.S)
 
 
 def _con_bloque_rubro(texto, slug_caso):
@@ -236,6 +262,9 @@ def _con_bloque_rubro(texto, slug_caso):
         return texto
     nombre, articulo = rubro[1], rubro[3]
     enlaces = []
+    landing = landing_publicada(rubro[0])
+    if landing:
+        enlaces.append("Servicio: " + _a(landing[0], landing[1]))
     guia = guia_publicada(articulo)
     if guia:
         enlaces.append("Guía: " + _a(guia[0], guia[1]))
@@ -257,8 +286,9 @@ def escribir_hub():
     casos = {s: (m, r) for s, m, r in CASOS}
     shell = _leer(os.path.join(RAIZ, "servicios", "index.html"))
     titulo = "Páginas web por rubro: casos reales en Chile | GoGoDevS"
-    desc = ("Páginas web y tiendas online para salones de belleza, inmobiliarias, repuestos, "
-            "pastelerías, transporte, sindicatos y más: casos reales hechos por GoGoDevS en Chile.")
+    # 03-11-2026: bajo 155 caracteres (tenia 165 y Google la cortaba).
+    desc = ("Páginas web y tiendas online por rubro: salones de belleza, inmobiliarias, repuestos, "
+            "pastelerías, transporte y más, con casos reales de GoGoDevS en Chile.")
     url = "https://www.gogodevs.cl/%s/" % HUB
 
     bloques, items = [], []
@@ -269,6 +299,9 @@ def escribir_hub():
         lis = "".join("<li>%s</li>" % _a("/proyectos/%s/" % c, h1_caso(*casos[c])) for c in presentes)
         guia = guia_publicada(articulo)
         extra = "<p>Guía: %s</p>" % _a(guia[0], guia[1]) if guia else ""
+        landing = landing_publicada(slug)
+        if landing:
+            extra = "<p>Servicio: %s</p>" % _a(landing[0], landing[1]) + extra
         bloques.append('<article class="service-card" id="%s"><h2>%s</h2><ul>%s</ul>%s</article>'
                        % (slug, html.escape(nombre, quote=False), lis, extra))
         items.append(nombre)

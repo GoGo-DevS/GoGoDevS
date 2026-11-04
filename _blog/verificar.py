@@ -16,6 +16,7 @@ Uso: python _blog/verificar.py [--hoy AAAA-MM-DD] [--raiz RUTA]
 """
 import argparse
 import datetime as dt
+import html
 import json
 import os
 import re
@@ -33,6 +34,32 @@ VOSEO_OK = {"más", "después", "además", "jamás", "atrás", "detrás", "demá
             "vendrás", "estés", "des", "veces", "cortés", "revés", "ciprés", "marqués", "parís", "estrés",
             "ciempiés", "quizás", "compás", "jamás", "mamás", "papás", "sofás", "ajís", "rubís", "esquís",
             "cafés", "bebés", "tés", "pies", "cuchuflís"}
+
+
+# Dominio propio de cada caso de /proyectos/ (comprobado en vivo el 04-11-2026).
+CASOS_SITIO = {
+    "dulcecita": "dulcecita.cl",
+    "fco-climatizacion": "fcoclimatizacion.cl",
+    "max-services-spa": "maxservicesspa.cl",
+    "medina4x4": "medina4x4.cl",
+    "popi": "popiuniformes.cl",
+    "puas-tatuajes": "puastatuajes.cl",
+    "punto-parcelas": "puntoparcelas.cl",
+    "saferoom": "saferoom.cl",
+    "salon-amanda": "salonamanda.cl",
+    "sindicato-aza": "sindicatoaza.cl",
+    "travesia-logistica": "travesialogistica.cl",
+    "voa-chile": "voachile.cl",
+}
+# Sin dominio propio: Villarreal solo tiene el subdominio de Render (prohibido
+# enlazarlo) y La Dolce Mammina no tiene sitio publicado.
+SIN_SITIO_PROPIO = {"villarreal", "la-dolce-mammina"}
+
+
+def texto_visible(t):
+    t = re.sub(r"<script.*?</script>|<style.*?</style>", " ", t, flags=re.S)
+    t = html.unescape(re.sub(r"<[^>]+>", " ", t))
+    return re.sub(r"\s+", " ", t)
 
 
 def archivos_publicables(raiz):
@@ -88,6 +115,42 @@ def main():
         # /proyectos/ o al dominio propio del cliente, nunca a onrender.com.
         if re.search(r'href="https?://[^"]*\.onrender\.com', t):
             errores.append("%s enlaza a un *.onrender.com (usar /proyectos/<caso>/ o el dominio del cliente)" % rel)
+        # 04-11-2026: Google pide que cada pregunta del FAQPage este visible en
+        # la pagina; declarar una que no se ve es marcado engañoso.
+        visible = None
+        for bloque in re.findall(r'<script type="application/ld\+json">(.*?)</script>', t, re.S):
+            try:
+                datos = json.loads(bloque)
+            except Exception:
+                continue  # ya quedo reportado arriba
+            for item in (datos if isinstance(datos, list) else datos.get("@graph", [datos])):
+                if not isinstance(item, dict) or item.get("@type") != "FAQPage":
+                    continue
+                if visible is None:
+                    visible = texto_visible(t)
+                for q in item.get("mainEntity", []):
+                    pregunta = re.sub(r"\s+", " ", html.unescape(q.get("name", ""))).strip()
+                    if pregunta not in visible:
+                        errores.append("%s: el FAQPage declara una pregunta que no se ve: %s" % (rel, pregunta))
+
+    # 2b. 04-11-2026: mas de la mitad de las impresiones de gogodevs.cl son gente
+    # buscando AL CLIENTE ("medina 4x4": 336 en 3 meses) que cae en su caso. Si
+    # el caso no enlaza al sitio del cliente, esa persona no tiene como llegar.
+    # Un caso nuevo obliga a decidir: va en CASOS_SITIO o en SIN_SITIO_PROPIO.
+    carpeta_casos = os.path.join(raiz, "proyectos")
+    for caso in sorted(os.listdir(carpeta_casos)):
+        ruta = os.path.join(carpeta_casos, caso, "index.html")
+        if not os.path.isfile(ruta):
+            continue
+        if caso in SIN_SITIO_PROPIO:
+            continue
+        dominio = CASOS_SITIO.get(caso)
+        if not dominio:
+            errores.append("/proyectos/%s/: agregarlo a CASOS_SITIO (su dominio) o a SIN_SITIO_PROPIO en verificar.py" % caso)
+            continue
+        t = open(ruta, encoding="utf-8", errors="replace").read()
+        if not re.search(r'<a [^>]*href="https://(www\.)?%s/?"' % re.escape(dominio), t):
+            errores.append("/proyectos/%s/: no enlaza al sitio del cliente (https://%s/)" % (caso, dominio))
 
     # 3. Borradores
     borradores = publicar.cargar_borradores(raiz)  # ya falla si hay slugs repetidos

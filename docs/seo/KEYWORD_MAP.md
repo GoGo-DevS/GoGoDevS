@@ -6,6 +6,15 @@ Search Console (90 días, 05-08 a 02-11). La "SERP observada" viene de un buscad
 web consultado desde EE. UU. y **no es Google.cl** (ver `SEO_COMPETITORS.md`).
 Lo que es supuesto se marca así: *(supuesto)*.
 
+**Actualización 06-11** (28 días, 07-10 a 03-11, contra los 28 anteriores): 4 clics y 1.233 impresiones, frente a 11 y 555. Las consultas propias tienen 0 clics.
+- Aparece la familia "mantención web": unas 130 impresiones en posición 9,5-19,5. Antes no tenía ninguna.
+- "servicios de desarrollo web" pasa de la posición 32 a la 9.
+- "desarrollo web para empresas" pasa de la 97 a la 9,3, con 3 impresiones.
+- "desarrollo web empresarial" pasa de la 34,5 a la 13.
+- "sistemas a medida" está en la posición 31,7 con 3 impresiones.
+
+Son muestras chicas y la tanda del 03-11 todavía no entra en la ventana. El resto del mapa sigue vigente.
+
 Leyenda de prioridad: **A** = trabajar ahora · **B** = después de la medición del 01-12 · **C** = solo contenido de apoyo · **—** = no se persigue.
 
 ## 1. Las palabras candidatas (las dos listas de Diego, agrupadas por intención)

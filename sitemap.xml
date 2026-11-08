@@ -188,7 +188,7 @@
   </url>
   <url>
     <loc>https://www.gogodevs.cl/blog/</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -412,6 +412,12 @@
   <url>
     <loc>https://www.gogodevs.cl/blog/catalogo-online-para-distribuidoras/</loc>
     <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.gogodevs.cl/blog/pagina-web-para-restaurante-pedidos-whatsapp/</loc>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

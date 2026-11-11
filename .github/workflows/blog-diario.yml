@@ -85,12 +85,13 @@ jobs:
 
       - name: Instalar lftp
         if: steps.commit.outputs.cambios == 'si' || inputs.desplegar_siempre
-        run: sudo apt-get install -y lftp
+        run: bash .github/scripts/instalar_lftp.sh
 
       - name: Deploy por FTP
         if: steps.commit.outputs.cambios == 'si' || inputs.desplegar_siempre
         run: |
           lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_HOST }}" << 'EOF'
+          set cmd:fail-exit yes
           set ftp:ssl-allow no
           set ftp:passive-mode on
           set net:max-retries 3

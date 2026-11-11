@@ -1,0 +1,31 @@
+name: Probar instalacion de lftp (sin desplegar)
+
+# Prueba el instalador del deploy en un runner real SIN publicar nada: no usa secretos ni FTP.
+# Se dispara con un push a una rama infra/** (nunca main, que es lo que despliega deploy.yml).
+on:
+  push:
+    branches:
+      - 'infra/**'
+
+jobs:
+  probar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pruebas del instalador (comandos falsos, no instala nada)
+        run: bash .github/scripts/test_instalar_lftp.sh
+
+      - name: Diagnostico de DNS (informativo)
+        run: |
+          for h in github.com archive.ubuntu.com security.ubuntu.com; do
+            if getent hosts "$h" >/dev/null; then echo "$h resuelve"; else echo "::warning::$h NO resuelve"; fi
+          done
+
+      - name: Instalar lftp con el mismo script del deploy
+        run: bash .github/scripts/instalar_lftp.sh
+
+      - name: lftp responde (sin conectarse a ningun servidor)
+        run: |
+          lftp --version | head -n 1
+          lftp -c "set cmd:fail-exit yes; help mirror" > /dev/null

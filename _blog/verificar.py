@@ -234,16 +234,29 @@ def main():
         if "onrender.com" in t:
             errores.append("/blog/%s/: contiene onrender.com" % slug)
 
-    # 6. Los deploys excluyen las carpetas privadas
+    # 6. Los deploys excluyen las carpetas privadas y van por FTPS verificado (nunca FTP en claro).
+    #    El mirror puede estar en el workflow o en el script comun que el workflow llama.
+    script_ftp = os.path.join(raiz, ".github", "scripts", "desplegar_ftp.sh")
     for wf in ("deploy.yml", "blog-diario.yml"):
         ruta = os.path.join(raiz, ".github", "workflows", wf)
-        if os.path.exists(ruta):
-            t = open(ruta, encoding="utf-8").read()
-            for carpeta in ("_blog", "_programados"):
-                if "--exclude ^%s/" % carpeta not in t:
-                    errores.append("%s no excluye %s/ del FTP" % (wf, carpeta))
-        else:
+        if not os.path.exists(ruta):
             errores.append("falta .github/workflows/%s" % wf)
+            continue
+        t = open(ruta, encoding="utf-8").read()
+        t_mirror = t
+        if "desplegar_ftp.sh" in t:
+            if not os.path.exists(script_ftp):
+                errores.append("%s llama a desplegar_ftp.sh y el script no existe" % wf)
+                continue
+            t_mirror = open(script_ftp, encoding="utf-8").read()
+            for ajuste in ("ftp:ssl-force yes", "ftp:ssl-protect-data yes", "ssl:verify-certificate yes", "ssl:check-hostname yes"):
+                if ajuste not in t_mirror:
+                    errores.append("desplegar_ftp.sh no tiene '%s' (el FTP podria ir sin TLS o sin verificar)" % ajuste)
+        for carpeta in ("_blog", "_programados"):
+            if "--exclude ^%s/" % carpeta not in t_mirror:
+                errores.append("%s no excluye %s/ del FTP" % (wf, carpeta))
+        if "ftp:ssl-allow no" in t or "ftp:ssl-allow no" in t_mirror:
+            errores.append("%s despliega por FTP sin cifrar (ftp:ssl-allow no)" % wf)
 
     print("Hoy: %s | HTML revisados: %d | JSON-LD: %d | enlaces internos: %d | borradores: %d | publicados: %d"
           % (hoy, n_html, n_ld, n_links, len(borradores), publicados))

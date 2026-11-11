@@ -56,3 +56,26 @@ jobs:
 
       - name: Procedencia del .deb (firma de Ubuntu -> indice -> paquete), con el llavero de la imagen
         run: bash .github/scripts/verificar_procedencia_lftp.sh
+
+  ftps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Herramientas de prueba (servidor FTP local; no tocan el servidor real)
+        run: python -m pip install --disable-pip-version-check pyftpdlib==2.0.1 pyopenssl==25.1.0
+
+      - name: Instalar lftp con el mismo script del deploy
+        run: bash .github/scripts/instalar_lftp.sh
+
+      - name: desplegar_ftp.sh contra servidores locales (TLS verificado; sin TLS no manda ni el usuario)
+        run: PYTHON=python bash .github/scripts/test_desplegar_ftp.sh
+
+      - name: Identidad del servidor real (solo STARTTLS + certificado, sin login)
+        run: bash .github/scripts/verificar_identidad_ftp.sh

@@ -252,6 +252,9 @@ def main():
             for ajuste in ("ftp:ssl-force yes", "ftp:ssl-protect-data yes", "ssl:verify-certificate yes", "ssl:check-hostname yes"):
                 if ajuste not in t_mirror:
                     errores.append("desplegar_ftp.sh no tiene '%s' (el FTP podria ir sin TLS o sin verificar)" % ajuste)
+            # mirror --delete solo con la raiz comprobada: centinela exigido y excluido del mirror
+            if 'CENTINELA=".gogodevs-publicacion"' not in t_mirror or "--exclude ^\\\\.gogodevs-publicacion" not in t_mirror:
+                errores.append("desplegar_ftp.sh no comprueba o no protege el centinela .gogodevs-publicacion")
         for carpeta in ("_blog", "_programados"):
             if "--exclude ^%s/" % carpeta not in t_mirror:
                 errores.append("%s no excluye %s/ del FTP" % (wf, carpeta))

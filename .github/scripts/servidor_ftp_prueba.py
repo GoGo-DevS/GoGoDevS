@@ -23,6 +23,7 @@ if modo == "tls":
 else:
     manejador = FTPHandler
 manejador.authorizer = autorizador
-manejador.passive_ports = range(int(puerto) + 100, int(puerto) + 120)
+# Rangos pasivos que no se pisan entre servidores: 2121 -> 12100-12119, 2122 -> 12200-12219, ...
+manejador.passive_ports = range((int(puerto) - 2000) * 100, (int(puerto) - 2000) * 100 + 20)
 logging.basicConfig(filename=log, level=logging.DEBUG)
 FTPServer(("127.0.0.1", int(puerto)), manejador).serve_forever()

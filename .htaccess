@@ -15,3 +15,7 @@ Redirect 301 /servicios/automatizacion-procesos/ /servicios/automatizacion-de-pr
 RedirectMatch 404 ^/(README\.md|CAMBIOS_GOGODEVS\.txt|index-v2\.html|assets/css/style-v2\.css)$
 RedirectMatch 404 ^/docs/
 RedirectMatch 404 \.md$
+
+# Herramientas internas: no se sirven (la copia vieja de /herramientas/ y cualquier .py).
+RedirectMatch 404 ^/herramientas/
+RedirectMatch 404 \.py$

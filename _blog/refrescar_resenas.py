@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Trae las resenas de la ficha de Google y dice cuales faltan en el sitio.
 
-    python herramientas/refrescar_resenas.py              # ensayo: solo informa
-    python herramientas/refrescar_resenas.py --confirmar  # ademas actualiza el total
+    python _blog/refrescar_resenas.py              # ensayo: solo informa
+    python _blog/refrescar_resenas.py --confirmar  # ademas actualiza el total
 
 POR QUE VARIAS LLAMADAS: la Places API devuelve como MAXIMO 5 resenas por local
 y no se puede elegir cuales. Pero NO devuelve siempre las mismas: cambiando

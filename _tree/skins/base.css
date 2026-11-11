@@ -1,0 +1,15 @@
+/* Skin "base" (incluida en el precio): fondo claro teñido con el color del
+   negocio, tarjetas blancas. --fondo lo pone el generador (tinte del color
+   principal, o colores.fondo del JSON). */
+body {
+  --texto: #16181d;
+  --suave: #4b5160;
+  --tarjeta: #ffffff;
+  --borde: rgba(16, 24, 40, .09);
+  --sombra: rgba(16, 24, 40, .13);
+  --logo-fondo: #ffffff;
+  --anillo: #ffffff;
+  --foco: #16181d;
+  --aviso-fondo: #16181d;
+  --aviso-texto: #ffffff;
+}

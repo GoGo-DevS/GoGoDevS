@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Logo de Pastelería Ejemplo">
+  <rect width="96" height="96" fill="#FFF4EC"/>
+  <circle cx="48" cy="16" r="5.5" fill="#B4532A"/>
+  <circle cx="34" cy="41" r="12" fill="#F3B6C1"/>
+  <circle cx="62" cy="41" r="12" fill="#F3B6C1"/>
+  <circle cx="48" cy="34" r="15" fill="#F6C6CF"/>
+  <rect x="22" y="40" width="52" height="11" rx="5.5" fill="#F3B6C1"/>
+  <path d="M24 51h48l-6.2 26.6A4.5 4.5 0 0 1 61.4 81H34.6a4.5 4.5 0 0 1-4.4-3.4z" fill="#B4532A"/>
+  <path d="M38 54l1.8 23M48 54v23M58 54l-1.8 23" stroke="#FFF4EC" stroke-width="2.4" stroke-linecap="round" opacity=".55"/>
+</svg>

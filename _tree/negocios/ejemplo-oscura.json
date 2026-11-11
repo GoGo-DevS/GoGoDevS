@@ -1,0 +1,65 @@
+{
+  "nota": "Tree de MUESTRA (negocio ficticio) con la skin oscura (extra de 0,25 UF). Botones al WhatsApp de GoGoDevS.",
+  "plan": "gogodevs",
+  "nombre": "Pastelería Ejemplo",
+  "descripcion": "Tortas, alfajores y kuchen hechos a mano, por encargo.",
+  "logo": "logo.svg",
+  "colores": {
+    "principal": "#B4532A"
+  },
+  "skin": "oscura",
+  "horario": "Lun a sáb · 10:00 a 19:00",
+  "aviso": {
+    "texto": "Ejemplo con la skin oscura: Pastelería Ejemplo es un negocio ficticio. Cada botón te lleva al WhatsApp de GoGoDevS.",
+    "enlace": "/servicios/link-en-bio/",
+    "enlace_texto": "Ver planes y precios"
+  },
+  "botones": [
+    {
+      "texto": "Haz tu pedido por WhatsApp",
+      "detalle": "Te respondemos en minutos",
+      "icono": "whatsapp",
+      "destacado": true,
+      "whatsapp": {
+        "numero": "56956392509",
+        "mensaje": "Hola, vi el Tree de ejemplo con la skin oscura y quiero uno para mi negocio"
+      }
+    },
+    {
+      "texto": "Ver el catálogo de tortas",
+      "detalle": "Tamaños y precios",
+      "icono": "catalogo",
+      "whatsapp": {
+        "numero": "56956392509",
+        "mensaje": "Hola, vi el Tree de ejemplo con la skin oscura (botón Catálogo) y quiero uno para mi negocio"
+      }
+    },
+    {
+      "texto": "Síguenos en Instagram",
+      "detalle": "Los pedidos de la semana",
+      "icono": "instagram",
+      "whatsapp": {
+        "numero": "56956392509",
+        "mensaje": "Hola, vi el Tree de ejemplo con la skin oscura (botón Instagram) y quiero uno para mi negocio"
+      }
+    },
+    {
+      "texto": "Cómo llegar",
+      "detalle": "Retiro en tienda",
+      "icono": "mapa",
+      "whatsapp": {
+        "numero": "56956392509",
+        "mensaje": "Hola, vi el Tree de ejemplo con la skin oscura (botón Cómo llegar) y quiero uno para mi negocio"
+      }
+    },
+    {
+      "texto": "Déjanos una reseña en Google",
+      "detalle": "Nos ayuda a que más gente nos encuentre",
+      "icono": "estrella",
+      "whatsapp": {
+        "numero": "56956392509",
+        "mensaje": "Hola, vi el Tree de ejemplo con la skin oscura (botón Reseñas) y quiero uno para mi negocio"
+      }
+    }
+  ]
+}

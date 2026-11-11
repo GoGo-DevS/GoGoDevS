@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es" data-tree-cliente data-negocio="ejemplo-foto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- GoGoDevS Tree sin web. ARCHIVO GENERADO: no se edita a mano.
+       Fuente: _tree/negocios/ejemplo-foto.json  ·  python _tree/generar.py -->
+  <title>Pastelería Ejemplo</title>
+  <meta name="description" content="Tortas, alfajores y kuchen hechos a mano, por encargo.">
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#111111">
+  <link rel="icon" href="logo.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Pastelería Ejemplo">
+  <meta property="og:description" content="Tortas, alfajores y kuchen hechos a mano, por encargo.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: var(--fondo);
+      color: var(--texto);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.45;
+      padding: 2rem 1rem 7rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    :focus-visible { outline: 3px solid var(--foco); outline-offset: 3px; border-radius: 12px; }
+
+    .aviso, .tree { position: relative; z-index: 1; max-width: 460px; margin: 0 auto; }
+    .aviso {
+      margin-bottom: 1.4rem;
+      padding: .65rem .95rem;
+      border-radius: 12px;
+      background: var(--aviso-fondo);
+      color: var(--aviso-texto);
+      font-size: .84rem;
+      line-height: 1.45;
+      text-align: center;
+    }
+    .aviso a { font-weight: 700; text-underline-offset: 3px; }
+
+    .cabeza { text-align: center; margin-bottom: 1.6rem; }
+    .logo {
+      width: 92px; height: 92px;
+      margin: 0 auto .95rem;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      background: var(--logo-fondo);
+      box-shadow: 0 0 0 4px var(--anillo), 0 12px 30px var(--sombra);
+    }
+    .logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .logo--iniciales {
+      background: var(--principal);
+      color: var(--sobre-principal);
+      font-weight: 800;
+      font-size: 2rem;
+      letter-spacing: -.02em;
+    }
+    h1 { font-size: 1.55rem; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; }
+    .descripcion { margin: .5rem auto 0; max-width: 24rem; color: var(--suave); font-size: 1rem; text-wrap: balance; }
+    .horario {
+      display: inline-flex; align-items: center; gap: .45rem;
+      margin-top: .8rem;
+      padding: .32rem .8rem;
+      border-radius: 999px;
+      border: 1px solid var(--borde);
+      background: var(--tarjeta);
+      color: var(--suave);
+      font-size: .82rem;
+    }
+    .horario svg { width: 15px; height: 15px; flex: 0 0 auto; }
+
+    .botones { display: flex; flex-direction: column; gap: .7rem; }
+    .boton {
+      display: flex; align-items: center; gap: .9rem;
+      min-height: 66px;
+      padding: .75rem 1rem;
+      border-radius: 16px;
+      border: 1px solid var(--borde);
+      background: var(--tarjeta);
+      color: var(--texto);
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform .16s ease, box-shadow .16s ease;
+    }
+    .boton:hover { transform: translateY(-2px); box-shadow: 0 10px 26px var(--sombra); }
+    .boton:active { transform: scale(.985); }
+    .boton__icono {
+      flex: 0 0 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--principal);
+      color: var(--sobre-principal);
+    }
+    .boton__icono svg { width: 22px; height: 22px; display: block; }
+    .boton__texto { flex: 1; min-width: 0; }
+    .boton__titulo { display: block; font-weight: 700; font-size: 1rem; line-height: 1.25; }
+    .boton__detalle { display: block; margin-top: 2px; font-size: .82rem; color: var(--suave); line-height: 1.3; }
+    .boton__flecha { flex: 0 0 auto; width: 18px; height: 18px; color: var(--suave); transition: transform .16s ease; }
+    .boton:hover .boton__flecha { transform: translateX(3px); }
+
+    .boton--destacado {
+      background: var(--principal);
+      border-color: transparent;
+      color: var(--sobre-principal);
+      box-shadow: 0 12px 28px var(--sombra-principal);
+    }
+    .boton--destacado .boton__icono { background: var(--sobre-principal-suave); }
+    .boton--destacado .boton__detalle,
+    .boton--destacado .boton__flecha { color: var(--sobre-principal); }
+
+    .pie { margin-top: 2.4rem; text-align: center; font-size: .8rem; color: var(--suave); }
+    .pie a { color: var(--suave); text-decoration: none; }
+    .pie a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+    @media (min-width: 720px) { body { padding-top: 3.5rem; } }
+    @media (max-width: 360px) {
+      body { padding-left: .75rem; padding-right: .75rem; }
+      .boton { gap: .7rem; padding: .7rem .85rem; }
+      h1 { font-size: 1.38rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+    body {
+      --fondo: #111111;
+      --texto: #ffffff;
+      --suave: rgba(255, 255, 255, .88);
+      --tarjeta: rgba(12, 12, 14, .55);
+      --borde: rgba(255, 255, 255, .2);
+      --sombra: rgba(0, 0, 0, .45);
+      --logo-fondo: #ffffff;
+      --anillo: rgba(255, 255, 255, .35);
+      --foco: #ffffff;
+      --aviso-fondo: rgba(0, 0, 0, .6);
+      --aviso-texto: #ffffff;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, .55) 0%, rgba(0, 0, 0, .78) 100%),
+        var(--foto) center / cover no-repeat;
+      z-index: 0;
+    }
+    .boton, .horario { -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+    h1, .descripcion { text-shadow: 0 1px 12px rgba(0, 0, 0, .45); }
+    body {
+      --principal: #b4532a;
+      --sobre-principal: #ffffff;
+      --sobre-principal-suave: rgba(255, 255, 255, .2);
+      --sombra-principal: rgba(180, 83, 42, .32);
+      --foto: url('/assets/img/blog/tienda-online-pasteleria-reposteria.webp');
+    }
+  </style>
+</head>
+<body>
+  <p class="aviso">Ejemplo con la skin de foto: Pastelería Ejemplo es un negocio ficticio. Cada botón te lleva al WhatsApp de GoGoDevS. <a href="/servicios/link-en-bio/">Ver planes y precios</a></p>
+  <main class="tree">
+    <header class="cabeza">
+      <div class="logo"><img src="logo.svg" alt="Logo de Pastelería Ejemplo" width="92" height="92" fetchpriority="high"></div>
+      <h1>Pastelería Ejemplo</h1>
+      <p class="descripcion">Tortas, alfajores y kuchen hechos a mano, por encargo.</p>
+      <p class="horario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Lun a sáb · 10:00 a 19:00</span></p>
+    </header>
+
+    <nav class="botones" aria-label="Enlaces de Pastelería Ejemplo">
+      <a class="boton boton--destacado" href="https://wa.me/56956392509?text=Hola%2C%20vi%20el%20Tree%20de%20ejemplo%20con%20la%20skin%20de%20foto%20y%20quiero%20uno%20para%20mi%20negocio" target="_blank" rel="noopener" data-texto="Haz tu pedido por WhatsApp">
+        <span class="boton__icono"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.18-1.41-.08-.13-.28-.2-.57-.35m-5.42 7.4h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.82 9.82 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.17-3.48-8.41z"/></svg></span>
+        <span class="boton__texto"><span class="boton__titulo">Haz tu pedido por WhatsApp</span><span class="boton__detalle">Te respondemos en minutos</span></span>
+        <svg class="boton__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="boton" href="https://wa.me/56956392509?text=Hola%2C%20vi%20el%20Tree%20de%20ejemplo%20con%20la%20skin%20de%20foto%20%28bot%C3%B3n%20Cat%C3%A1logo%29%20y%20quiero%20uno%20para%20mi%20negocio" target="_blank" rel="noopener" data-texto="Ver el catálogo de tortas">
+        <span class="boton__icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7.5" height="7.5" rx="1.6"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.6"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.6"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.6"/></svg></span>
+        <span class="boton__texto"><span class="boton__titulo">Ver el catálogo de tortas</span><span class="boton__detalle">Tamaños y precios</span></span>
+        <svg class="boton__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="boton" href="https://wa.me/56956392509?text=Hola%2C%20vi%20el%20Tree%20de%20ejemplo%20con%20la%20skin%20de%20foto%20%28bot%C3%B3n%20Instagram%29%20y%20quiero%20uno%20para%20mi%20negocio" target="_blank" rel="noopener" data-texto="Síguenos en Instagram">
+        <span class="boton__icono"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.7.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg></span>
+        <span class="boton__texto"><span class="boton__titulo">Síguenos en Instagram</span><span class="boton__detalle">Los pedidos de la semana</span></span>
+        <svg class="boton__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="boton" href="https://wa.me/56956392509?text=Hola%2C%20vi%20el%20Tree%20de%20ejemplo%20con%20la%20skin%20de%20foto%20%28bot%C3%B3n%20C%C3%B3mo%20llegar%29%20y%20quiero%20uno%20para%20mi%20negocio" target="_blank" rel="noopener" data-texto="Cómo llegar">
+        <span class="boton__icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>
+        <span class="boton__texto"><span class="boton__titulo">Cómo llegar</span><span class="boton__detalle">Retiro en tienda</span></span>
+        <svg class="boton__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="boton" href="https://wa.me/56956392509?text=Hola%2C%20vi%20el%20Tree%20de%20ejemplo%20con%20la%20skin%20de%20foto%20%28bot%C3%B3n%20Rese%C3%B1as%29%20y%20quiero%20uno%20para%20mi%20negocio" target="_blank" rel="noopener" data-texto="Déjanos una reseña en Google">
+        <span class="boton__icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2.8 2.8 5.8 6.4.9-4.6 4.5 1.1 6.3L12 17.3l-5.7 3 1.1-6.3-4.6-4.5 6.4-.9z"/></svg></span>
+        <span class="boton__texto"><span class="boton__titulo">Déjanos una reseña en Google</span><span class="boton__detalle">Nos ayuda a que más gente nos encuentre</span></span>
+        <svg class="boton__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </nav>
+
+    <footer class="pie"><a href="/servicios/link-en-bio/">Hecho por <strong>GoGoDevS</strong></a></footer>
+  </main>
+
+  <script>
+    /* Cada boton tocado se manda a GA4 como "tree_click" con destino
+       (whatsapp, instagram, mapa, interno:/ruta/ ...), texto_boton y negocio
+       (el slug de este Tree). Mismo evento que /links/ de gogodevs.cl.
+       window.gtag solo existe si el visitante acepto la medicion (lo expone
+       /assets/js/medicion.js); si no, esto no hace nada. */
+    (function () {
+      var negocio = document.documentElement.getAttribute('data-negocio') || '';
+      var reglas = [
+        [/wa\.me|whatsapp\.com/i, 'whatsapp'],
+        [/instagram\.com/i, 'instagram'],
+        [/tiktok\.com/i, 'tiktok'],
+        [/facebook\.com|fb\.me/i, 'facebook'],
+        [/youtube\.com|youtu\.be/i, 'youtube'],
+        [/mercadolibre\./i, 'mercadolibre'],
+        [/agendapro\./i, 'agendapro'],
+        [/google\.[a-z.]+\/maps|maps\.app\.goo|goo\.gl\/maps|maps\.google|g\.page/i, 'mapa'],
+        [/^mailto:/i, 'correo'],
+        [/^tel:/i, 'telefono']
+      ];
+      function destino(a) {
+        var href = a.getAttribute('href') || '';
+        for (var i = 0; i < reglas.length; i++) {
+          if (reglas[i][0].test(href)) return reglas[i][1];
+        }
+        try {
+          var u = new URL(href, window.location.href);
+          if (u.host === window.location.host) return 'interno:' + u.pathname;
+        } catch (e) {}
+        return 'externo';
+      }
+      window.__treeDestino = destino; // solo para comprobarlo en QA
+      document.addEventListener('click', function (ev) {
+        if (typeof window.gtag !== 'function' || !ev.target.closest) return;
+        var a = ev.target.closest('a[href]');
+        if (!a) return;
+        window.gtag('event', 'tree_click', {
+          destino: destino(a),
+          texto_boton: (a.getAttribute('data-texto') || a.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 60),
+          negocio: negocio,
+          transport_type: 'beacon'
+        });
+      }, true);
+    })();
+  </script>
+  <script src="/assets/js/medicion.js?v=20261111-tree" defer></script>
+</body>
+</html>

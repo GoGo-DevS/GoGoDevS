@@ -10,7 +10,8 @@ Revisa:
   - borradores: slugs unicos, 900-1500 palabras, sin voseo, sin "Cyber",
     sin *.onrender.com, y sin enlaces a articulos que se publican despues
   - NADA futuro en lo que se sube: ni HTML, ni foto, ni sitemap, ni indice
-  - los workflows de deploy excluyen _blog/ y _programados/
+  - los workflows de deploy excluyen _blog/, _programados/ y _tree/
+  - cada Tree de /t/ coincide con su JSON de _tree/negocios/ (noindex, fuera del sitemap)
 
 Uso: python _blog/verificar.py [--hoy AAAA-MM-DD] [--raiz RUTA]
 """
@@ -25,7 +26,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import publicar  # noqa: E402
 
-EXCLUIR = {".git", ".github", "_blog", "_programados", "whatsapp-agentkit", "node_modules", ".vscode"}
+EXCLUIR = {".git", ".github", "_blog", "_programados", "_tree", "whatsapp-agentkit", "node_modules", ".vscode"}
 VOSEO = re.compile(r"\b(vos|fijate|acordate|mirá|andá|vení|dale|che)\b", re.I)
 VOSEO_TILDE = re.compile(r"\b\w+(?:ás|és|ís)\b")
 VOSEO_OK = {"más", "después", "además", "jamás", "atrás", "detrás", "demás", "través", "inglés", "interés",
@@ -196,6 +197,13 @@ def main():
     import sitio_comun
     errores.extend(sitio_comun.revisar())
 
+    # 3c. GoGoDevS Tree sin web (11-11-2026): cada /t/<negocio>/ sale de su JSON
+    # en _tree/negocios/ y nadie lo edita a mano; van con noindex y fuera del
+    # sitemap. Si alguien toca t/ directo o se olvida de regenerar, no se sube.
+    sys.path.insert(0, os.path.join(raiz, "_tree"))
+    import generar as tree_generar
+    errores.extend(tree_generar.revisar())
+
     # 4. Nada futuro en lo que se sube
     sitemap = open(os.path.join(raiz, "sitemap.xml"), encoding="utf-8").read()
     indice = open(os.path.join(raiz, "blog", "index.html"), encoding="utf-8").read()
@@ -239,7 +247,7 @@ def main():
         ruta = os.path.join(raiz, ".github", "workflows", wf)
         if os.path.exists(ruta):
             t = open(ruta, encoding="utf-8").read()
-            for carpeta in ("_blog", "_programados"):
+            for carpeta in ("_blog", "_programados", "_tree"):
                 if "--exclude ^%s/" % carpeta not in t:
                     errores.append("%s no excluye %s/ del FTP" % (wf, carpeta))
         else:

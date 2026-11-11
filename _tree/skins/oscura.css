@@ -1,0 +1,25 @@
+/* Skin "oscura" (extra, 0,25 UF): fondo casi negro con un brillo del color del
+   negocio arriba y tarjetas translucidas. --brillo lo pone el generador. */
+body {
+  --fondo: #0d0f13;
+  --texto: #f4f5f7;
+  --suave: #b9bfcb;
+  --tarjeta: rgba(255, 255, 255, .06);
+  --borde: rgba(255, 255, 255, .11);
+  --sombra: rgba(0, 0, 0, .5);
+  --logo-fondo: #1a1d23;
+  --anillo: rgba(255, 255, 255, .09);
+  --foco: #ffffff;
+  --aviso-fondo: rgba(255, 255, 255, .09);
+  --aviso-texto: #f4f5f7;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 85% 42% at 50% -6%, var(--brillo) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 30% at 95% 100%, var(--brillo-suave) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}

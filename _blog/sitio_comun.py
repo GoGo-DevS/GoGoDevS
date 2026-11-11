@@ -27,7 +27,9 @@ RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CSS_VERSION = "20261016-rubros"
 # Los scripts se versionan igual que el CSS: medicion.js iba SIN versión, y el
 # navegador que lo tenía guardado seguía midiendo sin pedir consentimiento.
-JS_VERSION = {"medicion.js": "20261101-banner-izq", "chat-widget.js": "20261101-chat-derecha"}
+# 11-11-2026: medicion.js expone window.gtag con consentimiento (el tree_click
+# de /links/ y /t/ no salia) y respeta data-tree-cliente.
+JS_VERSION = {"medicion.js": "20261111-tree", "chat-widget.js": "20261101-chat-derecha"}
 
 # slug -> (marca, rubro). El rubro sale de la descripcion de cada caso, no se
 # inventa: si un caso no dice su rubro, dice lo que si es ("marca gastronomica").
@@ -56,6 +58,7 @@ SERVICIOS = [
     ("automatizacion-de-procesos", "Automatización de procesos"),
     ("integraciones", "Integraciones de pago"),
     ("mantencion-web", "Mantención web"),
+    ("link-en-bio", "Link en bio (Tree)"),
     ("seo-tecnico", "SEO técnico"),
     ("consultoria", "Consultoría / auditoría"),
 ]

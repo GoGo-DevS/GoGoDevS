@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es" data-tree-cliente data-negocio="{{SLUG}}"{{ATRIBUTO_POLITICA}}>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- GoGoDevS Tree sin web. ARCHIVO GENERADO: no se edita a mano.
+       Fuente: _tree/negocios/{{SLUG}}.json  ·  python _tree/generar.py -->
+  <title>{{TITULO}}</title>
+  <meta name="description" content="{{DESCRIPCION}}">
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="{{COLOR_TEMA}}">
+  <link rel="icon" href="{{FAVICON}}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{NOMBRE}}">
+  <meta property="og:description" content="{{DESCRIPCION}}">
+{{OG_IMAGEN}}  <style>
+{{CSS}}
+  </style>
+</head>
+<body>
+{{AVISO}}  <main class="tree">
+    <header class="cabeza">
+      {{LOGO}}
+      <h1>{{NOMBRE}}</h1>
+      <p class="descripcion">{{DESCRIPCION}}</p>
+{{HORARIO}}    </header>
+
+    <nav class="botones" aria-label="Enlaces de {{NOMBRE}}">
+{{BOTONES}}    </nav>
+{{PIE}}  </main>
+
+  <script>
+    /* Cada boton tocado se manda a GA4 como "tree_click" con destino
+       (whatsapp, instagram, mapa, interno:/ruta/ ...), texto_boton y negocio
+       (el slug de este Tree). Mismo evento que /links/ de gogodevs.cl.
+       window.gtag solo existe si el visitante acepto la medicion (lo expone
+       /assets/js/medicion.js); si no, esto no hace nada. */
+    (function () {
+      var negocio = document.documentElement.getAttribute('data-negocio') || '';
+      var reglas = [
+        [/wa\.me|whatsapp\.com/i, 'whatsapp'],
+        [/instagram\.com/i, 'instagram'],
+        [/tiktok\.com/i, 'tiktok'],
+        [/facebook\.com|fb\.me/i, 'facebook'],
+        [/youtube\.com|youtu\.be/i, 'youtube'],
+        [/mercadolibre\./i, 'mercadolibre'],
+        [/agendapro\./i, 'agendapro'],
+        [/google\.[a-z.]+\/maps|maps\.app\.goo|goo\.gl\/maps|maps\.google|g\.page/i, 'mapa'],
+        [/^mailto:/i, 'correo'],
+        [/^tel:/i, 'telefono']
+      ];
+      function destino(a) {
+        var href = a.getAttribute('href') || '';
+        for (var i = 0; i < reglas.length; i++) {
+          if (reglas[i][0].test(href)) return reglas[i][1];
+        }
+        try {
+          var u = new URL(href, window.location.href);
+          if (u.host === window.location.host) return 'interno:' + u.pathname;
+        } catch (e) {}
+        return 'externo';
+      }
+      window.__treeDestino = destino; // solo para comprobarlo en QA
+      document.addEventListener('click', function (ev) {
+        if (typeof window.gtag !== 'function' || !ev.target.closest) return;
+        var a = ev.target.closest('a[href]');
+        if (!a) return;
+        window.gtag('event', 'tree_click', {
+          destino: destino(a),
+          texto_boton: (a.getAttribute('data-texto') || a.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 60),
+          negocio: negocio,
+          transport_type: 'beacon'
+        });
+      }, true);
+    })();
+  </script>
+  <script src="{{MEDICION}}" defer></script>
+</body>
+</html>

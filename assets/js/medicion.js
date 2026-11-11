@@ -28,6 +28,18 @@
 
   var WHATSAPP = /(?:wa\.me|api\.whatsapp\.com|web\.whatsapp\.com)/i;
 
+  /* Tree de un cliente (/t/<negocio>/, 11-11-2026): la pagina marca
+     <html data-tree-cliente>. Ahi se carga GA4 (con el mismo consentimiento)
+     solo para la visita y el evento tree_click del propio Tree; los
+     disparadores de conversion de GoGoDevS (contacto_whatsapp, etc.) NO
+     corren, porque el WhatsApp de ese boton es el del cliente y contarlo como
+     contacto de GoGoDevS inflaria las conversiones de las campanas.
+     data-politica cambia el enlace a la politica de privacidad del aviso (el
+     Tree con dominio propio no puede enlazar a una ruta relativa de gogodevs.cl). */
+  var RAIZ_HTML = document.documentElement;
+  var TREE_CLIENTE = RAIZ_HTML.hasAttribute('data-tree-cliente');
+  var POLITICA = RAIZ_HTML.getAttribute('data-politica') || '/legal/privacidad/#cookies';
+
   /* ---------- Consentimiento ---------- */
 
   var CLAVE_DECISION = 'gg_consentimiento_v1';
@@ -52,6 +64,7 @@
   function revocar() {
     if (CONFIG.GA4_ID) window['ga-disable-' + CONFIG.GA4_ID] = true;
     ga4Listo = pixelListo = false;
+    if (window.gtag === gtag) window.gtag = undefined;
     document.cookie.split(';').forEach(function (c) {
       var nombre = c.split('=')[0].trim();
       if (/^(_ga|_gid|_gat|_fbp|_fbc)/.test(nombre)) {
@@ -106,7 +119,7 @@
     aviso.innerHTML =
       '<p>Usamos Google Analytics para saber qué páginas sirven y mejorar el sitio. ' +
       'Solo se activa si aceptas; si no, el sitio funciona igual. ' +
-      '<a href="/legal/privacidad/#cookies">Política de privacidad</a></p>' +
+      '<a href="' + POLITICA.replace(/"/g, '&quot;') + '">Política de privacidad</a></p>' +
       '<div class="gg-consent-botones">' +
         '<button type="button" class="gg-no">Rechazar</button>' +
         '<button type="button" class="gg-si">Aceptar</button>' +
@@ -149,6 +162,11 @@
       // send_page_view por defecto: GA4 ya cuenta la visita y el scroll solo.
       gtag('config', CONFIG.GA4_ID);
       ga4Listo = true;
+      /* 11-11-2026: el Tree (/links/ y /t/) y cyber.js mandan sus eventos con
+         window.gtag, pero gtag era una funcion local de este archivo y el
+         gtag.js de Google no la define: esos eventos nunca salian. Se expone
+         SOLO con consentimiento; revocar() la retira. */
+      if (typeof window.gtag !== 'function') window.gtag = gtag;
     }
     if (CONFIG.META_PIXEL_ID) cargarPixel();
   }
@@ -201,6 +219,7 @@
      inyectan por JS DESPUÉS de que carga la página, así que escuchar cada
      elemento uno por uno se perdería justamente los más importantes. */
   document.addEventListener('click', function (e) {
+    if (TREE_CLIENTE) return;
     var el = e.target && e.target.closest ? e.target.closest('a, button') : null;
     if (!el) return;
 

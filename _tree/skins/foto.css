@@ -1,0 +1,29 @@
+/* Skin "foto" (extra, 0,25 UF): una foto del negocio de fondo, oscurecida para
+   que el texto se lea siempre, y tarjetas de vidrio oscuro. La foto la pone el
+   generador en --foto (archivo fondo.webp del negocio, ~1200 px, <150 KB).
+   Las tarjetas son OSCURAS y no blancas translucidas: sobre una foto con zonas
+   claras, el blanco sobre blanco no pasa el contraste minimo. */
+body {
+  --fondo: #111111;
+  --texto: #ffffff;
+  --suave: rgba(255, 255, 255, .88);
+  --tarjeta: rgba(12, 12, 14, .55);
+  --borde: rgba(255, 255, 255, .2);
+  --sombra: rgba(0, 0, 0, .45);
+  --logo-fondo: #ffffff;
+  --anillo: rgba(255, 255, 255, .35);
+  --foco: #ffffff;
+  --aviso-fondo: rgba(0, 0, 0, .6);
+  --aviso-texto: #ffffff;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, .55) 0%, rgba(0, 0, 0, .78) 100%),
+    var(--foto) center / cover no-repeat;
+  z-index: 0;
+}
+.boton, .horario { -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+h1, .descripcion { text-shadow: 0 1px 12px rgba(0, 0, 0, .45); }

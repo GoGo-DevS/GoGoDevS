@@ -1,0 +1,48 @@
+{
+  "nota": "Tree de MUESTRA (negocio ficticio). Todos los botones llevan al WhatsApp de GoGoDevS con un mensaje que dice que boton se toco: la muestra tambien vende. Skin base.",
+  "plan": "gogodevs",
+  "nombre": "Pastelería Ejemplo",
+  "descripcion": "Tortas, alfajores y kuchen hechos a mano, por encargo.",
+  "logo": "logo.svg",
+  "colores": { "principal": "#B4532A" },
+  "skin": "base",
+  "horario": "Lun a sáb · 10:00 a 19:00",
+  "aviso": {
+    "texto": "Ejemplo: Pastelería Ejemplo es un negocio ficticio. Cada botón te lleva al WhatsApp de GoGoDevS.",
+    "enlace": "/servicios/link-en-bio/",
+    "enlace_texto": "Ver planes y precios"
+  },
+  "botones": [
+    {
+      "texto": "Haz tu pedido por WhatsApp",
+      "detalle": "Te respondemos en minutos",
+      "icono": "whatsapp",
+      "destacado": true,
+      "whatsapp": { "numero": "56956392509", "mensaje": "Hola, vi el Tree de ejemplo y quiero uno para mi negocio" }
+    },
+    {
+      "texto": "Ver el catálogo de tortas",
+      "detalle": "Tamaños y precios",
+      "icono": "catalogo",
+      "whatsapp": { "numero": "56956392509", "mensaje": "Hola, vi el Tree de ejemplo (botón Catálogo) y quiero uno para mi negocio" }
+    },
+    {
+      "texto": "Síguenos en Instagram",
+      "detalle": "Los pedidos de la semana",
+      "icono": "instagram",
+      "whatsapp": { "numero": "56956392509", "mensaje": "Hola, vi el Tree de ejemplo (botón Instagram) y quiero uno para mi negocio" }
+    },
+    {
+      "texto": "Cómo llegar",
+      "detalle": "Retiro en tienda",
+      "icono": "mapa",
+      "whatsapp": { "numero": "56956392509", "mensaje": "Hola, vi el Tree de ejemplo (botón Cómo llegar) y quiero uno para mi negocio" }
+    },
+    {
+      "texto": "Déjanos una reseña en Google",
+      "detalle": "Nos ayuda a que más gente nos encuentre",
+      "icono": "estrella",
+      "whatsapp": { "numero": "56956392509", "mensaje": "Hola, vi el Tree de ejemplo (botón Reseñas) y quiero uno para mi negocio" }
+    }
+  ]
+}

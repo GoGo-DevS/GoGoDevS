@@ -34,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="assets/img/logo-gogodevs.png" fetchpriority="high">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261016-rubros">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261112-navidad">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -114,12 +114,12 @@
   </script>
 </head>
 <body>
-<!-- Cyber GoGoDevS: nace OCULTO. Lo muestra /assets/js/cyber.js solo entre el
-     05 y el 12-10-2026. Sin JS no se ve, y pasada la fecha se apaga solo. -->
-<div class="cyber-barra" data-cyber hidden>
-  <span>Cyber GoGoDevS: hasta 24% en sitios web</span>
-  <span class="cyber-barra__reloj" data-cyber-cuenta>Hasta el lunes 12</span>
-  <a href="/cuanto-cuesta-una-pagina-web-chile/" data-cyber-cta="barra">Ver precios</a>
+<!-- Campana (Navidad 2026): nace OCULTA. La muestra /assets/js/campana.js solo
+     entre el 23-11 y el 24-12-2026. Sin JS no se ve, y pasada la fecha se apaga sola. -->
+<div class="campana-barra" data-campana hidden>
+  <span><strong>Navidad GoGoDevS:</strong> hasta 20% en tu web + 3 meses de mantención de regalo</span>
+  <span class="campana-barra__reloj" data-campana-cuenta>Hasta el 24 de diciembre</span>
+  <a href="/cuanto-cuesta-una-pagina-web-chile/" data-campana-cta="barra">Ver precios</a>
 </div>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
   <header class="site-header">
@@ -167,6 +167,49 @@
         <div class="hero-home__actions">
           <a class="button button--blue" href="/proyectos/">Ver proyectos</a>
           <a class="button button--secondary" href="/contacto/">Cotizar proyecto</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== NAVIDAD 2026 (campana): nace OCULTA; la muestra /assets/js/campana.js
+         solo entre el 23-11 y el 24-12-2026. Precios de lista TACHADOS al lado. ===== -->
+    <section class="navidad-oferta" id="navidad" data-campana hidden aria-labelledby="navidad-titulo">
+      <div class="container">
+        <div class="navidad-oferta__caja">
+          <div class="navidad-oferta__cabeza">
+            <p class="navidad-oferta__eyebrow">Navidad GoGoDevS · hasta el 24 de diciembre</p>
+            <h2 id="navidad-titulo" class="navidad-oferta__titulo">Empieza el 2027 con tu web lista</h2>
+            <p class="navidad-oferta__bajada">Este diciembre tomamos solo 5 proyectos con precio de Navidad. Reserva tu cupo antes del 24 y acordamos juntos cuándo partir.</p>
+          </div>
+          <div class="navidad-oferta__grid">
+            <article class="navidad-regalo">
+              <span class="navidad-regalo__icono" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.4"/></svg></span>
+              <h3>Hasta 20% menos</h3>
+              <p class="navidad-regalo__nota">Precios desde, en UF:</p>
+              <ul class="navidad-precios">
+                <li><span>Sitio</span><span><s>9</s> <strong>7,5 UF</strong></span></li>
+                <li><span>Sitio autoadministrable</span><span><s>14</s> <strong>11,5 UF</strong></span></li>
+                <li><span>Catálogo de productos</span><span><s>18</s> <strong>14,5 UF</strong></span></li>
+                <li><span>Tienda con pagos</span><span><s>25</s> <strong>20 UF</strong></span></li>
+              </ul>
+            </article>
+            <article class="navidad-regalo navidad-regalo--destacado">
+              <span class="navidad-regalo__icono" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg></span>
+              <h3>3 meses de mantención de regalo</h3>
+              <p>Desde el día que publicamos: administración del servidor, monitoreo, respaldos, arreglos y cambios de contenido, sin pagar los primeros 3 meses.</p>
+            </article>
+            <article class="navidad-regalo">
+              <span class="navidad-regalo__icono" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="m9 15 2 2 4-4"/></svg></span>
+              <h3>Reserva hoy, parte en enero</h3>
+              <p>Si diciembre es tu mes más ocupado, congelas el precio con el anticipo y empezamos cuando te acomode. El resto, en cuotas sin recargo.</p>
+            </article>
+          </div>
+          <div class="navidad-oferta__accion">
+            <a class="button button--navidad" href="https://wa.me/56956392509?text=Hola%2C%20quiero%20reservar%20un%20cupo%20de%20Navidad%20para%20mi%20web" target="_blank" rel="noopener noreferrer" data-campana-cta="portada_whatsapp">Reservar mi cupo de Navidad</a>
+            <a class="button button--secondary" href="/cuanto-cuesta-una-pagina-web-chile/" data-campana-cta="portada_precios">Ver precios</a>
+            <span class="navidad-oferta__reloj"><span data-campana-cuenta>Hasta el 24 de diciembre</span> · Solo 5 cupos</span>
+          </div>
+          <p class="navidad-oferta__letra">Para proyectos nuevos que reserven su cupo pagando el anticipo entre el 23 de noviembre y el 24 de diciembre de 2026, hasta completar 5 cupos. Los 3 meses de mantención parten el día de la publicación. El dominio y el servidor quedan a tu nombre y se pagan aparte, como en cualquier proyecto.</p>
         </div>
       </div>
     </section>
@@ -644,7 +687,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M3 9h18"/><path d="M8 21h8M12 17v4"/><path d="m7 12 1.5 1.5L7 15M11 15h2"/></svg>
             </span>
             <h3>Desarrollo Web</h3>
-            <span class="svc-card__price"><span class="cyber-sello" data-cyber hidden>Cyber</span><span data-cyber hidden><span class="cyber-antes">Desde 9 UF</span><span class="cyber-ahora">Desde 7 UF (~$287.000)</span><span class="cyber-ahorro" data-cyber-cta="web_9uf">Ahorras $81.000 hasta el lunes 12</span></span><span data-cyber-normal>Desde 9 UF (~$368.000)</span></span>
+            <span class="svc-card__price"><span class="campana-sello" data-campana hidden>Navidad</span><span data-campana hidden><span class="campana-antes">Desde 9 UF</span><span class="campana-ahora">Desde 7,5 UF (~$307.000)</span><span class="campana-ahorro" data-campana-cta="web_9uf">Ahorras $61.000 + 3 meses de mantención de regalo</span></span><span data-campana-normal>Desde 9 UF (~$368.000)</span></span>
             <p>Sitios corporativos, institucionales y tiendas online: rápidos, modernos y pensados para convertir visitas en clientes.</p>
             <a class="svc-card__link" href="/servicios/desarrollo-web/">Ver servicio <span aria-hidden="true">→</span></a>
           </article>
@@ -655,7 +698,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2l2.6 12.6a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L21 7H6"/></svg>
             </span>
             <h3>Ecommerce</h3>
-            <span class="svc-card__price"><span class="cyber-sello" data-cyber hidden>Cyber</span><span data-cyber hidden><span class="cyber-antes">Desde 25 UF</span><span class="cyber-ahora">Desde 19 UF (~$780.000)</span><span class="cyber-ahorro" data-cyber-cta="ecommerce_25uf">Ahorras $242.000 hasta el lunes 12</span></span><span data-cyber-normal>Desde 25 UF (~$1.022.000)</span></span>
+            <span class="svc-card__price"><span class="campana-sello" data-campana hidden>Navidad</span><span data-campana hidden><span class="campana-antes">Desde 25 UF</span><span class="campana-ahora">Desde 20 UF (~$818.000)</span><span class="campana-ahorro" data-campana-cta="ecommerce_25uf">Ahorras $204.000 + 3 meses de mantención de regalo</span></span><span data-campana-normal>Desde 25 UF (~$1.022.000)</span></span>
             <p>Tiendas online a medida con pago real (Mercado Pago Checkout Pro), catálogo completo y panel de gestión de stock y pedidos.</p>
             <a class="svc-card__link" href="/servicios/ecommerce/">Ver servicio <span aria-hidden="true">→</span></a>
           </article>
@@ -919,6 +962,6 @@
   <script src="assets/js/main.js?v=20261030-lead" defer></script>
   <script src="/assets/js/chat-widget.js?v=20261101-chat-derecha" defer></script>
   <script src="/assets/js/medicion.js?v=20261111-tree" defer></script>
-  <script src="/assets/js/cyber.js" defer></script>
+  <script src="/assets/js/campana.js" defer></script>
 </body>
 </html>

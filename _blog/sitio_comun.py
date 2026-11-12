@@ -24,7 +24,7 @@ import re
 import sys
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CSS_VERSION = "20261016-rubros"
+CSS_VERSION = "20261112-navidad"
 # Los scripts se versionan igual que el CSS: medicion.js iba SIN versión, y el
 # navegador que lo tenía guardado seguía midiendo sin pedir consentimiento.
 # 11-11-2026: medicion.js expone window.gtag con consentimiento (el tree_click

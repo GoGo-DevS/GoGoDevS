@@ -220,14 +220,14 @@
     .boton--wa:hover { background: rgba(37,211,102,.12); border-color: rgba(37,211,102,.45); }
     .boton--wa .boton__icono { background: rgba(37,211,102,.16); }
 
-    /* Cyber: nace con [hidden] y lo muestra /assets/js/cyber.js solo dentro de
+    /* Campana: nace con [hidden] y la muestra /assets/js/campana.js solo dentro de
        la ventana (05-10 al 12-10-2026 23:59). El !important es porque `hidden`
        es el contrato con el script: ninguna regla de layout puede ganarle
        (un display:flex propio pesa lo mismo que el [hidden] del navegador y
        ganaria por orden). */
-    [data-cyber][hidden], [data-cyber-normal][hidden] { display: none !important; }
+    [data-campana][hidden], [data-campana-normal][hidden] { display: none !important; }
 
-    .boton--cyber {
+    .boton--campana {
       position: relative;
       overflow: hidden;
       background: linear-gradient(135deg, #E9C55A 0%, #D4AF37 55%, #B8912A 100%);
@@ -235,8 +235,8 @@
       color: #0A1428;
       box-shadow: 0 10px 30px rgba(212,175,55,.32);
     }
-    .boton--cyber:hover { background: linear-gradient(135deg, #F0D06C 0%, #DDB942 55%, #C29A2E 100%); border-color: transparent; box-shadow: 0 14px 36px rgba(212,175,55,.42); }
-    .boton--cyber::after {
+    .boton--campana:hover { background: linear-gradient(135deg, #F0D06C 0%, #DDB942 55%, #C29A2E 100%); border-color: transparent; box-shadow: 0 14px 36px rgba(212,175,55,.42); }
+    .boton--campana::after {
       /* brillo que cruza una vez cada tanto: senal de "oferta viva" */
       content: '';
       position: absolute; top: 0; bottom: 0; left: -40%;
@@ -247,12 +247,12 @@
       pointer-events: none;
     }
     @keyframes brillo { 0% { left: -40%; } 30%, 100% { left: 130%; } }
-    .boton--cyber .boton__icono { background: rgba(10,20,40,.14); }
-    .boton--cyber .boton__titulo { font-family: 'Montserrat', sans-serif; font-weight: 800; color: #0A1428; }
-    .boton--cyber .boton__sub { color: rgba(10,20,40,.8); font-weight: 600; }
-    .boton--cyber .boton__flecha { color: #0A1428; }
-    .boton--cyber .boton__sub { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem .45rem; }
-    .cyber-pill {
+    .boton--campana .boton__icono { background: rgba(10,20,40,.14); }
+    .boton--campana .boton__titulo { font-family: 'Montserrat', sans-serif; font-weight: 800; color: #0A1428; }
+    .boton--campana .boton__sub { color: rgba(10,20,40,.8); font-weight: 600; }
+    .boton--campana .boton__flecha { color: #0A1428; }
+    .boton--campana .boton__sub { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem .45rem; }
+    .campana-pill {
       display: inline-block;
       padding: .06rem .5rem;
       border-radius: 999px;
@@ -381,8 +381,8 @@
     }
     .precio__monto small { font-size: .7em; font-weight: 700; color: var(--gray); }
     .precio__antes { font-size: .72em; font-weight: 700; color: var(--gray-2); text-decoration: line-through; margin-right: .3rem; }
-    .precio__cyber { color: var(--gold); }
-    .precio__cyber small { color: var(--gold-2); }
+    .precio__campana { color: var(--gold); }
+    .precio__campana small { color: var(--gold-2); }
     .precio__sello {
       display: inline-block;
       margin-left: .3rem;
@@ -522,7 +522,7 @@
         scroll-behavior: auto !important;
       }
       .reveal { opacity: 1; transform: none; }
-      .boton--cyber::after { display: none; }
+      .boton--campana::after { display: none; }
     }
   </style>
 </head>
@@ -540,12 +540,12 @@
 
     <nav class="acciones" aria-label="Acciones principales">
 
-      <!-- Cyber (se apaga solo el 12-10; lo controla /assets/js/cyber.js) -->
-      <a href="/cuanto-cuesta-una-pagina-web-chile/" class="boton boton--cyber reveal" style="--i:1" data-cyber hidden data-cyber-cta="tree">
-        <span class="boton__icono" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0A1428"><path d="M13.2 2.5L4.8 13.4h6l-1.1 8.1 8.5-11h-6.1z"/></svg></span>
+      <!-- Campana de Navidad (se apaga sola el 24-12; la controla /assets/js/campana.js) -->
+      <a href="/cuanto-cuesta-una-pagina-web-chile/" class="boton boton--campana reveal" style="--i:1" data-campana hidden data-campana-cta="tree">
+        <span class="boton__icono" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A1428" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg></span>
         <span class="boton__texto">
-          <span class="boton__titulo">Cyber GoGoDevS · hasta 24% menos</span>
-          <span class="boton__sub">Sitio desde 7 UF <span class="cyber-pill" data-cyber-cuenta>Hasta el lunes 12</span></span>
+          <span class="boton__titulo">Navidad GoGoDevS · hasta 20% + regalo</span>
+          <span class="boton__sub">Sitio desde 7,5 UF <span class="campana-pill" data-campana-cuenta>Hasta el 24 de diciembre</span></span>
         </span>
         <svg class="boton__flecha" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
@@ -614,8 +614,8 @@
       </div>
     </section>
 
-    <!-- Precios en UF. Durante el Cyber, cyber.js muestra los [data-cyber] y
-         esconde los [data-cyber-normal]: el precio de lista se TACHA, no se
+    <!-- Precios en UF. Durante una campana, campana.js muestra los [data-campana] y
+         esconde los [data-campana-normal]: el precio de lista se TACHA, no se
          reemplaza (misma regla que el resto del sitio). -->
     <section class="seccion reveal" style="--i:5" aria-labelledby="t-precios">
       <div class="seccion__cabeza">
@@ -623,25 +623,25 @@
         <a class="seccion__link" href="/servicios/">Servicios →</a>
       </div>
       <div class="precios">
-        <a class="precio" href="/cuanto-cuesta-una-pagina-web-chile/" data-cyber-cta="tree_sitio_9uf">
+        <a class="precio" href="/cuanto-cuesta-una-pagina-web-chile/" data-campana-cta="tree_sitio_9uf">
           <span class="precio__tipo">Sitio web</span>
-          <span class="precio__desde">desde<span class="precio__sello" data-cyber hidden>Cyber</span></span>
-          <span class="precio__monto"><span data-cyber hidden><span class="precio__antes">9 UF</span><span class="precio__cyber">7 <small>UF</small></span></span><span data-cyber-normal>9 <small>UF</small></span></span>
+          <span class="precio__desde">desde<span class="precio__sello" data-campana hidden>Navidad</span></span>
+          <span class="precio__monto"><span data-campana hidden><span class="precio__antes">9 UF</span><span class="precio__campana">7,5 <small>UF</small></span></span><span data-campana-normal>9 <small>UF</small></span></span>
         </a>
-        <a class="precio" href="/cuanto-cuesta-una-pagina-web-chile/" data-cyber-cta="tree_autoadministrable_14uf">
+        <a class="precio" href="/cuanto-cuesta-una-pagina-web-chile/" data-campana-cta="tree_autoadministrable_14uf">
           <span class="precio__tipo">Autoadministrable</span>
-          <span class="precio__desde">desde<span class="precio__sello" data-cyber hidden>Cyber</span></span>
-          <span class="precio__monto"><span data-cyber hidden><span class="precio__antes">14 UF</span><span class="precio__cyber">11 <small>UF</small></span></span><span data-cyber-normal>14 <small>UF</small></span></span>
+          <span class="precio__desde">desde<span class="precio__sello" data-campana hidden>Navidad</span></span>
+          <span class="precio__monto"><span data-campana hidden><span class="precio__antes">14 UF</span><span class="precio__campana">11,5 <small>UF</small></span></span><span data-campana-normal>14 <small>UF</small></span></span>
         </a>
-        <a class="precio" href="/cuanto-cuesta-una-pagina-web-chile/" data-cyber-cta="tree_catalogo_18uf">
+        <a class="precio" href="/cuanto-cuesta-una-pagina-web-chile/" data-campana-cta="tree_catalogo_18uf">
           <span class="precio__tipo">Catálogo</span>
-          <span class="precio__desde">desde<span class="precio__sello" data-cyber hidden>Cyber</span></span>
-          <span class="precio__monto"><span data-cyber hidden><span class="precio__antes">18 UF</span><span class="precio__cyber">14 <small>UF</small></span></span><span data-cyber-normal>18 <small>UF</small></span></span>
+          <span class="precio__desde">desde<span class="precio__sello" data-campana hidden>Navidad</span></span>
+          <span class="precio__monto"><span data-campana hidden><span class="precio__antes">18 UF</span><span class="precio__campana">14,5 <small>UF</small></span></span><span data-campana-normal>18 <small>UF</small></span></span>
         </a>
-        <a class="precio" href="/cuanto-cuesta-una-pagina-web-chile/" data-cyber-cta="tree_tienda_25uf">
+        <a class="precio" href="/cuanto-cuesta-una-pagina-web-chile/" data-campana-cta="tree_tienda_25uf">
           <span class="precio__tipo">Tienda online</span>
-          <span class="precio__desde">desde<span class="precio__sello" data-cyber hidden>Cyber</span></span>
-          <span class="precio__monto"><span data-cyber hidden><span class="precio__antes">25 UF</span><span class="precio__cyber">19 <small>UF</small></span></span><span data-cyber-normal>25 <small>UF</small></span></span>
+          <span class="precio__desde">desde<span class="precio__sello" data-campana hidden>Navidad</span></span>
+          <span class="precio__monto"><span data-campana hidden><span class="precio__antes">25 UF</span><span class="precio__campana">20 <small>UF</small></span></span><span data-campana-normal>25 <small>UF</small></span></span>
         </a>
       </div>
       <p class="nota">Cotizamos en UF y se puede pagar en cuotas. <a href="/cotizar/">Calcula el tuyo en 4 pasos →</a></p>
@@ -786,6 +786,6 @@
     })();
   </script>
   <script src="/assets/js/medicion.js?v=20261111-tree" defer></script>
-  <script src="/assets/js/cyber.js" defer></script>
+  <script src="/assets/js/campana.js" defer></script>
 </body>
 </html>

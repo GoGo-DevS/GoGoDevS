@@ -2543,11 +2543,12 @@ html.js [data-cascada].is-visible > * { opacity: 1; transform: none; }
 }
 
 /* ===========================================================================
-   Cyber GoGoDevS  (campana 05 al 12-10-2026)
-   El HTML nace con [hidden] y lo muestra assets/js/cyber.js solo dentro de la
-   ventana: sin JS no se ve nada. Para sacarlo del sitio basta borrar el <script>.
+   Campanas con fecha (nacio con el Cyber, 05 al 12-10-2026; hoy Navidad 2026)
+   El HTML nace con [hidden] y lo muestra assets/js/campana.js solo dentro de la
+   ventana: sin JS no se ve nada. Para sacarla del sitio basta borrar el <script>.
+   El aspecto de cada campana va al final del archivo (tema-navidad).
    =========================================================================== */
-.cyber-barra {
+.campana-barra {
   background: linear-gradient(90deg, #FFB627 0%, #ff8f1f 100%);
   color: #0A1428;
   font-family: 'Montserrat', sans-serif;
@@ -2562,13 +2563,13 @@ html.js [data-cascada].is-visible > * { opacity: 1; transform: none; }
   justify-content: center;
   gap: .3rem .75rem;
 }
-.cyber-barra a {
+.campana-barra a {
   color: #0A1428;
   text-decoration: underline;
   text-underline-offset: 2px;
   white-space: nowrap;
 }
-.cyber-barra__reloj {
+.campana-barra__reloj {
   background: rgba(10, 20, 40, .14);
   border-radius: 999px;
   padding: .12rem .6rem;
@@ -2577,7 +2578,7 @@ html.js [data-cascada].is-visible > * { opacity: 1; transform: none; }
 }
 
 /* El sello que va sobre cada tarjeta de precio */
-.cyber-sello {
+.campana-sello {
   display: inline-block;
   background: var(--color-gold, #FFB627);
   color: #0A1428;
@@ -2593,15 +2594,15 @@ html.js [data-cascada].is-visible > * { opacity: 1; transform: none; }
 
 /* El precio de lista NO desaparece: queda tachado al lado. Es lo que protege
    el piso cuando alguien pida el precio Cyber un mes despues. */
-.cyber-antes {
+.campana-antes {
   color: var(--color-text-muted, #A8B3CF);
   text-decoration: line-through;
   text-decoration-thickness: 1px;
   font-weight: 500;
   margin-right: .35rem;
 }
-.cyber-ahora { color: var(--color-gold, #FFB627); font-weight: 800; }
-.cyber-ahorro {
+.campana-ahora { color: var(--color-gold, #FFB627); font-weight: 800; }
+.campana-ahorro {
   display: block;
   font-family: 'Inter', system-ui, sans-serif;
   font-weight: 600;
@@ -2611,27 +2612,27 @@ html.js [data-cascada].is-visible > * { opacity: 1; transform: none; }
 }
 
 /* Fila dentro de la tabla de la guia de precios */
-tr[data-cyber] td { background: rgba(255, 182, 39, .06); }
+tr[data-campana] td { background: rgba(255, 182, 39, .06); }
 
 @media (max-width: 560px) {
-  .cyber-barra { font-size: .78rem; padding: .55rem .75rem; }
+  .campana-barra { font-size: .78rem; padding: .55rem .75rem; }
 }
 
-/* El atributo `hidden` es el CONTRATO con assets/js/cyber.js, y ninguna regla
+/* El atributo `hidden` es el CONTRATO con assets/js/campana.js, y ninguna regla
    de layout puede ganarle. Pasa facil: `[hidden]{display:none}` del navegador
-   pesa (0,1,0) igual que `.cyber-barra{display:flex}`, asi que gana la ultima
+   pesa (0,1,0) igual que `.campana-barra{display:flex}`, asi que gana la ultima
    declarada --la mia-- y la franja se veia SIN JavaScript, con el contador
    escrito a mano en el HTML y sin apagarse nunca. Medido el 05-10-2026 con
    java_script_enabled=False. De ahi el !important: es la excepcion correcta. */
-[data-cyber][hidden],
-[data-cyber-normal][hidden] { display: none !important; }
+[data-campana][hidden],
+[data-campana-normal][hidden] { display: none !important; }
 
 /* Los contenedores que reciben estos bloques ya pintan sus <span>: por ejemplo
-   `.hero-card__item span` (0,1,1) le ganaba a `.cyber-sello` (0,1,0) y la
+   `.hero-card__item span` (0,1,1) le ganaba a `.campana-sello` (0,1,0) y la
    palabra CYBER salia gris claro sobre dorado, ilegible. Se ve MIRANDO la
    captura, no midiendo. Duplicar la clase sube a (0,2,0) y gana sin !important
    y sin amarrarse al contenedor, asi sirve igual en las tarjetas y en la tabla. */
-.cyber-sello.cyber-sello {
+.campana-sello.campana-sello {
   color: #0A1428;
   font-size: .58rem;
   padding: .14rem .4rem;
@@ -2639,9 +2640,9 @@ tr[data-cyber] td { background: rgba(255, 182, 39, .06); }
   margin-right: .35rem;
   margin-bottom: 0;
 }
-.cyber-antes.cyber-antes { color: var(--color-text-soft, #4a5a7a); font-size: .85em; }
-.cyber-ahora.cyber-ahora { color: var(--color-gold, #FFB627); }
-.cyber-ahorro.cyber-ahorro { color: var(--color-accent, #22C55E); }
+.campana-antes.campana-antes { color: var(--color-text-soft, #4a5a7a); font-size: .85em; }
+.campana-ahora.campana-ahora { color: var(--color-gold, #FFB627); }
+.campana-ahorro.campana-ahorro { color: var(--color-accent, #22C55E); }
 
 /* Redes en el pie (06-10-2026). Iconos de un solo color en el azul de la
    marca: cinco logos a todo color en el pie pelean con el boton principal. */
@@ -2692,3 +2693,229 @@ tr[data-cyber] td { background: rgba(255, 182, 39, .06); }
 section[aria-labelledby="rubro-title"] a { color: var(--gg-blue); font-weight: 600; }
 .rubro-hub .service-card a:hover,
 section[aria-labelledby="rubro-title"] a:hover { text-decoration: underline; }
+
+/* ===========================================================================
+   NAVIDAD 2026 -- aspecto de la campana
+   ---------------------------------------------------------------------------
+   Todo cuelga de html.tema-navidad (lo pone assets/js/campana.js entre el
+   16-11 y el 26-12) o de [data-campana] (oferta, 23-11 al 24-12). Sin JS o
+   fuera de fecha, nada de esto aplica y el sitio se ve como siempre.
+   Colores: el rojo y el pino conviven con la marca (azul noche + dorado); el
+   dorado de GoGoDevS hace de "oro" navideno, no se agrega otro.
+   =========================================================================== */
+:root {
+  --nav-rojo: #D7263D;
+  --nav-rojo-osc: #8E1020;
+  --nav-pino: #1F8A5B;
+}
+
+/* --- Franja de arriba: roja, letra blanca, lo importante en dorado --------- */
+html.tema-navidad .campana-barra {
+  background: linear-gradient(90deg, var(--nav-rojo-osc) 0%, var(--nav-rojo) 50%, var(--nav-rojo-osc) 100%);
+  color: #fff;
+  font-weight: 600;
+}
+html.tema-navidad .campana-barra strong { color: #FFD27A; font-weight: 800; }
+html.tema-navidad .campana-barra a { color: #fff; font-weight: 700; }
+html.tema-navidad .campana-barra__reloj { background: rgba(255, 255, 255, .16); color: #FFD27A; }
+
+/* --- Sello sobre cada precio ------------------------------------------------ */
+html.tema-navidad .campana-sello.campana-sello { background: var(--nav-rojo); color: #fff; }
+
+/* --- Luces bajo el menu ------------------------------------------------------
+   Una guirnalda hecha solo con degradados (sin imagenes ni JS): cuatro colores
+   repetidos cada 44 px. La animacion corre los colores un lugar por paso, como
+   las luces "persecucion" de verdad. Quietas si se pidio menos movimiento. */
+html.tema-navidad .site-header::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -9px;
+  height: 14px;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 50% 55%, #FF5468 0 2.6px, rgba(255, 84, 104, .38) 3.6px, transparent 7px),
+    radial-gradient(circle at 50% 55%, #FFD166 0 2.6px, rgba(255, 209, 102, .38) 3.6px, transparent 7px),
+    radial-gradient(circle at 50% 55%, #45E0A0 0 2.6px, rgba(69, 224, 160, .38) 3.6px, transparent 7px),
+    radial-gradient(circle at 50% 55%, #6CB4FF 0 2.6px, rgba(108, 180, 255, .38) 3.6px, transparent 7px),
+    linear-gradient(rgba(255, 255, 255, .16), rgba(255, 255, 255, .16));
+  background-size: 176px 14px, 176px 14px, 176px 14px, 176px 14px, 100% 1px;
+  background-position: 0 0, 44px 0, 88px 0, 132px 0, 0 3px;
+  background-repeat: repeat-x, repeat-x, repeat-x, repeat-x, no-repeat;
+  animation: navidad-luces 2.8s steps(4) infinite;
+}
+@keyframes navidad-luces {
+  to { background-position: 176px 0, 220px 0, 264px 0, 308px 0, 0 3px; }
+}
+
+/* --- Gorro en el logo ------------------------------------------------------- */
+html.tema-navidad .brand { position: relative; }
+html.tema-navidad .brand::before {
+  content: "";
+  position: absolute;
+  left: -10px; top: -9px;
+  width: 30px; height: 26px;
+  pointer-events: none;
+  transform: rotate(-20deg);
+  background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 56'%3E%3Cpath d='M9 41C12 22 26 7 42 7c9 0 15 7 16 19l-8 1c-1-7-4-11-9-11-10 0-17 11-19 25z' fill='%23D7263D'/%3E%3Cpath d='M42 7c9 0 15 7 16 19l-4 0c-1-9-5-15-12-19z' fill='%238E1020' opacity='.55'/%3E%3Crect x='4' y='37' width='38' height='12' rx='6' fill='%23fff'/%3E%3Ccircle cx='55' cy='31' r='6.5' fill='%23fff'/%3E%3C/svg%3E");
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .35));
+}
+
+/* --- Nieve (canvas que crea campana.js) ---------------------------------------
+   Debajo del menu (z 20) y encima del contenido; nunca bloquea un clic. */
+.campana-nieve { position: fixed; inset: 0; z-index: 15; pointer-events: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html.tema-navidad .site-header::after { animation: none; }
+  .campana-nieve { display: none; }
+}
+
+/* --- Seccion de la oferta (portada y guia de precios) ----------------------- */
+.navidad-oferta { padding: 3.5rem 0 1.5rem; position: relative; z-index: 1; }
+.navidad-oferta__caja {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  background:
+    radial-gradient(900px 380px at 0% -20%, rgba(215, 38, 61, .32), transparent 62%),
+    radial-gradient(800px 380px at 105% 120%, rgba(31, 138, 91, .26), transparent 60%),
+    linear-gradient(160deg, #142244 0%, #0d1a30 100%);
+  border: 1px solid rgba(255, 182, 39, .3);
+  box-shadow: var(--shadow-lg);
+}
+/* La cinta y el mono de un regalo, en la esquina: decorado, no informacion. */
+.navidad-oferta__caja::before {
+  content: "";
+  position: absolute;
+  top: 0; height: 170px; right: clamp(1.5rem, 9%, 7rem);
+  width: 12px;
+  /* Corta: termina antes de las tarjetas, que son translucidas y la mostraban
+     cruzando el texto. */
+  background: linear-gradient(180deg, rgba(255, 182, 39, .55), rgba(255, 182, 39, .14) 60%, transparent);
+  pointer-events: none;
+}
+.navidad-oferta__caja::after {
+  content: "";
+  position: absolute;
+  top: -6px; right: calc(clamp(1.5rem, 9%, 7rem) - 26px);
+  width: 64px; height: 44px;
+  pointer-events: none;
+  background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 44'%3E%3Cpath d='M32 22C24 6 6 2 6 12c0 9 15 11 26 10z' fill='%23FFB627'/%3E%3Cpath d='M32 22C40 6 58 2 58 12c0 9-15 11-26 10z' fill='%23FFB627'/%3E%3Cpath d='M32 22c-5 6-10 14-13 20M32 22c5 6 10 14 13 20' stroke='%23E09A12' stroke-width='5' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='32' cy='21' r='6' fill='%23E09A12'/%3E%3C/svg%3E");
+}
+.navidad-oferta__cabeza { max-width: 640px; position: relative; }
+.navidad-oferta__eyebrow {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: .74rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--color-gold, #FFB627);
+  margin: 0 0 .6rem;
+}
+.navidad-oferta__titulo {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.7rem, 3.6vw, 2.6rem);
+  line-height: 1.12;
+  margin: 0 0 .7rem;
+  color: #fff;
+  text-wrap: balance;
+}
+.navidad-oferta__bajada { color: var(--color-text-muted, #A8B3CF); font-size: 1.02rem; line-height: 1.6; margin: 0; }
+
+.navidad-oferta__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.8rem;
+  position: relative;
+}
+.navidad-regalo {
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .09);
+  border-radius: 16px;
+  padding: 1.3rem 1.25rem;
+}
+.navidad-regalo--destacado {
+  background: linear-gradient(160deg, rgba(255, 182, 39, .14), rgba(255, 182, 39, .04));
+  border-color: rgba(255, 182, 39, .45);
+}
+.navidad-regalo__icono {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  background: var(--nav-rojo);
+  color: #fff;
+  margin-bottom: .85rem;
+}
+.navidad-regalo--destacado .navidad-regalo__icono { background: var(--color-gold, #FFB627); color: #0A1428; }
+.navidad-regalo__icono svg { width: 22px; height: 22px; }
+.navidad-regalo h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 1.08rem;
+  line-height: 1.3;
+  margin: 0 0 .45rem;
+  color: #fff;
+}
+.navidad-regalo p { margin: 0; color: var(--color-text-muted, #A8B3CF); font-size: .92rem; line-height: 1.55; }
+.navidad-regalo .navidad-regalo__nota { font-size: .78rem; margin-bottom: .35rem; }
+.navidad-precios { list-style: none; margin: 0; padding: 0; }
+.navidad-precios li {
+  display: flex; justify-content: space-between; align-items: baseline; gap: .6rem;
+  padding: .42rem 0;
+  border-top: 1px solid rgba(255, 255, 255, .07);
+  font-size: .9rem;
+  color: var(--color-text-muted, #A8B3CF);
+}
+.navidad-precios li:first-child { border-top: 0; }
+.navidad-precios s { color: #8794B3; margin-right: .35rem; text-decoration-thickness: 1.5px; }
+.navidad-precios strong { color: var(--color-gold, #FFB627); font-weight: 800; white-space: nowrap; }
+
+.navidad-oferta__accion {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem;
+  margin-top: 1.8rem;
+}
+.button--navidad {
+  background: linear-gradient(135deg, #E8344B 0%, var(--nav-rojo) 55%, #A9142A 100%);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 12px 30px rgba(215, 38, 61, .35);
+}
+.button--navidad:hover { background: linear-gradient(135deg, #F04A60 0%, #E02E46 55%, #B8182F 100%); color: #fff; }
+.navidad-oferta__reloj {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: .82rem;
+  color: #FFD27A;
+  background: rgba(255, 182, 39, .1);
+  border: 1px solid rgba(255, 182, 39, .25);
+  border-radius: 999px;
+  padding: .38rem .85rem;
+  font-variant-numeric: tabular-nums;
+}
+.navidad-oferta__letra {
+  margin: 1.2rem 0 0;
+  font-size: .76rem;
+  line-height: 1.55;
+  color: var(--color-text-soft, #6b7a99);
+  max-width: 820px;
+}
+
+/* En la guia de precios los precios ya estan arriba: quedan los dos regalos. */
+.navidad-oferta--precios .navidad-oferta__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.navidad-oferta--precios { padding-top: 1rem; }
+
+@media (max-width: 900px) {
+  .navidad-oferta__grid,
+  .navidad-oferta--precios .navidad-oferta__grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .navidad-oferta { padding-top: 2.2rem; }
+  .navidad-oferta__caja { border-radius: 18px; }
+  /* En el telefono el titulo ocupa todo el ancho y el mono lo tapaba. */
+  .navidad-oferta__caja::before,
+  .navidad-oferta__caja::after { display: none; }
+  .navidad-oferta__accion .button { width: 100%; justify-content: center; text-align: center; }
+  html.tema-navidad .brand::before { left: -8px; top: -8px; width: 26px; height: 22px; }
+}

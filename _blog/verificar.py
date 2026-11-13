@@ -273,6 +273,34 @@ def main():
         if "ftp:ssl-allow no" in t or "ftp:ssl-allow no" in t_mirror:
             errores.append("%s despliega por FTP sin cifrar (ftp:ssl-allow no)" % wf)
 
+    # 7. Nada interno se sube a public_html (13-11-2026). herramientas/refrescar_resenas.py
+    #    se podia descargar desde el sitio. Se calcula lo que subiria el mirror (todo el repo
+    #    menos las exclusiones REALES de desplegar_ftp.sh) y se rechazan scripts, datos y
+    #    respaldos. Si alguien saca una exclusion (p. ej. ^_blog/), esto falla.
+    if os.path.exists(script_ftp):
+        import fnmatch
+        texto_ftp = open(script_ftp, encoding="utf-8").read()
+        linea_mirror = next((l for l in texto_ftp.splitlines() if l.strip().startswith("mirror ")), "")
+        if not linea_mirror:
+            errores.append("desplegar_ftp.sh no tiene la linea mirror: no se puede revisar que sube")
+        else:
+            excl_re = [re.compile(p.replace("\\\\", "\\").replace("\\$", "$"))
+                       for p in re.findall(r"--exclude\s+(\S+)", linea_mirror)]
+            excl_glob = re.findall(r"--exclude-glob\s+(\S+)", linea_mirror)
+            internos = (".py", ".pyc", ".sh", ".ps1", ".bat", ".env", ".sql", ".bak", ".log", ".pem", ".key")
+            carpetas_internas = ("herramientas", "__pycache__", "node_modules")
+            for base, dirs, archivos in os.walk(raiz):
+                dirs[:] = [d for d in dirs if d != ".git"]
+                for nombre in archivos:
+                    rel = os.path.relpath(os.path.join(base, nombre), raiz).replace(os.sep, "/")
+                    partes = rel.split("/")
+                    if any(r.search(rel) for r in excl_re):
+                        continue
+                    if any(fnmatch.fnmatch(p.rstrip("/"), g.rstrip("/")) for p in partes for g in excl_glob):
+                        continue
+                    if rel.lower().endswith(internos) or any(c in partes[:-1] for c in carpetas_internas):
+                        errores.append("el deploy subiria un archivo interno a public_html: %s" % rel)
+
     print("Hoy: %s | HTML revisados: %d | JSON-LD: %d | enlaces internos: %d | borradores: %d | publicados: %d"
           % (hoy, n_html, n_ld, n_links, len(borradores), publicados))
     for a in avisos:

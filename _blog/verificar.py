@@ -263,6 +263,10 @@ def main():
             # mirror --delete solo con la raiz comprobada: centinela exigido y excluido del mirror
             if 'CENTINELA=".gogodevs-publicacion"' not in t_mirror or "--exclude ^\\\\.gogodevs-publicacion" not in t_mirror:
                 errores.append("desplegar_ftp.sh no comprueba o no protege el centinela .gogodevs-publicacion")
+            # el glob .git* de lftp no excluye directorios: .git/ y .github/ van como regex (16-11-2026)
+            for oculta in (".git", ".github"):
+                if "--exclude ^\\\\%s/" % oculta not in t_mirror:
+                    errores.append("desplegar_ftp.sh sube la carpeta %s/ al hosting" % oculta)
         for carpeta in ("_blog", "_programados", "_tree"):
             if "--exclude ^%s/" % carpeta not in t_mirror:
                 errores.append("%s no excluye %s/ del FTP" % (wf, carpeta))

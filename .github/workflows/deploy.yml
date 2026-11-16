@@ -20,6 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false   # el token de GitHub no queda en .git/config
 
       - name: Instalar lftp
         run: bash .github/scripts/instalar_lftp.sh

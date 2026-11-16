@@ -78,10 +78,12 @@ if grep -qxE 'domains/|public_html/|\.bash_profile|\.bashrc|Maildir/|imap/' "$tm
 fi
 
 # 2. Mirror (el centinela nunca se toca)
+# lftp prueba los directorios con "/" al final y su glob no cruza "/": --exclude-glob .git* NO excluia
+# la carpeta .git/ (el deploy del 16-11-2026 subio .git/ y .github/ enteros). Van como regex con ^ y /.
 SIM=""
 if [ "$SIMULAR" = "1" ]; then SIM="--dry-run"; echo "SIMULACION: mirror --dry-run, no se escribe nada"; fi
 lftp_seguro <<EOF
-mirror -R --delete --only-newer $SIM --exclude ^\\.gogodevs-publicacion\$ --exclude-glob .git* --exclude-glob .vscode/ --exclude ^_blog/ --exclude ^_programados/ --exclude ^_tree/ --exclude ^docs/ --exclude ^README.md --exclude ^CAMBIOS_GOGODEVS.txt --exclude ^index-v2.html --exclude ^assets/css/style-v2.css --verbose "$ORIGEN" "$DESTINO"
+mirror -R --delete --only-newer $SIM --exclude ^\\.gogodevs-publicacion\$ --exclude ^\\.git/ --exclude ^\\.github/ --exclude ^\\.vscode/ --exclude-glob .git* --exclude-glob .vscode/ --exclude ^_blog/ --exclude ^_programados/ --exclude ^_tree/ --exclude ^docs/ --exclude ^README.md --exclude ^CAMBIOS_GOGODEVS.txt --exclude ^index-v2.html --exclude ^assets/css/style-v2.css --verbose "$ORIGEN" "$DESTINO"
 EOF
 
 # 3. Despues del mirror real, el centinela tiene que seguir

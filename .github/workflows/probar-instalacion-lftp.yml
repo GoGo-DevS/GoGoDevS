@@ -1,0 +1,81 @@
+name: Probar instalacion de lftp (sin desplegar)
+
+# Prueba el instalador del deploy en un runner real SIN publicar nada: no usa secretos ni FTP.
+# Se dispara con un push a una rama infra/** (nunca main, que es lo que despliega deploy.yml).
+on:
+  push:
+    branches:
+      - 'infra/**'
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash   # bash -eo pipefail: un fallo dentro de un pipe falla el paso
+
+jobs:
+  instalar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Pruebas del instalador (comandos falsos, no instala nada)
+        run: bash .github/scripts/test_instalar_lftp.sh
+
+      - name: Diagnostico de DNS (informativo)
+        run: |
+          cat /etc/os-release | grep -E '^(PRETTY_NAME|VERSION_CODENAME)='
+          dpkg --print-architecture
+          for h in github.com archive.ubuntu.com security.ubuntu.com azure.archive.ubuntu.com; do
+            if getent hosts "$h" >/dev/null; then echo "$h resuelve"; else echo "::warning::$h NO resuelve"; fi
+          done
+
+      - name: Instalar lftp con el mismo script del deploy
+        run: bash .github/scripts/instalar_lftp.sh 2>&1 | tee instalacion.log
+
+      - name: Se instalo el .deb versionado (no el respaldo por apt)
+        run: |
+          grep -q "desde el .deb versionado" instalacion.log
+          dpkg-query -W -f='${Package} ${Version} ${Architecture}\n' lftp
+          test "$(dpkg-query -W -f='${Version}' lftp)" = "4.9.3-1.1ubuntu2"
+
+      - name: lftp responde (sin conectarse a ningun servidor)
+        run: |
+          lftp --version | head -n 1
+          lftp -c "set cmd:fail-exit yes; help mirror" > /dev/null
+
+  procedencia:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Procedencia del .deb (firma de Ubuntu -> indice -> paquete), con el llavero de la imagen
+        run: bash .github/scripts/verificar_procedencia_lftp.sh
+
+  ftps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Herramientas de prueba (servidor FTP local; no tocan el servidor real)
+        run: python -m pip install --disable-pip-version-check pyftpdlib==2.0.1 pyopenssl==25.1.0 cryptography==45.0.7
+
+      - name: Instalar lftp con el mismo script del deploy
+        run: bash .github/scripts/instalar_lftp.sh
+
+      - name: desplegar_ftp.sh contra servidores locales (TLS verificado; sin TLS no manda ni el usuario)
+        run: PYTHON=python bash .github/scripts/test_desplegar_ftp.sh
+
+      - name: Identidad del servidor real (solo STARTTLS + certificado, sin login)
+        run: bash .github/scripts/verificar_identidad_ftp.sh

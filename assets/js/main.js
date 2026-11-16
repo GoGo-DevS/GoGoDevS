@@ -61,6 +61,20 @@ if (!floatingInstagram) {
   document.body.appendChild(instagramLink);
 }
 
+/* Velo detras del menu de celular (16-11-2026): sin el, el texto de la pagina
+   se leia a traves del menu y los botones flotantes quedaban encima. Tocar el
+   velo cierra el menu: es el click "afuera" que ya escucha el documento. */
+let navVelo = null;
+const marcarMenuAbierto = (abierto) => {
+  document.documentElement.classList.toggle("gg-menu-abierto", abierto);
+  if (abierto && !navVelo) {
+    navVelo = document.createElement("div");
+    navVelo.className = "nav-velo";
+    navVelo.setAttribute("aria-hidden", "true");
+    document.body.appendChild(navVelo);
+  }
+};
+
 const closeMenu = () => {
   if (!navToggle || !navMenu) {
     return;
@@ -69,6 +83,7 @@ const closeMenu = () => {
   navToggle.setAttribute("aria-expanded", "false");
   navToggle.setAttribute("aria-label", "Abrir menu principal");
   navMenu.classList.remove("is-open");
+  marcarMenuAbierto(false);
 
   if (!desktopBreakpoint.matches) {
     navMenu.hidden = true;
@@ -84,6 +99,7 @@ const openMenu = () => {
   navToggle.setAttribute("aria-expanded", "true");
   navToggle.setAttribute("aria-label", "Cerrar menu principal");
   navMenu.classList.add("is-open");
+  marcarMenuAbierto(!desktopBreakpoint.matches);
 };
 
 if (navToggle && navMenu) {
@@ -166,6 +182,15 @@ const setActiveSectionLink = () => {
   });
 };
 
+/* CELULAR (16-11-2026). En Android el contenido aparecia DESPUES de llegar a
+   el: umbral del 18 % + hasta 320 ms de espera + 600 ms de animacion. Al bajar
+   rapido se veian zonas vacias y texto a medio entrar, y Diego lo leyo como
+   "no carga bien" (video de su telefono, 16-11). En pantallas chicas cada
+   bloque se prepara un cuarto de pantalla ANTES de entrar y sin espera, asi
+   cuando el dedo llega ya esta ahi. En escritorio no cambia nada. */
+const pantallaChica = window.matchMedia("(max-width: 768px)").matches;
+const margenEntrada = pantallaChica ? "0px 0px 25% 0px" : "0px";
+
 if ("IntersectionObserver" in window && !prefersReducedMotion.matches) {
   const observer = new IntersectionObserver(
     (entries) => {
@@ -177,13 +202,14 @@ if ("IntersectionObserver" in window && !prefersReducedMotion.matches) {
       });
     },
     {
-      threshold: 0.18,
+      threshold: pantallaChica ? 0 : 0.18,
+      rootMargin: margenEntrada,
     }
   );
 
   revealItems.forEach((item, index) => {
     item.classList.add("reveal");
-    item.style.setProperty("--reveal-delay", `${Math.min(index * 70, 320)}ms`);
+    item.style.setProperty("--reveal-delay", pantallaChica ? "0ms" : `${Math.min(index * 70, 320)}ms`);
     observer.observe(item);
   });
 } else {
@@ -605,8 +631,11 @@ if (cascadaBloques.length) {
   cascadaBloques.forEach((bloque) => {
     const paso = parseFloat(bloque.dataset.cascada) || 0.08;
     Array.from(bloque.children).forEach((hijo, i) => {
+      // En celular la grilla va en una columna: el escalonado completo dejaba
+      // al ultimo hijo de una grilla de 13 esperando un segundo. Tope 0,3 s.
+      const retraso = pantallaChica ? Math.min(i * paso, 0.3) : i * paso;
       // toFixed: sin esto sale 0.21000000000000002s en el atributo style
-      hijo.style.setProperty("--retraso", `${(i * paso).toFixed(3)}s`);
+      hijo.style.setProperty("--retraso", `${retraso.toFixed(3)}s`);
     });
   });
 
@@ -621,7 +650,9 @@ if (cascadaBloques.length) {
           obsCascada.unobserve(e.target);
         });
       },
-      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+      pantallaChica
+        ? { threshold: 0, rootMargin: margenEntrada }
+        : { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
     );
     cascadaBloques.forEach((b) => obsCascada.observe(b));
   }

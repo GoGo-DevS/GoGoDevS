@@ -97,9 +97,15 @@
        abre AL LADO de esa columna, sin taparla. En celular es una hoja desde
        abajo: la ventanita encima de los botones quedaba chica. */
     '@media(max-width:640px){',
-    '.gg-chat-fab{right:.9rem;bottom:calc(12.2rem + env(safe-area-inset-bottom));}',
+    // 16-11-2026: los tres flotantes tapaban texto y botones en todo el recorrido
+    // (video del telefono de Diego). Mas chicos (44 px, el minimo comodo para el
+    // dedo), pegados al borde y apilados juntos en la esquina, igual que
+    // WhatsApp e Instagram en style.css.
+    '.gg-chat-fab{right:.65rem;bottom:calc(7.4rem + env(safe-area-inset-bottom));',
+    'width:2.75rem;height:2.75rem;min-width:2.75rem;min-height:2.75rem;padding:0;justify-content:center;}',
+    '.gg-chat-fab svg{width:1.15rem;height:1.15rem;}',
     '.gg-chat-panel{left:.6rem;right:.6rem;bottom:calc(.6rem + env(safe-area-inset-bottom));width:auto;',
-    'height:min(620px,calc(100vh - 5rem));transform-origin:50% 100%;}',
+    'height:min(620px,calc(100vh - 5rem));height:min(620px,calc(100dvh - 5rem));transform-origin:50% 100%;}',
     '}',
     '@media(prefers-reduced-motion:reduce){.gg-typing i{animation:none;opacity:.8;}}',
   ].join('');
@@ -182,6 +188,7 @@
     // medicion.js esconde el aviso de cookies mientras el chat esta abierto:
     // en pantallas medianas se montaban y el aviso tapaba el campo de escribir.
     document.documentElement.classList.add('gg-chat-abierto');
+    ajustarAlTeclado();
     if (!saludado) {
       agregarMensaje('¡Hola! 👋 Soy el asistente de GoGoDevS. Cuéntame qué necesitas: un sitio, una tienda online o un sistema a medida.', 'gg-msg-agente');
       saludado = true;
@@ -193,7 +200,35 @@
   function cerrar() {
     panel.classList.remove('gg-open');
     document.documentElement.classList.remove('gg-chat-abierto');
+    ajustarAlTeclado();
   }
+
+  /* TECLADO EN ANDROID (16-11-2026). El panel medía su alto con 100vh, y en
+     Chrome de Android 100vh NO se achica cuando sale el teclado: el panel quedaba
+     más alto que lo visible y Chrome lo empujaba hacia arriba hasta esconder el
+     título y la X (video del teléfono de Diego, segundo 22). Mientras está
+     abierto en pantalla chica, el panel se mide contra visualViewport, que es el
+     pedazo de pantalla que de verdad se ve, y se apoya justo encima del teclado. */
+  var vista = window.visualViewport;
+  var celular = window.matchMedia('(max-width: 640px)');
+  function ajustarAlTeclado() {
+    if (!vista || !celular.matches || !panel.classList.contains('gg-open')) {
+      panel.style.top = '';
+      panel.style.bottom = '';
+      panel.style.height = '';
+      return;
+    }
+    var margen = 8;
+    var alto = Math.max(220, Math.min(620, vista.height - margen * 2));
+    panel.style.height = alto + 'px';
+    panel.style.top = Math.round(vista.offsetTop + vista.height - alto - margen) + 'px';
+    panel.style.bottom = 'auto';
+  }
+  if (vista) {
+    vista.addEventListener('resize', ajustarAlTeclado);
+    vista.addEventListener('scroll', ajustarAlTeclado);
+  }
+  if (celular.addEventListener) celular.addEventListener('change', ajustarAlTeclado);
 
   fab.addEventListener('click', function () {
     if (panel.classList.contains('gg-open')) cerrar(); else abrir();

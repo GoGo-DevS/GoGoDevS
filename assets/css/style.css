@@ -1470,17 +1470,22 @@ body.lightbox-open { overflow: hidden; }
 
   .site-footer__content { flex-direction: column; }
 
+  /* 16-11-2026: mas chicos (44 px) y apilados juntos en la esquina. Antes
+     ocupaban de 77 a 246 px desde abajo y tapaban texto y botones en todo el
+     recorrido (video del telefono de Diego). El del chat esta en chat-widget.js. */
   .floating-whatsapp {
-    right: 0.9rem; bottom: calc(4.8rem + env(safe-area-inset-bottom));
-    width: 3rem; height: 3rem; min-height: 3rem;
+    right: 0.65rem; bottom: calc(0.9rem + env(safe-area-inset-bottom));
+    width: 2.75rem; height: 2.75rem; min-height: 2.75rem;
     padding: 0; justify-content: center; border-radius: 999px;
   }
   .floating-whatsapp__label { display: none; }
   .floating-instagram {
-    right: 0.9rem; bottom: calc(8.5rem + env(safe-area-inset-bottom));
-    width: 3rem; height: 3rem; min-height: 3rem;
+    right: 0.65rem; bottom: calc(4.15rem + env(safe-area-inset-bottom));
+    width: 2.75rem; height: 2.75rem; min-height: 2.75rem;
     padding: 0; justify-content: center; border-radius: 999px;
   }
+  .floating-whatsapp__icon svg,
+  .floating-instagram__icon svg { width: 1.25rem; height: 1.25rem; }
   .floating-instagram__label { display: none; }
 
   .contact-form-card { padding: 1.25rem; }
@@ -2918,4 +2923,69 @@ html.tema-navidad .brand::before {
   .navidad-oferta__caja::after { display: none; }
   .navidad-oferta__accion .button { width: 100%; justify-content: center; text-align: center; }
   html.tema-navidad .brand::before { left: -8px; top: -8px; width: 26px; height: 22px; }
+}
+
+/* ===========================================================================
+   CELULAR (16-11-2026)
+   ===========================================================================
+   Sale del video que grabo Diego en su telefono Android (Chrome): contenido
+   que entraba tarde y se veia corrido, el menu que dejaba leer la pagina a
+   traves, los flotantes encima de todo y efectos que a la GPU de un telefono
+   le cuestan cada cuadro del scroll. Todo queda limitado a pantallas chicas:
+   el escritorio se ve igual que antes. La otra mitad del arreglo esta en
+   main.js (las entradas se disparan antes de llegar), chat-widget.js (el
+   teclado) y medicion.js (la clase gg-aviso-abierto). */
+@media (max-width: 768px) {
+  /* Entradas cortas y con poco recorrido. Lo que en el video se ve borroso es
+     el texto moviendose 26 px durante 0,6 s. */
+  .reveal {
+    transform: translate3d(0, 10px, 0);
+    transition-duration: 380ms, 380ms;
+  }
+  html.js [data-cascada] > * {
+    transform: translateY(10px);
+    transition-duration: 0.4s, 0.4s;
+  }
+  html.js .reveal--izq,
+  html.js .reveal--der { transform: translateY(10px); }
+  html.js .reveal--zoom { transform: none; }
+
+  /* El grano mezcla toda la pantalla en cada cuadro (mix-blend-mode) y el
+     desenfoque del encabezado vuelve a desenfocar todo lo que pasa debajo.
+     Con opacidad 0,035 el grano no se distingue en un telefono; el encabezado
+     queda casi opaco, como ya se veia al bajar (is-scrolled). */
+  .gg-grain { display: none; }
+  .site-header {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(10, 20, 40, 0.96);
+  }
+}
+
+/* Menu de celular: fondo opaco (con 0,98 se leia el titulo de la pagina a
+   traves, segundo 35 del video) y un velo que oscurece la pagina. Mientras
+   esta abierto, los flotantes se esconden: quedaban encima del velo. */
+@media (max-width: 960px) {
+  .nav-menu { background: #0a1428; }
+}
+.nav-velo {
+  position: fixed; inset: 0; z-index: 19;
+  background: rgba(4, 9, 20, 0.72);
+}
+html:not(.gg-menu-abierto) .nav-velo { display: none; }
+html.gg-menu-abierto .floating-whatsapp,
+html.gg-menu-abierto .floating-instagram,
+html.gg-menu-abierto .gg-chat-fab {
+  opacity: 0; visibility: hidden; pointer-events: none;
+}
+
+/* Aviso de cookies en celular: ocupa el ancho de abajo y tapaba a medias los
+   tres flotantes. Se esconden hasta que la persona decide (medicion.js pone
+   la clase). Si el chat esta abierto el aviso ya se oculta solo. */
+@media (max-width: 640px) {
+  html.gg-aviso-abierto:not(.gg-chat-abierto) .floating-whatsapp,
+  html.gg-aviso-abierto:not(.gg-chat-abierto) .floating-instagram,
+  html.gg-aviso-abierto:not(.gg-chat-abierto) .gg-chat-fab {
+    opacity: 0; visibility: hidden; pointer-events: none;
+  }
 }

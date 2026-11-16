@@ -41,7 +41,7 @@ CARPETA_SALIDA = os.path.join(RAIZ, "t")
 SITIO = "https://www.gogodevs.cl"
 PRODUCTO = "/servicios/link-en-bio/"
 # Misma version que pone _blog/sitio_comun.py en el resto del sitio.
-MEDICION = "/assets/js/medicion.js?v=20261111-tree"
+MEDICION = "/assets/js/medicion.js?v=20261116-movil"
 POLITICA_GOGODEVS = SITIO + "/legal/privacidad/#cookies"
 
 SKINS = ("base", "oscura", "foto")

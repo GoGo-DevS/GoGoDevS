@@ -78,6 +78,7 @@
   var aviso = null;
   function cerrarAviso() {
     if (aviso) { aviso.remove(); aviso = null; }
+    document.documentElement.classList.remove('gg-aviso-abierto');
   }
 
   function decidir(acepta) {
@@ -127,6 +128,9 @@
     aviso.querySelector('.gg-si').addEventListener('click', function () { decidir(true); });
     aviso.querySelector('.gg-no').addEventListener('click', function () { decidir(false); });
     document.body.appendChild(aviso);
+    // En celular el aviso tapaba a medias los botones de WhatsApp, Instagram y
+    // el chat (16-11-2026). style.css los esconde mientras esta clase exista.
+    document.documentElement.classList.add('gg-aviso-abierto');
   }
 
   window.ggConsentimiento = { abrir: mostrarAviso, decision: leerDecision };

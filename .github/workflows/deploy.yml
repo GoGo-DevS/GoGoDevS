@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  # Boton "Run workflow" para reactivar el deploy sin un push nuevo. Solo publica main:
+  # el job no corre si alguien lo lanza desde otra rama.
+  workflow_dispatch:
 
 # Un solo deploy por FTP a la vez: este y el del blog diario (blog-diario.yml)
 # comparten el grupo para no pisarse si coinciden.
@@ -13,6 +16,7 @@ concurrency:
 
 jobs:
   deploy:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

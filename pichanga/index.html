@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Equipos Futbolitos</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Cada uno arma su versión de los equipos y sale la que más se repite.">
+<meta name="theme-color" content="#2E7A48">
+<link rel="icon" href="/favicon-48x48.png" sizes="48x48">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap">
+<style>
+/* Una columna de teléfono. La cancha (franjas de pasto y línea de medio campo) es la banda de arriba y la vista de los equipos. */
+:root{
+  --bg:#F2F5EE; --surface:#FFFFFF; --ink:#16231A; --muted:#566659; --line:#D5DDD0;
+  --pitch:#2E7A48; --pitch-2:#286C3F; --on-pitch:#FFFFFF; --chalk:rgba(255,255,255,.5);
+  --negro:#151816; --negro-ink:#FFFFFF; --negro-ring:transparent;
+  --blanco:#FFFFFF; --blanco-ink:#151816;
+  --ok:#24683C; --warn:#A04A06; --warn-soft:#FFEFE0;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0E1611; --surface:#16211A; --ink:#E6EEE4; --muted:#9DAD9F; --line:#2A392E;
+    --pitch:#2A6E42; --pitch-2:#235E38; --chalk:rgba(255,255,255,.42);
+    --negro:#050606; --negro-ring:#5E6E61; --blanco:#EEF2EC;
+    --ok:#6CC88B; --warn:#FFB06A; --warn-soft:#34230F;
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom,0px)}
+.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* Banda de cancha */
+.band{background:repeating-linear-gradient(90deg,var(--pitch) 0 56px,var(--pitch-2) 56px 112px);color:var(--on-pitch);position:relative;overflow:hidden;padding-top:env(safe-area-inset-top,0px)}
+.band::after{content:"";position:absolute;right:-70px;top:50%;width:170px;height:170px;border:2px solid var(--chalk);border-radius:50%;transform:translateY(-50%);pointer-events:none}
+.band::before{content:"";position:absolute;right:14px;top:0;bottom:0;width:2px;background:var(--chalk);pointer-events:none}
+.band .wrap{padding-block:22px 20px;position:relative;z-index:1}
+.eyebrow{font:600 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;margin:0;opacity:.88}
+h1{font:800 clamp(30px,8vw,42px)/1 var(--display);text-transform:uppercase;letter-spacing:.01em;margin:8px 0 6px;text-wrap:balance;padding-right:56px}
+.meta{font-size:15px;margin:0;opacity:.94;font-variant-numeric:tabular-nums}
+.progress{display:inline-block;margin:12px 0 0;font:700 15px/1 var(--body);background:rgba(0,0,0,.22);padding:7px 11px;border-radius:999px;font-variant-numeric:tabular-nums}
+
+.offline{background:var(--warn-soft);color:var(--warn);font-weight:600;font-size:15px}
+.offline .wrap{padding-block:10px}
+
+main.wrap{padding-block:4px 64px}
+.block{padding-block:22px;border-bottom:1px solid var(--line)}
+.block:last-child{border-bottom:0}
+h2{font:700 24px/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em;margin:0 0 6px;text-wrap:balance}
+h3.sub{font:700 18px/1.1 var(--display);text-transform:uppercase;letter-spacing:.03em;margin:18px 0 8px;color:var(--muted)}
+.hint{color:var(--muted);font-size:15px;margin:0 0 12px;max-width:60ch}
+
+input[type="text"],textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+textarea{resize:vertical;line-height:1.45}
+input[type="text"]:focus,textarea:focus{outline:2px solid var(--pitch);outline-offset:1px;border-color:transparent}
+::placeholder{color:var(--muted);opacity:.85}
+
+.btn{font:600 15px/1.2 var(--body);padding:11px 16px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn.primary{background:var(--pitch);border-color:var(--pitch);color:var(--on-pitch)}
+.btn.big{font-size:17px;padding:14px 22px}
+.btn.small{padding:8px 12px;font-size:14px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn:focus-visible,.seg button:focus-visible,.namechip:focus-visible,.chip .x:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px}
+.status{font-size:15px;font-weight:600;min-width:0;flex:1 1 220px;margin:0}
+.status[data-kind="ok"]{color:var(--ok)}
+.status[data-kind="warn"]{color:var(--warn)}
+.head-row{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 12px;margin-bottom:6px}
+.head-row h2{margin:0}
+.tools{display:flex;gap:8px}
+.add{display:flex;gap:8px;margin-top:14px}
+.add input{flex:1;min-width:0}
+
+/* ¿Quién eres? */
+.names{display:flex;flex-wrap:wrap;gap:8px}
+.namechip{font:600 16px/1 var(--body);padding:11px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.namechip .ya{color:var(--ok);font-weight:700;margin-left:6px}
+.picked{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.picked p{margin:0;font-size:18px}
+.picked strong{font:800 26px/1 var(--display);text-transform:uppercase;letter-spacing:.02em}
+
+/* Armar equipos */
+.tally{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px;font-variant-numeric:tabular-nums}
+.t{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:15px;padding:6px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line)}
+.t i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.t.n i{background:var(--negro);box-shadow:0 0 0 1px var(--negro-ring)}
+.t.b i{background:var(--blanco);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.t.f{color:var(--muted)}
+.assign{list-style:none;margin:0;padding:0}
+.arow{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}
+.pname{font-weight:600;font-size:17px;overflow-wrap:anywhere}
+.tag{display:inline-block;vertical-align:2px;margin-left:6px;font:700 11px/1 var(--body);letter-spacing:.08em;padding:4px 6px;border-radius:5px;background:var(--pitch);color:var(--on-pitch)}
+.seg{display:inline-flex;padding:3px;border-radius:999px;background:var(--bg);border:1px solid var(--line)}
+.seg button{font:600 15px/1 var(--body);padding:10px 15px;border:0;border-radius:999px;background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap}
+.seg button.n[aria-pressed="true"]{background:var(--negro);color:var(--negro-ink);box-shadow:inset 0 0 0 1.5px var(--negro-ring)}
+.seg button.b[aria-pressed="true"]{background:var(--blanco);color:var(--blanco-ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+
+/* Cancha con los equipos */
+.pitch{position:relative;display:grid;grid-template-columns:1fr 1fr;border-radius:14px;overflow:hidden;color:var(--on-pitch);background:repeating-linear-gradient(90deg,var(--pitch) 0 40px,var(--pitch-2) 40px 80px);box-shadow:inset 0 0 0 3px var(--chalk);min-height:200px}
+.pitch::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--chalk)}
+.pitch::after{content:"";position:absolute;left:50%;top:50%;width:86px;height:86px;border:2px solid var(--chalk);border-radius:50%;transform:translate(-50%,-50%)}
+.half{position:relative;z-index:1;padding:14px 12px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.half h4{display:flex;justify-content:space-between;align-items:baseline;gap:6px;font:800 18px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;margin:0 0 4px}
+.half h4 .num{font-variant-numeric:tabular-nums;opacity:.9}
+.pill{display:block;padding:7px 9px;border-radius:7px;font-weight:600;font-size:14px;line-height:1.2;overflow-wrap:anywhere;box-shadow:0 1px 0 rgba(0,0,0,.2)}
+.pill.n{background:var(--negro);color:var(--negro-ink)}
+.pill.b{background:var(--blanco);color:var(--blanco-ink)}
+.nadie{font-size:14px;opacity:.85;font-style:italic}
+
+.issues{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:6px}
+.issues li{padding:9px 12px;border-radius:9px;background:var(--warn-soft);color:var(--warn);font-weight:600;font-size:15px}
+
+/* Resultado */
+.why{font-size:17px;margin:4px 0 14px;max-width:60ch}
+.lock{padding:16px;border-radius:12px;border:1px dashed var(--line);color:var(--muted);font-size:16px;margin:10px 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:2px;padding:4px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-size:14px;font-weight:600}
+.chip.del{padding-right:3px}
+.chip .x{width:26px;height:26px;border:0;border-radius:50%;background:transparent;color:var(--muted);font-size:16px;line-height:1;cursor:pointer}
+.chip .x:hover{background:var(--line);color:var(--ink)}
+.chip .x[data-armado]{background:var(--warn);color:#fff;width:auto;border-radius:999px;padding:0 9px;font-size:13px;font-weight:700}
+.ranking{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:10px}
+.rank{padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);min-width:0}
+.rank.win{border-color:var(--pitch);box-shadow:0 0 0 1px var(--pitch)}
+.rank-head{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-bottom:8px}
+.votes{font:800 20px/1 var(--display);text-transform:uppercase;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.sim{color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums}
+.badge{font:700 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;border-radius:999px;background:var(--pitch);color:var(--on-pitch)}
+.rank .chips{margin-bottom:8px}
+.rank .chip{background:var(--bg)}
+.mini{display:grid;gap:4px;font-size:14px}
+.mini p{margin:0;overflow-wrap:anywhere}
+.mini p::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:7px}
+.mini .mn::before{background:var(--negro);box-shadow:0 0 0 1px var(--negro-ring)}
+.mini .mb::before{background:var(--blanco);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.foot{color:var(--muted);font-size:14px;margin:14px 0 0;max-width:60ch}
+
+@media (max-width:420px){ .seg button{padding:10px 12px} }
+@media (prefers-reduced-motion:no-preference){
+  .seg button,.btn,.namechip{transition:background-color .15s,color .15s,box-shadow .15s}
+}
+</style>
+</head>
+<body>
+
+<header class="band">
+  <div class="wrap">
+    <p class="eyebrow">Futbolitos Idos · equipos por votación</p>
+    <h1 id="h-title">Cargando…</h1>
+    <p class="meta" id="h-meta"></p>
+    <p class="progress" id="h-progress" hidden></p>
+  </div>
+</header>
+<div class="offline" id="offline" hidden><div class="wrap" id="offline-msg"></div></div>
+
+<main class="wrap">
+  <noscript><p class="block">Esta página necesita JavaScript activado.</p></noscript>
+
+  <section class="block" id="s-empty" hidden>
+    <h2>Todavía no hay partido</h2>
+    <p class="hint">El organizador tiene que cargar la lista de la semana. Vuelve a abrir el link en un rato.</p>
+  </section>
+
+  <section class="block" id="s-who" hidden>
+    <div id="who-picked" class="picked" hidden>
+      <p>Mandas tu versión como <strong id="who-name"></strong></p>
+      <button class="btn small" type="button" id="who-change">No soy yo</button>
+    </div>
+    <div id="who-pick">
+      <h2>¿Quién eres?</h2>
+      <p class="hint">Toca tu nombre.</p>
+      <div class="names" id="who-chips"></div>
+      <form class="add" id="who-form" autocomplete="off">
+        <input type="text" id="who-other" maxlength="30" placeholder="¿No estás? Escribe tu nombre" aria-label="Tu nombre">
+        <button class="btn" type="submit">Listo</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="block" id="s-arma" hidden>
+    <div class="head-row">
+      <h2>Arma los equipos</h2>
+      <div class="tools">
+        <button class="btn small" type="button" id="rnd">Al azar</button>
+        <button class="btn small" type="button" id="clr">Limpiar</button>
+      </div>
+    </div>
+    <div class="tally" id="tally"></div>
+    <ul class="assign" id="assign"></ul>
+    <h3 class="sub">Así quedan</h3>
+    <div id="my-pitch"></div>
+    <ul class="issues" id="issues"></ul>
+    <div class="row">
+      <button class="btn primary big" type="button" id="send">Enviar mi versión</button>
+      <p class="status" id="send-msg" role="status"></p>
+    </div>
+  </section>
+
+  <section class="block" id="s-res" hidden>
+    <h2 id="res-title">Cómo van</h2>
+    <div id="res-body"></div>
+  </section>
+
+  <section class="block" id="s-admin" hidden>
+    <h2>Organizador</h2>
+    <p class="hint">Solo tú ves esto. Puedes borrar versiones tocando la × al lado de cada nombre.</p>
+    <div class="row">
+      <button class="btn" type="button" id="copy-link">Copiar link para el grupo</button>
+      <p class="status" id="link-msg"></p>
+    </div>
+    <h3 class="sub">Partido nuevo</h3>
+    <p class="hint">Pega la lista numerada del grupo. Al empezar el partido nuevo se borran las versiones del actual.</p>
+    <textarea id="admin-list" rows="9" aria-label="Lista del partido nuevo"></textarea>
+    <div class="row">
+      <button class="btn primary" type="button" id="admin-new">Empezar partido nuevo</button>
+      <p class="status" id="admin-msg"></p>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  var API = "api.php";
+  var POLL_MS = 8000;
+
+  // ---------- utilidades ----------
+  function $(s){ return document.querySelector(s); }
+  function el(tag, cls, text){
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function norm(s){
+    return String(s || "")
+      .normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .replace(/🧤/g, "").replace(/\(.*?\)/g, "").replace(/[*_~]/g, "")
+      .toLowerCase().replace(/\s+/g, " ").trim();
+  }
+  function cap(s){ s = String(s || "").trim(); return s ? s.charAt(0).toLocaleUpperCase("es") + s.slice(1) : s; }
+  function clp(n){ return "$" + Math.round(n).toLocaleString("es-CL"); }
+  function pct(x){ return Math.round(x * 100); }
+  function joinY(arr){
+    if (arr.length <= 1) return arr[0] || "";
+    return arr.slice(0, -1).join(", ") + " y " + arr[arr.length - 1];
+  }
+  function cleanName(s){ return String(s || "").replace(/[\n\r,;<>]/g, " ").replace(/\s+/g, " ").trim().slice(0, 30); }
+  function setStatus(sel, text, kind){ var e = $(sel); e.textContent = text || ""; e.dataset.kind = kind || ""; }
+  function lsGet(k){ try { return JSON.parse(localStorage.getItem(k)); } catch(e){ return null; } }
+  function lsSet(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+  function newToken(){
+    var a = new Uint8Array(16);
+    if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(a);
+    else for (var i = 0; i < a.length; i++) a[i] = Math.floor(Math.random() * 256);
+    return Array.prototype.map.call(a, function(b){ return ("0" + b.toString(16)).slice(-2); }).join("");
+  }
+
+  // ---------- leer la lista que mandan al grupo ----------
+  function stripPrefix(l){
+    return String(l)
+      .replace(/^\[[^\]]{3,40}\]\s*[^:]{1,40}:\s*/, "")
+      .replace(/^\d{1,2}[\/.\-]\d{1,2}[\/.\-]\d{2,4},?\s+\d{1,2}:\d{2}(?:\s?[ap]\.?\s?m\.?)?\s+-\s+[^:]{1,40}:\s*/i, "")
+      .trim();
+  }
+  function stripTail(s){
+    return String(s).replace(/\s*\d{1,2}:\d{2}(?:\s?[ap]\.?\s?m\.?)?\s*[✓✔]*\s*$/i, "").replace(/[.\s]+$/, "").trim();
+  }
+  function parseList(text){
+    var lines = String(text || "").split(/\r?\n/).map(function(l){ return stripPrefix(l).replace(/[*_~]/g, "").trim(); }).filter(Boolean);
+    var title = "", total = null, players = [], loose = [];
+    lines.forEach(function(l){
+      var m = l.match(/^(\d{1,2})\s*[.)\-:]\s*(.+)$/);
+      if (m){ pushPlayer(players, m[2]); return; }
+      var t = l.match(/total\s*:?\s*\$?\s*([\d.,]+)/i);
+      if (t){ total = parseInt(t[1].replace(/[.,]/g, ""), 10) || null; return; }
+      if (!title && !players.length && /\d/.test(l)){ title = l; return; }
+      loose.push(l);
+    });
+    if (!players.length) loose.forEach(function(l){ pushPlayer(players, l); });
+    return { titulo: title, total: total, jugadores: players };
+  }
+  function pushPlayer(list, raw){
+    var name = stripTail(raw), gk = false;
+    var g = name.match(/^(arquero|arq\.?|portero)\s+(.+)$/i);
+    if (g){ gk = true; name = g[2]; }
+    if (/🧤|\(arq/i.test(name)) gk = true;
+    name = cap(cleanName(name.replace(/🧤/g, "").replace(/\(.*?\)/g, "")));
+    if (!norm(name)) return;
+    if (list.some(function(p){ return norm(p.nombre) === norm(name); })) return;
+    list.push({ nombre: name, arquero: gk });
+  }
+
+  // ---------- comparar versiones ----------
+  function sideMap(v){
+    var m = new Map();
+    v.negro.forEach(function(n){ m.set(norm(n), 0); });
+    v.blanco.forEach(function(n){ m.set(norm(n), 1); });
+    return m;
+  }
+  // Misma división = misma versión, aunque alguien haya cambiado Negro por Blanco.
+  function canonKey(v){
+    var A = v.negro.map(norm).sort(), B = v.blanco.map(norm).sort();
+    var first = A.concat(B).sort()[0];
+    var x = A.indexOf(first) >= 0 ? A : B, y = x === A ? B : A;
+    return x.join("|") + "//" + y.join("|");
+  }
+  // Fracción de parejas que quedan igual (juntas o separadas) en las dos versiones.
+  function sim(m1, m2){
+    var common = [];
+    m1.forEach(function(_, k){ if (m2.has(k)) common.push(k); });
+    var agree = 0, tot = 0;
+    for (var i = 0; i < common.length; i++){
+      for (var j = i + 1; j < common.length; j++){
+        var s1 = m1.get(common[i]) === m1.get(common[j]);
+        var s2 = m2.get(common[i]) === m2.get(common[j]);
+        tot++; if (s1 === s2) agree++;
+      }
+    }
+    return tot ? agree / tot : 0;
+  }
+  function computeResult(vs){
+    if (!vs.length) return null;
+    var maps = vs.map(sideMap), keys = vs.map(canonKey), groups = new Map();
+    vs.forEach(function(v, i){
+      if (!groups.has(keys[i])) groups.set(keys[i], { key: keys[i], idx: [], first: i });
+      groups.get(keys[i]).idx.push(i);
+    });
+    var G = Array.from(groups.values());
+    G.forEach(function(g){
+      var rep = maps[g.idx[0]], s = 0, n = 0;
+      maps.forEach(function(m, i){ if (keys[i] !== g.key){ s += sim(rep, m); n++; } });
+      g.score = n ? s / n : 1;
+      g.votes = g.idx.length;
+    });
+    G.sort(function(x, y){ return (y.votes - x.votes) || (y.score - x.score) || (x.first - y.first); });
+    var top = G[0], second = G[1], mode;
+    if (G.length === 1) mode = vs.length === 1 ? "single" : "unanimous";
+    else if (top.votes >= 2 && top.votes > second.votes) mode = "repeat";
+    else if (top.votes >= 2) mode = "tie";
+    else mode = "closest";
+    var scoreTie = !!(second && second.votes === top.votes && Math.abs(second.score - top.score) < 1e-9);
+    return { G: G, top: top, second: second, mode: mode, scoreTie: scoreTie, total: vs.length, vs: vs };
+  }
+
+  // ---------- estado ----------
+  var yo = lsGet("pichanga-yo");
+  if (!yo || typeof yo.token !== "string" || !/^[A-Za-z0-9]{16,64}$/.test(yo.token)) yo = { nombre: "", token: newToken() };
+  lsSet("pichanga-yo", yo);
+
+  // La clave del organizador llega una vez en el link (?admin=...) y queda guardada en ese teléfono.
+  var adminKey = lsGet("pichanga-admin") || "";
+  try {
+    var qs = new URLSearchParams(location.search), k = qs.get("admin");
+    if (k){
+      adminKey = k; lsSet("pichanga-admin", k); qs.delete("admin");
+      history.replaceState(null, "", location.pathname + (qs.toString() ? "?" + qs.toString() : "") + location.hash);
+    }
+  } catch(e){}
+  var esAdmin = false;
+
+  var estado = null, partidoId = null, cargado = false;
+  var my = {};                 // norm(nombre) -> "n" | "b"
+  var eligiendoNombre = !yo.nombre;
+
+  function partido(){ return estado && estado.partido; }
+  function roster(){ return partido() ? estado.partido.jugadores : []; }
+  function votos(){ return estado ? estado.votos : []; }
+  function miVoto(){
+    var k = norm(yo.nombre);
+    if (!k) return null;
+    return votos().filter(function(v){ return norm(v.nombre) === k; })[0] || null;
+  }
+  function guardarBorrador(){ if (partidoId) lsSet("pichanga-borrador-" + partidoId, my); }
+  function desdeVoto(v){
+    var m = {};
+    v.negro.forEach(function(n){ m[norm(n)] = "n"; });
+    v.blanco.forEach(function(n){ m[norm(n)] = "b"; });
+    return m;
+  }
+  function podar(){
+    var keep = {};
+    roster().forEach(function(p){ var k = norm(p.nombre); if (my[k]) keep[k] = my[k]; });
+    my = keep;
+  }
+  function mineSides(){
+    var n = [], b = [], free = [];
+    roster().forEach(function(p){
+      var s = my[norm(p.nombre)];
+      if (s === "n") n.push(p); else if (s === "b") b.push(p); else free.push(p);
+    });
+    var gkFirst = function(x, y){ return (y.arquero ? 1 : 0) - (x.arquero ? 1 : 0); };
+    return { n: n.sort(gkFirst), b: b.sort(gkFirst), free: free };
+  }
+  function esArquero(nombre){
+    var k = norm(nombre);
+    return roster().some(function(p){ return p.arquero && norm(p.nombre) === k; });
+  }
+  function equipo(v, lado){
+    return (lado === "n" ? v.negro : v.blanco)
+      .map(function(n){ return { nombre: n, arquero: esArquero(n) }; })
+      .sort(function(x, y){ return (y.arquero ? 1 : 0) - (x.arquero ? 1 : 0); });
+  }
+  function fmtEquipo(arr){ return arr.map(function(p){ return p.arquero ? p.nombre + " 🧤" : p.nombre; }).join(", "); }
+  function igualAEnviada(){
+    var v = miVoto(), s = mineSides();
+    if (!v || s.free.length) return false;
+    return canonKey({ negro: s.n.map(function(p){ return p.nombre; }), blanco: s.b.map(function(p){ return p.nombre; }) }) === canonKey(v);
+  }
+
+  // ---------- servidor ----------
+  function api(body){
+    var opts = body
+      ? { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body), cache: "no-store" }
+      : { cache: "no-store" };
+    return fetch(API + (body ? "" : "?t=" + Date.now()), opts).then(function(r){
+      return r.json().catch(function(){ throw new Error("El servidor respondió algo raro (" + r.status + "). Inténtalo de nuevo."); })
+        .then(function(d){
+          if (!r.ok || !d || d.ok === false) throw new Error((d && d.error) || ("Algo falló (" + r.status + ")."));
+          return d;
+        });
+    }, function(){ throw new Error("Sin conexión. Revisa tu internet."); });
+  }
+  function aplicar(d){
+    var nuevoId = d.partido ? d.partido.id : null;
+    var cambio = !cargado || nuevoId !== partidoId;
+    var avisar = cargado && nuevoId && nuevoId !== partidoId;
+    estado = d; partidoId = nuevoId; cargado = true;
+    if (cambio){
+      my = (nuevoId && lsGet("pichanga-borrador-" + nuevoId)) || {};
+      if (!Object.keys(my).length){ var v = miVoto(); if (v) my = desdeVoto(v); }
+      podar();
+    }
+    renderAll(cambio);
+    if (avisar) setStatus("#send-msg", "Empezó un partido nuevo. Arma tus equipos otra vez.", "ok");
+  }
+  var cargando = false;
+  function cargar(){
+    if (cargando) return;
+    cargando = true;
+    api(null).then(function(d){ conexion(true); aplicar(d); })
+      .catch(function(e){ conexion(false, e.message); })
+      .then(function(){ cargando = false; });
+  }
+  function conexion(ok, msg){
+    $("#offline").hidden = ok;
+    if (!ok) $("#offline-msg").textContent = (msg || "Sin conexión.") + " Reintentando…";
+    if (!ok && !cargado) $("#h-title").textContent = "Sin conexión";
+  }
+  function revisarAdmin(){
+    if (!adminKey) return;
+    api({ accion: "esAdmin", clave: adminKey }).then(function(d){
+      esAdmin = !!(d.admin || d.libre);
+      renderAdmin(); renderResult();
+    }).catch(function(){});
+  }
+
+  // ---------- pantalla ----------
+  function renderHeader(){
+    var p = partido();
+    if (!p){
+      $("#h-title").textContent = cargado ? "Sin partido" : "Cargando…";
+      $("#h-meta").textContent = ""; $("#h-progress").hidden = true;
+      return;
+    }
+    $("#h-title").textContent = p.titulo || "La pichanga";
+    var n = p.jugadores.length, gk = p.jugadores.filter(function(j){ return j.arquero; }).length;
+    var parts = [n + " jugadores"];
+    if (gk) parts.push(gk === 1 ? "1 arquero" : gk + " arqueros");
+    if (p.total){ parts.push(clp(p.total) + " la cancha"); parts.push(clp(p.total / n) + " c/u"); }
+    $("#h-meta").textContent = parts.join(" · ");
+    var c = votos().length;
+    $("#h-progress").textContent = c === 0 ? "Nadie ha mandado su versión todavía" : c + " de " + n + " ya mandaron su versión";
+    $("#h-progress").hidden = false;
+  }
+
+  function renderWho(){
+    var p = partido();
+    $("#s-who").hidden = !p;
+    if (!p) return;
+    var picked = !!yo.nombre && !eligiendoNombre;
+    $("#who-picked").hidden = !picked;
+    $("#who-pick").hidden = picked;
+    $("#who-name").textContent = yo.nombre;
+    if (picked) return;
+    var box = $("#who-chips"); box.textContent = "";
+    var yaVotaron = {};
+    votos().forEach(function(v){ yaVotaron[norm(v.nombre)] = true; });
+    p.jugadores.forEach(function(j){
+      var b = el("button", "namechip", j.nombre); b.type = "button";
+      if (yaVotaron[norm(j.nombre)]){ b.append(el("span", "ya", "✓")); b.setAttribute("aria-label", j.nombre + ", ya mandó su versión"); }
+      b.addEventListener("click", function(){ elegirNombre(j.nombre); });
+      box.append(b);
+    });
+  }
+  function elegirNombre(nombre){
+    nombre = cleanName(nombre);
+    if (!norm(nombre)) return;
+    yo.nombre = nombre; eligiendoNombre = false; lsSet("pichanga-yo", yo);
+    if (!Object.keys(my).length){ var v = miVoto(); if (v){ my = desdeVoto(v); podar(); guardarBorrador(); } }
+    setStatus("#send-msg", "", "");
+    renderAll(true);
+    var s = $("#s-arma"); if (s && s.scrollIntoView) s.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  $("#who-form").addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var v = $("#who-other").value;
+    if (!norm(v)) return;
+    $("#who-other").value = "";
+    elegirNombre(cap(v));
+  });
+  $("#who-change").addEventListener("click", function(){ eligiendoNombre = true; renderWho(); });
+
+  function renderAssign(){
+    var ul = $("#assign"); ul.textContent = "";
+    roster().forEach(function(p){
+      var k = norm(p.nombre), side = my[k];
+      var li = el("li", "arow"), nm = el("span", "pname", p.nombre);
+      if (p.arquero) nm.append(el("span", "tag", "ARQ"));
+      var seg = el("div", "seg"); seg.setAttribute("role", "group"); seg.setAttribute("aria-label", "Equipo de " + p.nombre);
+      [["Negro", "n"], ["Blanco", "b"]].forEach(function(o){
+        var b = el("button", o[1], o[0]); b.type = "button";
+        b.setAttribute("aria-pressed", String(side === o[1]));
+        b.addEventListener("click", function(){
+          my[k] = o[1]; guardarBorrador();
+          seg.querySelectorAll("button").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
+          renderMine();
+        });
+        seg.append(b);
+      });
+      li.append(nm, seg); ul.append(li);
+    });
+  }
+
+  function cancha(n, b){
+    var wrap = el("div", "pitch");
+    [["n", "Negro", n], ["b", "Blanco", b]].forEach(function(t){
+      var h = el("div", "half " + t[0]), title = el("h4");
+      title.append(el("span", null, t[1]), el("span", "num", String(t[2].length)));
+      h.append(title);
+      if (!t[2].length) h.append(el("span", "nadie", "Nadie todavía"));
+      t[2].forEach(function(p){ h.append(el("span", "pill " + t[0], p.arquero ? p.nombre + " 🧤" : p.nombre)); });
+      wrap.append(h);
+    });
+    return wrap;
+  }
+
+  function problemas(){
+    var issues = [], s = mineSides();
+    if (s.free.length) issues.push(s.free.length === 1 ? "Falta ubicar a " + s.free[0].nombre + "." : "Faltan " + s.free.length + " por ubicar.");
+    else if (Math.abs(s.n.length - s.b.length) > 1) issues.push("Quedó " + s.n.length + " contra " + s.b.length + ". Tienen que quedar parejos.");
+    var gn = s.n.filter(function(p){ return p.arquero; }).length, gb = s.b.filter(function(p){ return p.arquero; }).length;
+    if (Math.abs(gn - gb) > 1) issues.push(gn + gb === 2 ? "Los dos arqueros quedaron en el mismo equipo." : "Los arqueros quedaron cargados a un lado.");
+    if (!yo.nombre) issues.push("Arriba, toca tu nombre.");
+    return issues;
+  }
+
+  function renderMine(){
+    var p = partido();
+    $("#s-arma").hidden = !p;
+    if (!p) return;
+    var s = mineSides(), tally = $("#tally");
+    tally.textContent = "";
+    var tn = el("span", "t n"); tn.append(el("i"), document.createTextNode("Negro " + s.n.length));
+    var tb = el("span", "t b"); tb.append(el("i"), document.createTextNode("Blanco " + s.b.length));
+    tally.append(tn, tb);
+    if (s.free.length) tally.append(el("span", "t f", "Por ubicar " + s.free.length));
+    var box = $("#my-pitch"); box.textContent = ""; box.append(cancha(s.n, s.b));
+
+    var issues = problemas(), il = $("#issues"); il.textContent = "";
+    issues.forEach(function(t){ il.append(el("li", null, t)); });
+    var send = $("#send"), enviada = igualAEnviada(), tiene = !!miVoto();
+    send.disabled = issues.length > 0 || enviada;
+    send.textContent = enviada ? "Versión enviada ✓" : (tiene ? "Enviar cambios" : "Enviar mi versión");
+    var msg = $("#send-msg");
+    if (enviada && msg.dataset.kind !== "ok") setStatus("#send-msg", "Si cambias de opinión, mueve a alguien y vuelve a enviar.", "");
+    if (!enviada && tiene && !issues.length && msg.dataset.kind !== "warn") setStatus("#send-msg", "Tienes cambios sin enviar.", "");
+  }
+
+  $("#rnd").addEventListener("click", function(){
+    var shuffle = function(arr){ var a = arr.slice(); for (var i = a.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; };
+    var r = roster();
+    var order = shuffle(r.filter(function(p){ return p.arquero; })).concat(shuffle(r.filter(function(p){ return !p.arquero; })));
+    var cnt = { n: 0, b: 0 }, m = {};
+    order.forEach(function(p){
+      var s = cnt.n !== cnt.b ? (cnt.n < cnt.b ? "n" : "b") : (Math.random() < 0.5 ? "n" : "b");
+      m[norm(p.nombre)] = s; cnt[s]++;
+    });
+    my = m; guardarBorrador(); renderAssign(); renderMine();
+  });
+  $("#clr").addEventListener("click", function(){ my = {}; guardarBorrador(); renderAssign(); renderMine(); });
+
+  $("#send").addEventListener("click", function(){
+    if (problemas().length || !partido()) return;
+    var s = mineSides(), btn = $("#send");
+    btn.disabled = true; setStatus("#send-msg", "Enviando…", "");
+    api({
+      accion: "votar", partidoId: partidoId, nombre: yo.nombre, token: yo.token,
+      negro: s.n.map(function(p){ return p.nombre; }), blanco: s.b.map(function(p){ return p.nombre; })
+    }).then(function(d){
+      setStatus("#send-msg", "Listo, tu versión quedó guardada.", "ok");
+      aplicar(d);
+      var r = $("#s-res"); if (r && r.scrollIntoView) r.scrollIntoView({ behavior: "smooth", block: "start" });
+    }).catch(function(e){
+      setStatus("#send-msg", e.message, "warn");
+      renderMine();
+      cargar();
+    });
+  });
+
+  function autores(res, g){ return g.idx.map(function(i){ return res.vs[i].nombre; }); }
+  function explicar(res){
+    var top = res.top, a0 = autores(res, top)[0];
+    switch (res.mode){
+      case "single": return "Por ahora hay una sola versión, la de " + a0 + ". Faltan las del resto.";
+      case "unanimous": return "Los " + res.total + " armaron exactamente lo mismo. No hay nada que discutir.";
+      case "repeat": return "Gana por repetición: " + top.votes + " de " + res.total + " armaron exactamente estos equipos (" + joinY(autores(res, top)) + ").";
+      case "tie": {
+        var k = res.G.filter(function(g){ return g.votes === top.votes; }).length;
+        return "Empate: " + k + " versiones con " + top.votes + " votos cada una. Va ganando la que más se parece al resto (" + pct(top.score) + "% de parecido)" + (res.scoreTie ? ". Seguían empatadas, así que va la que llegó primero." : ".");
+      }
+      default:
+        return "Nadie armó exactamente lo mismo. Va ganando la versión de " + a0 + ", la que más se parece a las otras (" + pct(top.score) + "% de parecido)" +
+          (res.scoreTie ? ". Empataba con la de " + autores(res, res.second)[0] + "; va la que llegó primero." : ".");
+    }
+  }
+  function porQueCorto(res){
+    var top = res.top;
+    switch (res.mode){
+      case "single": return "única versión hasta ahora, de " + autores(res, top)[0];
+      case "unanimous": return "los " + res.total + " armaron lo mismo";
+      case "repeat": return top.votes + " de " + res.total + " armaron exactamente esto";
+      case "tie": return "empate a " + top.votes + " votos, ganó la más parecida al resto";
+      default: return "nadie coincidió, ganó la de " + autores(res, top)[0] + ", la más parecida al resto";
+    }
+  }
+  function mensajeResultado(res){
+    var v = res.vs[res.top.idx[0]], p = partido();
+    return "🏆 Equipos" + (p && p.titulo ? " · " + p.titulo : "") +
+      "\n⚫ Negro: " + fmtEquipo(equipo(v, "n")) +
+      "\n⚪ Blanco: " + fmtEquipo(equipo(v, "b")) +
+      "\n(" + porQueCorto(res) + ")";
+  }
+  function copiar(texto, sel){
+    var ok = function(){ setStatus(sel, "Copiado. Pégalo en el grupo.", "ok"); };
+    var fallback = function(){
+      var ta = el("textarea"); ta.value = texto; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.append(ta); ta.select();
+      var hecho = false; try { hecho = document.execCommand("copy"); } catch(e){}
+      ta.remove();
+      if (hecho) ok(); else setStatus(sel, "No se pudo copiar. Mantén el dedo sobre el texto y cópialo a mano.", "warn");
+    };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(texto).then(ok, fallback);
+      else fallback();
+    } catch(e){ fallback(); }
+  }
+  function dosToques(btn, confirmar, accion){
+    if (btn.dataset.armado){ delete btn.dataset.armado; clearTimeout(btn._t); accion(); return; }
+    btn.dataset.orig = btn.textContent; btn.dataset.armado = "1"; btn.textContent = confirmar;
+    btn._t = setTimeout(function(){ delete btn.dataset.armado; btn.textContent = btn.dataset.orig; }, 3500);
+  }
+  function chipVotante(nombre){
+    var c = el("span", "chip" + (esAdmin ? " del" : ""), nombre);
+    if (esAdmin){
+      var x = el("button", "x", "×"); x.type = "button"; x.setAttribute("aria-label", "Borrar la versión de " + nombre);
+      x.addEventListener("click", function(){
+        dosToques(x, "¿Borrar?", function(){
+          api({ accion: "borrarVoto", clave: adminKey, nombre: nombre }).then(aplicar).catch(function(e){ setStatus("#admin-msg", e.message, "warn"); });
+        });
+      });
+      c.append(x);
+    }
+    return c;
+  }
+
+  function renderResult(){
+    var p = partido(), body = $("#res-body");
+    $("#s-res").hidden = !p;
+    if (!p) return;
+    body.textContent = "";
+    var vs = votos(), res = computeResult(vs);
+
+    if (!res){
+      $("#res-title").textContent = "Cómo van";
+      body.append(el("p", "hint", "Todavía no llega ninguna versión. Sale la que más se repite; si nadie coincide, sale la que más se parece a todas las demás."));
+      return;
+    }
+    if (!miVoto() && !esAdmin){
+      $("#res-title").textContent = "Cómo van";
+      body.append(el("p", "hint", "Ya mandaron su versión:"));
+      var ch = el("div", "chips"); vs.forEach(function(v){ ch.append(chipVotante(v.nombre)); }); body.append(ch);
+      body.append(el("p", "lock", "Manda tu versión para ver cómo van los equipos. Así nadie copia la que va ganando."));
+      return;
+    }
+
+    var v = vs[res.top.idx[0]];
+    $("#res-title").textContent = res.mode === "single" ? "Por ahora van así" : "Equipos que van ganando";
+    body.append(el("p", "why", explicar(res)));
+    body.append(cancha(equipo(v, "n"), equipo(v, "b")));
+    var row = el("div", "row"), btn = el("button", "btn primary", "Copiar resultado para el grupo"), st = el("p", "status");
+    btn.type = "button"; st.id = "res-msg";
+    btn.addEventListener("click", function(){ copiar(mensajeResultado(res), "#res-msg"); });
+    row.append(btn, st); body.append(row);
+
+    body.append(el("h3", "sub", "Todas las versiones"));
+    var ol = el("ol", "ranking");
+    res.G.forEach(function(g, gi){
+      var gv = vs[g.idx[0]], li = el("li", "rank" + (gi === 0 ? " win" : ""));
+      var head = el("div", "rank-head");
+      head.append(el("span", "votes", g.votes === 1 ? "1 voto" : g.votes + " votos"));
+      if (res.G.length > 1) head.append(el("span", "sim", pct(g.score) + "% parecido al resto"));
+      if (gi === 0) head.append(el("span", "badge", "Va ganando"));
+      var who = el("div", "chips");
+      g.idx.forEach(function(i){ who.append(chipVotante(vs[i].nombre)); });
+      var mini = el("div", "mini");
+      var pn = el("p", "mn"); pn.append(el("b", null, "Negro: "), document.createTextNode(fmtEquipo(equipo(gv, "n"))));
+      var pb = el("p", "mb"); pb.append(el("b", null, "Blanco: "), document.createTextNode(fmtEquipo(equipo(gv, "b"))));
+      mini.append(pn, pb);
+      li.append(head, who, mini); ol.append(li);
+    });
+    body.append(ol);
+    if (res.G.length > 1) body.append(el("p", "foot", "Parecido: de cada pareja de jugadores, cuántas veces quedan juntos o separados igual que en las otras versiones. 100% es idéntica; dos versiones armadas al azar dan cerca de 50%."));
+  }
+
+  var listaInicial = false;
+  function renderAdmin(){
+    $("#s-admin").hidden = !esAdmin;
+    if (!esAdmin || listaInicial) return;
+    var p = partido(), ta = $("#admin-list");
+    if (p && !ta.value){
+      ta.value = [p.titulo || ""].concat(p.total ? ["Total " + p.total.toLocaleString("es-CL")] : [])
+        .concat(p.jugadores.map(function(j, i){ return (i + 1) + ". " + (j.arquero ? "Arquero " : "") + j.nombre; })).join("\n").trim();
+    }
+    ta.placeholder = "Maiclub Martes 17/11 20.00hr\nTotal 90.000\n1. Arquero Pancho\n2. Arquero Patricio\n3. Gonzalo\n…";
+    listaInicial = true;
+  }
+  $("#copy-link").addEventListener("click", function(){
+    var url = location.origin + location.pathname;
+    copiar("⚽ Armen su versión de los equipos acá: " + url + "\nTocas tu nombre, repartes a cada uno en Negro o Blanco y envías. Sale la que más se repite.", "#link-msg");
+  });
+  $("#admin-new").addEventListener("click", function(){
+    var btn = $("#admin-new"), datos = parseList($("#admin-list").value);
+    if (datos.jugadores.length < 2){ setStatus("#admin-msg", "No encontré la lista. Pega un jugador por línea, idealmente numerados.", "warn"); return; }
+    var n = votos().length;
+    var gk = datos.jugadores.filter(function(j){ return j.arquero; }).length;
+    dosToques(btn, n ? "Se borran " + n + " versiones. Toca otra vez" : "Toca otra vez para confirmar", function(){
+      btn.disabled = true;
+      api({ accion: "nuevoPartido", clave: adminKey, titulo: datos.titulo, total: datos.total, jugadores: datos.jugadores }).then(function(d){
+        btn.textContent = btn.dataset.orig || "Empezar partido nuevo"; btn.disabled = false;
+        setStatus("#admin-msg", "Partido nuevo con " + datos.jugadores.length + " jugadores" + (gk ? " (" + gk + (gk === 1 ? " arquero)" : " arqueros)") : "") + ". Manda el link al grupo.", "ok");
+        esAdmin = true;
+        aplicar(d);
+      }).catch(function(e){
+        btn.textContent = btn.dataset.orig || "Empezar partido nuevo"; btn.disabled = false;
+        setStatus("#admin-msg", e.message, "warn");
+      });
+    });
+  });
+
+  function renderAll(full){
+    var p = partido();
+    $("#s-empty").hidden = !cargado || !!p;
+    renderHeader(); renderWho();
+    if (full) renderAssign();
+    renderMine(); renderResult(); renderAdmin();
+  }
+
+  cargar();
+  revisarAdmin();
+  setInterval(function(){ if (document.visibilityState === "visible") cargar(); }, POLL_MS);
+  document.addEventListener("visibilitychange", function(){ if (document.visibilityState === "visible") cargar(); });
+})();
+</script>
+</body>
+</html>

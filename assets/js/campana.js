@@ -24,11 +24,11 @@
    - DECORACION: luces en el menu, gorro en el logo y nieve en la llegada. No
      dice ningun precio, asi que puede empezar antes.
    - OFERTA: franja, precios de Navidad tachando la lista, la seccion de la
-     portada y el contador. Empieza el 23-11 a proposito: Enoturismo Chile
-     decide su propuesta (15% de descuento) hasta el 20-11 y Jorge GP decide su
-     sitio esta semana. Si vieran un precio publico mejor que el que se les
-     ofrecio por escrito mientras deciden, su "precio especial" queda peor que
-     el de un desconocido. El piso lo fija el CRM.
+     portada y el contador. Estaba programada para el 23-11 (Enoturismo Chile
+     decide su propuesta con 15% hasta el 20-11 y Jorge GP decide esta semana);
+     Diego la adelanto al 17-11-2026 sabiendo ese riesgo: si ven un precio
+     publico mejor que el que se les ofrecio por escrito, su "precio especial"
+     queda peor que el de un desconocido. El piso lo fija el CRM.
 
    LOS PRECIOS DE LISTA NO SE REEMPLAZAN, SE TACHAN. Protege el piso: cuando
    alguien pida el precio de Navidad en marzo, el sitio ya dijo cual era el
@@ -46,7 +46,7 @@
     id: "navidad_2026",
     tema: "tema-navidad",
     decoracion: { inicio: "2026-11-16T00:00:00-03:00", fin: "2026-12-26T23:59:59-03:00" },
-    oferta:     { inicio: "2026-11-23T00:00:00-03:00", fin: "2026-12-24T23:59:59-03:00" }
+    oferta:     { inicio: "2026-11-17T00:00:00-03:00", fin: "2026-12-24T23:59:59-03:00" }
   };
 
   function dentro(ventana, cuando) {

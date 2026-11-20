@@ -32,6 +32,8 @@ La estrategia define las prioridades y el agente de ingeniería las implementa
 | ENG-13 | Detalles on-page y de accesibilidad | P3 | Después del 01-12 para las URLs en medición | Listo |
 | ENG-14 | Que el servicio se quede con "mantención web" | P1 | ENG-01 y medición del 16-11 | Bloqueado |
 | ENG-15 | Core Web Vitals de campo hacia GA4 (opcional) | P3 | Decisión: suma una dependencia | Propuesto |
+| ENG-16 | Operación de despliegue FTPS (main → gogodevs.cl) | P0 | — | Cerrado el 20-11 (lo pendiente sigue en ENG-18) |
+| ENG-18 | Endurecimiento de producción (herramientas/, cuenta FTP restringida, environment, main protegido) | P0 (H1) / P1 | Autorización de Diego en cada paso | H1 publicado con este cambio (20-11); H2 a H7 propuestos |
 
 ---
 
@@ -288,3 +290,50 @@ La estrategia define las prioridades y el agente de ingeniería las implementa
 - **Requisito funcional:** cargar la librería `web-vitals` (unos 2 KB, servida desde el propio sitio) y mandar LCP, INP y CLS a GA4 como eventos, **solo con consentimiento**.
 - **Criterios de aceptación:** los eventos aparecen en DebugView con su valor, y nada se manda sin consentimiento.
 - **Riesgo:** suma una dependencia y más eventos. **Decidir antes de implementar.**
+
+## ENG-16 — Operación de despliegue FTPS · P0 (cerrado el 20-11)
+
+- **Problema:** hasta el 10-11 el deploy subía el sitio por FTP en claro, con la cuenta principal del hosting. El 12-11 se apagaron `deploy.yml` y `blog-diario.yml`, y ninguna mejora llegaba a producción.
+- **Evidencia:** GoGoCRM `docs/coordination/SEGURIDAD-DESPLIEGUES.md` y `CONTENCION-FTP.md`; cierre en GoGoCRM `docs/seo-semanal/gogodevs/2026-11-20-eng16-cierre-operativo.md`.
+- **Objetivo:** que cada push a `main` se publique cifrado, solo desde `main`, sin poder borrar una raíz equivocada, y que lo publicado se pueda comprobar desde afuera.
+- **Requisito funcional:**
+  - FTPS obligatorio con el certificado del servidor verificado (`vsur2.vtosur.cl` y la CA del repo).
+  - Centinela `.gogodevs-publicacion` en `public_html`: sin él no se despliega, nunca se toca y se comprueba después del mirror.
+  - El job solo corre sobre `refs/heads/main`; un deploy a la vez.
+  - `.git/` y `.github/` no se suben; el token de GitHub no queda en `.git/config`.
+- **Archivos:** `.github/workflows/deploy.yml`, `.github/scripts/desplegar_ftp.sh`, `.github/scripts/instalar_lftp.sh`, `.github/certs/ftp-vtosur-ca.pem`.
+- **Criterios de aceptación:**
+  1. Corridas en success: #85 (`b55c4e9`, 16-11, manual), #86 (`1e3aa4b`, 16-11), #87 (`ce4579f`, 17-11) y #88 (`bd13a48`, 17-11).
+  2. La portada en vivo es byte a byte igual a `git show bd13a48:index.html` (`Last-Modified` 17-11 17:34:11 GMT).
+  3. `desplegar_ftp.sh` tiene `ftp:ssl-force`, `ssl-protect-data`, `ssl-protect-list`, `ssl:verify-certificate` y `ssl:check-hostname` en `yes`.
+  4. `/.gogodevs-publicacion` responde 200, y el script aborta si falta.
+- **Validación:** API pública de GitHub (`actions/runs` y `jobs`) y `curl` al sitio, el 20-11-2026.
+- **Riesgo:** sigue la cuenta principal del hosting con secrets de repositorio y `main` sin protección. Se trata en ENG-18.
+- **Dependencias:** ninguna. Lo pendiente (herramientas/, cuenta restringida, rotación de `gogodx`, environment `produccion`, protección de `main`, Tree y restos viejos en el servidor) sigue en ENG-18.
+
+## ENG-18 — Endurecimiento de producción · P0 (H1) / P1
+
+- **Estado (20-11):** H1 aplicado (cherry-pick de `72b37f8` y de la guarda `71cc42a` en `_blog/verificar.py`), aprobado por Diego. H2 a H7, propuestos.
+
+- **Problema:** el deploy FTPS funciona (ENG-16), pero sigue con la cuenta principal del hosting, con los secrets del repositorio y con `main` sin protección. Además, `/herramientas/refrescar_resenas.py` se descarga desde el sitio, el Tree está en vivo sin decisión registrada y quedan carpetas viejas (`.git/`, `.github/`, `.vscode/`) en el servidor.
+- **Evidencia:** GoGoCRM `docs/seo-semanal/gogodevs/2026-11-20-endurecimiento-produccion.md` (revisión del 20-11).
+- **Objetivo:** que una credencial filtrada o un workflow escrito en otra rama no alcancen para escribir en el hosting, y que el sitio no publique nada interno.
+- **Requisito funcional:**
+  1. **H1 (P0):** cherry-pick de `72b37f8` sobre `main` (mueve el script a `_blog/` y suma `RedirectMatch 404 ^/herramientas/` y `\.py$`). Reemplaza el punto 3 de ENG-11: una exclusión dejaría la copia vieja en el servidor, porque `mirror --delete` no borra lo excluido.
+  2. **H2 (P1):** Diego decide si el Tree se queda o se retira (revert de `0ef6312`, `894ff5d` y `1a22c6e`).
+  3. **H3 + H4 (P1):** cuenta `deploy@gogodevs.cl` restringida a `public_html`; environment `produccion` (solo `main`) con sus secrets; `environment: produccion` en `deploy.yml`; destino por defecto `/`; simulación (`DEPLOY_SIMULAR=1`) antes del primer deploy real; recién después se borran los secrets de repositorio.
+  4. **H5 (P1):** rotar la clave de `gogodx` después de H3 + H4.
+  5. **H6 (P2):** ruleset en `main` que impida borrarla y forzarla.
+  6. **H7 (P2):** borrar `public_html/.git/`, `.github/` y `.vscode/` desde el File Manager, sin tocar el centinela, `.htaccess` ni `.well-known/`.
+- **Archivos:** `.htaccess`, `_blog/refrescar_resenas.py`, `_blog/verificar.py`, `.github/workflows/deploy.yml`, `.github/scripts/desplegar_ftp.sh`. El resto es configuración del panel y de GitHub, que hace Diego.
+- **Criterios de aceptación:**
+  1. `/herramientas/refrescar_resenas.py` y `/herramientas/` responden 404, y la home 200.
+  2. `GET /repos/GoGo-DevS/GoGoDevS/environments` da `total_count: 1`, y un workflow de otra rama recibe el secret vacío.
+  3. El deploy usa la cuenta restringida (destino `/`) y la simulación previa no listó borrados inesperados.
+  4. La clave de `gogodx` está rotada.
+  5. `GET .../rules/branches/main` lista `deletion` y `non_fast_forward`.
+  6. `/.vscode/settings.json` responde 404 y el centinela sigue en 200.
+  7. La decisión del Tree queda escrita en este backlog.
+- **Validación:** `curl` después de cada deploy, la API pública de GitHub y el log de cada corrida (lo abre Diego). Cada guarda se comprueba al revés.
+- **Riesgo:** medio en H3 + H4 (si la raíz queda mal, el centinela aborta sin tocar nada); bajo en el resto. Con una sola identidad de GitHub, el environment y el ruleset frenan accidentes, pero no son barreras.
+- **Dependencias:** ENG-16 (cerrado). H5 va después de H3 + H4. La reactivación de `blog-diario.yml` espera a H4.
